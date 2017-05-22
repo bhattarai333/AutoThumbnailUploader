@@ -319,7 +319,6 @@ public class CreateLayout {
             for(Component c : components){
                 window.remove(c);
             }
-
             enterButtonEvent();
         });
         window.add(enterButton);
@@ -329,6 +328,7 @@ public class CreateLayout {
     private void enterButtonEvent(){
         YouTubeStuff yt = new YouTubeStuff();
         yt.startYoutube(d,window);
+
     }
 
     private void gameChoiceEvent(String game){

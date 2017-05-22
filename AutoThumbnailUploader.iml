@@ -38,5 +38,14 @@
         <jarDirectory url="file://$USER_HOME$/Documents/Java/AAAALibraries/Google API/libs" recursive="false" type="SOURCES" />
       </library>
     </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Documents/Java/AAAALibraries/javax.servlet-2.5.0.v201103041518.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

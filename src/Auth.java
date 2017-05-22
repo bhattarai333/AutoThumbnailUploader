@@ -10,12 +10,15 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.util.store.DataStore;
 import com.google.api.client.util.store.FileDataStoreFactory;
+import javax.servlet.http.HttpServletRequest;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
+
+
 
 /**
  * Shared class used by every sample. Contains methods for authorizing a user and caching credentials.
@@ -46,7 +49,7 @@ public class Auth {
     public static Credential authorize(List<String> scopes, String credentialDatastore) throws IOException {
 
         // Load client secrets.
-        Reader clientSecretReader = new InputStreamReader(Auth.class.getResourceAsStream("./Resources/client_secret.json"));
+        Reader clientSecretReader = new InputStreamReader(Auth.class.getResourceAsStream("client_secret.json"));
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, clientSecretReader);
 
         // Checks that the defaults have been replaced (Default = "Enter X here").

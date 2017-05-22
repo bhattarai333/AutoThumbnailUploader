@@ -226,13 +226,10 @@ class GetResources
         String output = "";
         try {
 
-            String sCurrentLine;
 
             br = new BufferedReader(new FileReader(f.toPath().toString()));
 
-            while ((sCurrentLine = br.readLine()) != null) {
-                output = output + sCurrentLine;
-            }
+            output = bufferedReaderToString(br);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -242,6 +239,19 @@ class GetResources
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+        }
+        return output;
+    }
+
+    String bufferedReaderToString(BufferedReader br){
+        String sCurrentLine;
+        String output = "";
+        try {
+            while ((sCurrentLine = br.readLine()) != null) {
+                output = output + sCurrentLine;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
         return output;
     }
@@ -692,4 +702,13 @@ class GetResources
         g.drawImage(image,centeredX,centeredY,null);
     }
 
+    public BufferedReader inputStreamToBufferedReader(InputStream in) {
+        BufferedReader br = null;
+        try{
+            br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return br;
+    }
 }

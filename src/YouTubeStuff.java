@@ -3,25 +3,24 @@ import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.googleapis.media.MediaHttpUploader;
 import com.google.api.client.googleapis.media.MediaHttpUploaderProgressListener;
 import com.google.api.client.http.InputStreamContent;
+import com.google.api.client.util.IOUtils;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.YouTube.Thumbnails.Set;
 import com.google.api.services.youtube.model.ThumbnailSetResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import sun.nio.ch.IOUtil;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 
 /**
  * Originally created by Josh Bhattarai on 5/18/2017.
  */
-class YouTubeStuff {
+class YouTubeStuff{
     private Data d;
     private GetResources get = new GetResources();
     private JProgressBar progress;
@@ -32,8 +31,7 @@ class YouTubeStuff {
         ArrayList<String> videoIDs = playlistStuff();
         ArrayList<VideoInfo> videoInfoArrayList = makeVideoInfo(videoIDs);
         setInfo(videoInfoArrayList);
-        uploadThumbnails(videoInfoArrayList);
-    }
+        uploadThumbnails(videoInfoArrayList);}
 
     private void windowStuff(Data d, JFrame window){
         this.d = d;
@@ -120,6 +118,8 @@ class YouTubeStuff {
 
             setVal((int) Math.round(counter/len *50) +50);
         }
+        setVal(100);
+        progress.setString("Complete!");
     }
 
     private String getIDFromURL(String URL){
@@ -134,7 +134,11 @@ class YouTubeStuff {
         return URL;
     }
     private String loadKey(){
-        String clientSecrets = get.getTextFromFile("./Resources/JSON/client_secret.json");
+        String clientSecrets;
+        InputStream in = this.getClass().getResourceAsStream("client_secret.json");
+        BufferedReader br = get.inputStreamToBufferedReader(in);
+        clientSecrets = get.bufferedReaderToString(br);
+        System.out.println(clientSecrets);
         JSONObject clientSecretsJSON = new JSONObject(clientSecrets);
         clientSecretsJSON = new JSONObject(clientSecretsJSON.get("installed").toString());
         return clientSecretsJSON.get("api_key").toString();
@@ -184,8 +188,8 @@ class YouTubeStuff {
             youtube = new YouTube.Builder(Auth.HTTP_TRANSPORT, Auth.JSON_FACTORY, credential).setApplicationName(
                     "youtube-cmdline-uploadthumbnail-sample").build();
 
-            get.saveImg(thumbnail,"./Resources/Thumbnails/thumbnail.png");
-            File imageFile = new File("./Resources/Thumbnails/thumbnail.png");
+            get.saveImg(thumbnail,"./Screens/thumbnail.png");
+            File imageFile = new File("./Screens/thumbnail.png");
 
             // Create an object that contains the thumbnail image file's
             // contents.
@@ -252,7 +256,7 @@ class YouTubeStuff {
             // Print the URL for the updated video's thumbnail image.
             System.out.println("\n================== Uploaded Thumbnail ==================\n");
             System.out.println("  - Url: " + setResponse.getItems().get(0).getDefault().getUrl());
-
+            get.deleteFile(imageFile.getPath());
         } catch (GoogleJsonResponseException e) {
             System.err.println("GoogleJsonResponseException code: " + e.getDetails().getCode() + " : "
                     + e.getDetails().getMessage());
