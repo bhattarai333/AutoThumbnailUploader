@@ -235,7 +235,10 @@ class VideoInfo {
         if(input.contains("mac") || input.contains("little")){
             return "Little Mac";
         }
-        if(input.contains("wii") || input.contains("fit")){
+        if(input.contains("poke") || input.contains("poké")){
+            return "Pokemon Trainer";
+        }
+        if(input.contains("wii") || input.contains("fit") || input.contains("trainer")){
             return "Wii Fit";
         }
         if(input.contains("zero") || input.contains("suit") ||input.contains("zamus") || input.contains("zss")){
@@ -307,9 +310,6 @@ class VideoInfo {
         }
         if(input.contains("ice") || input.contains("climbers") || input.contains("icies") || input.contains("icys")){
             return "Ice Climbers";
-        }
-        if(input.contains("poke") || input.contains("poké")){
-            return "Pokemon Trainer";
         }
         if(input.contains("luigi") || input.contains("weegee")){
             return "Luigi";
