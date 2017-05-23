@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import javax.net.ssl.HttpsURLConnection;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -305,18 +306,59 @@ class GetResources
 
     String httpGet(String url,String userAgent){
         try{
-            return(httpGett(url,userAgent));
+            return(httpRest(url,userAgent,"GET"));
         }catch(Exception e){
+            e.printStackTrace();
             return "Fail";
         }
     }
 
-    private String httpGett(String url,String userAgent) throws Exception{
+    String httpPost(String url, String urlParameters, String userAgent){
+        try {
+            URL obj = new URL(url);
+            HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+
+            //add reuqest header
+            con.setRequestMethod("POST");
+            con.setRequestProperty("User-Agent", userAgent);
+            con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+
+            // Send post request
+            con.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+            wr.writeBytes(urlParameters);
+            wr.flush();
+            wr.close();
+
+            int responseCode = con.getResponseCode();
+            System.out.println("\nSending 'POST' request to URL : " + url);
+            System.out.println("Post parameters : " + urlParameters);
+            System.out.println("Response Code : " + responseCode);
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            //print result
+            return response.toString();
+        }catch(Exception e){
+            e.printStackTrace();
+            return "Fail";
+        }
+    }
+
+    private String httpRest(String url, String userAgent, String requestType) throws Exception{
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
         // optional default is GET
-        con.setRequestMethod("GET");
+        con.setRequestMethod(requestType);
 
         //add request header
         con.setRequestProperty("User-Agent", userAgent);

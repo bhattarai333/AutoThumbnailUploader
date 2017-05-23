@@ -46,7 +46,7 @@ public class Auth {
      * @param scopes              list of scopes needed to run youtube upload.
      * @param credentialDatastore name of the credential datastore to cache OAuth tokens
      */
-    public static Credential authorize(List<String> scopes, String credentialDatastore) throws IOException {
+    static Credential authorize(List<String> scopes, String credentialDatastore) throws IOException {
 
         // Load client secrets.
         Reader clientSecretReader = new InputStreamReader(Auth.class.getResourceAsStream("client_secret.json"));
@@ -66,7 +66,7 @@ public class Auth {
         DataStore<StoredCredential> datastore = fileDataStoreFactory.getDataStore(credentialDatastore);
 
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, scopes).setCredentialDataStore(datastore)
+                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, scopes).setCredentialDataStore(datastore).setApprovalPrompt("force").setAccessType("offline")
                 .build();
 
         // Build the local server and bind it to port 8080

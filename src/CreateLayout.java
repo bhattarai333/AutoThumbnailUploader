@@ -288,7 +288,7 @@ public class CreateLayout {
         window.add(youtubeLabel);
         components.add(youtubeLabel);
 
-        JTextField youtubeField = new JTextField();
+        JTextField youtubeField = new JTextField("https://www.youtube.com/playlist?list=PLvSj_gQlLhD9JLBFL_uWjsdrye_Ej-s8T");
         youtubeField.setLocation(300,200);
         youtubeField.setSize(200,20);
         window.add(youtubeField);

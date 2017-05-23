@@ -3,13 +3,12 @@ import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.googleapis.media.MediaHttpUploader;
 import com.google.api.client.googleapis.media.MediaHttpUploaderProgressListener;
 import com.google.api.client.http.InputStreamContent;
-import com.google.api.client.util.IOUtils;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.YouTube.Thumbnails.Set;
 import com.google.api.services.youtube.model.ThumbnailSetResponse;
+import com.google.api.services.youtube.model.Video;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import sun.nio.ch.IOUtil;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -26,13 +25,16 @@ class YouTubeStuff{
     private JProgressBar progress;
     private String apiKey;
     private JFrame window;
-    void startYoutube(Data d, JFrame window){
-        windowStuff(d,window);
+    private String accessToken;
+    private String clientID;
+    private String clientSecret;
+    void startYoutube(Data d, JFrame window) {
+        windowStuff(d, window);
         ArrayList<String> videoIDs = playlistStuff();
         ArrayList<VideoInfo> videoInfoArrayList = makeVideoInfo(videoIDs);
         setInfo(videoInfoArrayList);
-        uploadThumbnails(videoInfoArrayList);}
-
+        getAuth(videoInfoArrayList);
+    }
     private void windowStuff(Data d, JFrame window){
         this.d = d;
         this.window = window;
@@ -107,13 +109,46 @@ class YouTubeStuff{
         }
 
     }
+    private void getAuth(ArrayList<VideoInfo> videoInfoArrayList){
+        GetResources.openWebpage("https://accounts.google.com/o/oauth2/v2/auth?client_id=58309125818-ispm6k8566hgvasijel18l3808f66vvi.apps.googleusercontent.com&response_type=code&scope=https://www.googleapis.com/auth/youtube&redirect_uri=urn:ietf:wg:oauth:2.0:oob");
+        JLabel pasteLabel = new JLabel("Paste code here:");
+        pasteLabel.setLocation(200,300);
+        pasteLabel.setSize(100,20);
+        window.add(pasteLabel);
+        JTextField pasteField = new JTextField();
+        pasteField.setLocation(300,300);
+        pasteField.setSize(100,20);
+        window.add(pasteField);
+        JButton enterButton = new JButton("Enter");
+        enterButton.setLocation(400,300);
+        enterButton.setSize(100,20);
+        window.add(enterButton);
+        window.paintComponents(window.getGraphics());
+        enterButton.addActionListener(l -> {
+            String code = pasteField.getText().trim();
+            String url = "https://www.googleapis.com/oauth2/v4/token?";
+            String urlParams = "code="
+                    +code+"&client_id=" + clientID + "&client_secret="+ clientSecret+
+                    "&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=authorization_code";
+            String temp = get.httpPost(url,urlParams,"Test, Josh Bhattarai");
+            System.out.println(temp);
+            JSONObject returnToken = new JSONObject(temp);
+            accessToken = returnToken.get("access_token").toString();
+
+            uploadThumbnails(videoInfoArrayList);
+        });
+    }
     private void uploadThumbnails(ArrayList<VideoInfo> videoInfoArrayList){
         double counter = 0;
         double len = videoInfoArrayList.size();
         for( VideoInfo vi : videoInfoArrayList){
             counter++;
             if(vi.success) {
-                uploadThumbnail(vi.videoID, vi.thumbnail);
+                try {
+                    uploadThumbnail(vi.videoID, vi.thumbnail);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
             setVal((int) Math.round(counter/len *50) +50);
@@ -141,6 +176,8 @@ class YouTubeStuff{
         System.out.println(clientSecrets);
         JSONObject clientSecretsJSON = new JSONObject(clientSecrets);
         clientSecretsJSON = new JSONObject(clientSecretsJSON.get("installed").toString());
+        clientID = clientSecretsJSON.get("client_id").toString();
+        clientSecret = clientSecretsJSON.get("client_secret").toString();
         return clientSecretsJSON.get("api_key").toString();
     }
     private ArrayList<String> getPlayListPages(String playlistID){
@@ -179,17 +216,19 @@ class YouTubeStuff{
         // authenticated user's account.
         ArrayList<String> scopes = new ArrayList<>();
         scopes.add("https://www.googleapis.com/auth/youtube");
-
         try {
             // Authorize the request.
             Credential credential = Auth.authorize(scopes, "uploadthumbnail");
+            credential.setAccessToken(accessToken);
+
 
             // This object is used to make YouTube Data API requests.
             youtube = new YouTube.Builder(Auth.HTTP_TRANSPORT, Auth.JSON_FACTORY, credential).setApplicationName(
                     "youtube-cmdline-uploadthumbnail-sample").build();
 
-            get.saveImg(thumbnail,"./Screens/thumbnail.png");
-            File imageFile = new File("./Screens/thumbnail.png");
+            //make thumbnail file
+            get.saveImg(thumbnail,"./Screens/screenshot0t.png");
+            File imageFile = new File("./Screens/screenshot0t.png");
 
             // Create an object that contains the thumbnail image file's
             // contents.
@@ -256,6 +295,8 @@ class YouTubeStuff{
             // Print the URL for the updated video's thumbnail image.
             System.out.println("\n================== Uploaded Thumbnail ==================\n");
             System.out.println("  - Url: " + setResponse.getItems().get(0).getDefault().getUrl());
+
+            //delete old thumbnail
             get.deleteFile(imageFile.getPath());
         } catch (GoogleJsonResponseException e) {
             System.err.println("GoogleJsonResponseException code: " + e.getDetails().getCode() + " : "
