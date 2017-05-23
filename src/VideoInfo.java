@@ -211,9 +211,6 @@ class VideoInfo {
         return true;
     }
     private String parse(String input){
-        if(input.contains("dr")){
-            return "Doctor Mario";
-        }
         if(input.contains("jr") || input.contains("junior")){
             return "Bowser Jr.";
         }
@@ -226,7 +223,7 @@ class VideoInfo {
         if(input.contains("dk") || input.contains("donkey")){
             return "Donkey Kong";
         }
-        if(input.contains("duck") || input.contains("hunt")){
+        if(input.contains("duck") || input.contains("hunt") || input.contains("dh")){
             return "Duck Hunt";
         }
         if(input.contains("bayo")){
@@ -241,7 +238,7 @@ class VideoInfo {
         if(input.contains("wii") || input.contains("fit")){
             return "Wii Fit";
         }
-        if(input.contains("zero") || input.contains("suit") ||input.contains("zamus")){
+        if(input.contains("zero") || input.contains("suit") ||input.contains("zamus") || input.contains("zss")){
             return "Zamus";
         }
         if(input.contains("rosa")||input.contains("luma") || input.contains("r&l")){
@@ -250,7 +247,9 @@ class VideoInfo {
         if(input.contains("young") || input.contains("ylink") || input.contains("y.link")){
             return "Young Link";
         }
-        if(input.contains("mr") || input.contains("game") || input.contains("watch") ||input.contains("g&w")){
+        if
+                (input.contains("mr") || input.contains("game") || input.contains("watch") ||input.contains("g&w")
+                || input.contains("gandw")){
             return "Mr. Game and Watch";
         }
         if(input.contains("ganon")){
@@ -262,19 +261,21 @@ class VideoInfo {
         if(input.contains("dr") || input.contains("doctor")){
             return "Doctor Mario";
         }
-        if(input.contains("king") || input.contains("ddd") || input.contains("dedede")){
+        if
+                (input.contains("king") || input.contains("ddd") || input.contains("dedede") || input.contains("daddle")
+                || input.contains("dadle") || input.contains("dingo")){
             return "DDD";
         }
         if(input.contains("ninja")){
             return "Greninja";
         }
-        if(input.contains("meta") || input.contains("knight")){
+        if(input.contains("meta") || input.contains("knight") || input.contains("mk")){
             return "Meta Knight";
         }
         if(input.contains("mew")){
             return "MewTwo";
         }
-        if(input.contains("dark") || input.contains("dank") || input.contains("edge")){
+        if(input.contains("dark") || input.contains("dank") || input.contains("edge") || input.contains("pitoo")){
             return "Dank Pit";
         }
         if(input.contains("robin")){
@@ -289,7 +290,7 @@ class VideoInfo {
         if(input.contains("mega")){
             return "Megaman";
         }
-        if(input.contains("shiek")){
+        if(input.contains("shiek") || input.contains("sheik")){
             return "Sheik";
         }
         if(input.contains("zard")){
@@ -349,7 +350,7 @@ class VideoInfo {
         if(input.contains("villager")){
             return "Villager";
         }
-        if(input.contains("ness")){
+        if(input.contains("ness") || input.contains("sans")){
             return "Ness";
         }
         if(input.contains("palutena")){
