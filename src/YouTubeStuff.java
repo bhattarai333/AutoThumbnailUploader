@@ -6,7 +6,6 @@ import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.YouTube.Thumbnails.Set;
 import com.google.api.services.youtube.model.ThumbnailSetResponse;
-import com.google.api.services.youtube.model.Video;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -104,7 +103,6 @@ class YouTubeStuff{
                     d.date,v.player1,v.player2,d.game,d.customLogo,d.customGradientTop,d.customGradientMiddle,
                     d.customGradientBottom,d.fontColor,d.customFont,d.tournamentImage,d.outlineColor,
                     d.getFontThickness(),d.useSponsors,v.customFighterOne,v.customFighterTwo,d.getShadowThickness());
-            //get.saveImg(v.thumbnail);
             setVal((int) Math.round(counter/len *43) +7);
         }
 
@@ -147,6 +145,7 @@ class YouTubeStuff{
                 try {
                     uploadThumbnail(vi.videoID, vi.thumbnail);
                 }catch (Exception e){
+                    setString("Error");
                     e.printStackTrace();
                 }
             }
@@ -154,7 +153,7 @@ class YouTubeStuff{
             setVal((int) Math.round(counter/len *50) +50);
         }
         setVal(100);
-        progress.setString("Complete!");
+        setString("Complete!");
     }
 
     private String getIDFromURL(String URL){
@@ -301,10 +300,12 @@ class YouTubeStuff{
         } catch (GoogleJsonResponseException e) {
             System.err.println("GoogleJsonResponseException code: " + e.getDetails().getCode() + " : "
                     + e.getDetails().getMessage());
+            setString("Error");
             e.printStackTrace();
 
         } catch (IOException e) {
             System.err.println("IOException: " + e.getMessage());
+            setString("Error");
             e.printStackTrace();
         }
     }
@@ -358,6 +359,10 @@ class YouTubeStuff{
     }
     private void setVal(int value){
         progress.setValue(value);
+        window.paintComponents(window.getGraphics());
+    }
+    private void setString(String val){
+        progress.setString(val);
         window.paintComponents(window.getGraphics());
     }
     private void spartanParse(String title, String description, VideoInfo videoInfo){
