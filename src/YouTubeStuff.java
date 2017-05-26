@@ -423,6 +423,8 @@ class YouTubeStuff{
             round = "Loser's  Side";
         }else if (description.contains("winners")){
             round = "Winner's  Side";
+        }else if(description.contains("mm") || description.contains("money") || description.contains("$")){
+            round = "Money  Match";
         }else{
             round = "";
         }
@@ -482,6 +484,10 @@ class YouTubeStuff{
             }else if(content.contains("winner") || content.contains("wf")){
                 return "Winner's  Finals";
             }
+        }
+
+        if(content.contains("money") || content.contains("mm") || content.contains("$")){
+            return "Money  Match";
         }
 
         if(content.contains("w")){

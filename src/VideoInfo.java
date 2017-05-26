@@ -223,7 +223,7 @@ class VideoInfo {
         if(input.contains("dk") || input.contains("donkey")){
             return "Donkey Kong";
         }
-        if(input.contains("duck") || input.contains("hunt") || input.contains("dh")){
+        if(input.contains("duck") || input.contains("hunt") || input.contains("dh") ||input.contains("dog")){
             return "Duck Hunt";
         }
         if(input.contains("bayo")){
