@@ -274,7 +274,7 @@ class Canvas extends JPanel{
             get.drawText(tourneyName, fontColor, outlineColor, 395, 550, 470, 165, g, outlineThickness, CST);
         }else{
             BufferedImage customTourneyImage = getCustomImage(customTourneyString);
-            g.drawImage(customTourneyImage,1280/2-customTourneyImage.getWidth()/2 - 5,550,null);
+            get.drawImageSizedInCenter(customTourneyImage,395,550,470,165,g);
         }
 
         /*
