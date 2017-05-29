@@ -175,21 +175,22 @@ class Canvas extends JPanel{
         getFonts(customFont);
 
         //get custom gradient images if applicable
-        if(customGrad2.trim().equals("")){
+        if(customGrad1.trim().equals("")){
             topGradientImage = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/01GRADIENT.png");
         }else{
-            topGradientImage = getCustomImage(customGrad2);
+            topGradientImage = getCustomImage(customGrad1);
+        }
+        if(customGrad2.trim().equals("")){
+            middleGradientImage = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0GRADIENT.png");
+        }else{
+            middleGradientImage = getCustomImage(customGrad2);
         }
         if(customGrad3.trim().equals("")){
             bottomGradientImage = get.flipImage(topGradientImage,'v');
         }else{
             bottomGradientImage = getCustomImage(customGrad3);
         }
-        if(customGrad1.trim().equals("")){
-            middleGradientImage = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0GRADIENT.png");
-        }else{
-            middleGradientImage = getCustomImage(customGrad1);
-        }
+
 
         gameLogo = getGameLogo(version);
 
@@ -1434,6 +1435,7 @@ class Canvas extends JPanel{
         path = path.trim();
         String s2 = s + "\\Custom\\" + path + ".png";
         try{
+            System.out.println(s2);
             img = ImageIO.read(new File(s2));
         } catch (IOException e) {
             e.printStackTrace();

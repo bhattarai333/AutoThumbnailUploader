@@ -172,7 +172,6 @@ class YouTubeStuff{
         InputStream in = this.getClass().getResourceAsStream("client_secret.json");
         BufferedReader br = get.inputStreamToBufferedReader(in);
         clientSecrets = get.bufferedReaderToString(br);
-        System.out.println(clientSecrets);
         JSONObject clientSecretsJSON = new JSONObject(clientSecrets);
         clientSecretsJSON = new JSONObject(clientSecretsJSON.get("installed").toString());
         clientID = clientSecretsJSON.get("client_id").toString();

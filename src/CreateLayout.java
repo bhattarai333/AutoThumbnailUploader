@@ -21,6 +21,7 @@ public class CreateLayout {
     private final int WINDOW_WIDTH = 720;
     private final int WINDOW_HEIGHT = 500;
     private Data d = new Data();
+    private SmashFrame sf = new SmashFrame();
     public static void main(String[] args){
         CreateLayout cl = new CreateLayout();
         cl.start();
@@ -297,7 +298,7 @@ public class CreateLayout {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JButton enterButton = new JButton("Enter");
-        enterButton.setLocation(WINDOW_WIDTH/2 - 50,400);
+        enterButton.setLocation(WINDOW_WIDTH/2 - 150,400);
         enterButton.setSize(100,20);
         enterButton.addActionListener(e ->{
             //pass all the info into data
@@ -324,7 +325,52 @@ public class CreateLayout {
         window.add(enterButton);
         components.add(enterButton);
 
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JLabel imageLabel = new JLabel();
+        imageLabel.setSize(300,150);
+        imageLabel.setLocation(200,230);
+        window.add(imageLabel);
+        components.add(imageLabel);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JButton previewAllButton = new JButton("Preview");
+        previewAllButton.setLocation(WINDOW_WIDTH/2 + 50,400);
+        previewAllButton.setSize(100,20);
+        previewAllButton.addActionListener(l ->{
+            d.tournamentName = tournamentNameField.getText();
+            d.date = dateField.getText();
+            d.customLogo = customLogoField.getText();
+            d.customGradientBottom = customBottomGradientField.getText();
+            d.customGradientMiddle = customMiddleGradientField.getText();
+            d.customGradientTop = customTopGradientField.getText();
+            d.tournamentImage = customTourneyImageField.getText();
+            d.fontColor = fontColorField.getText();
+            d.setFontThickness(outlineThicknessField.getText());
+            d.customFont = customFontField.getText();
+            d.outlineColor = outlineColorField.getText();
+            d.setShadowThickness(shadowThicknessField.getText());
+            d.useSponsors = sponsorBox.isSelected();
+            d.youtubePlaylistURL = youtubeField.getText();
+            gameChoiceEvent(gameList.getSelectedItem().toString());
+            previewButtonEvent(imageLabel);
+        });
+        window.add(previewAllButton);
+        components.add(previewAllButton);
     }
+
+    private void previewButtonEvent(JLabel imageLabel){
+        BufferedImage defaultThumbnail = sf.createFrame(
+             "0-Mario","0-Mario","0Nothing","0Nothing","Round",d.tournamentName,
+                d.date,"Player 1", "Player 2", d.game,d.customLogo,d.customGradientTop,d.customGradientMiddle,
+                d.customGradientBottom,d.fontColor,d.customFont,d.tournamentImage,d.outlineColor,d.getFontThickness(),
+                d.useSponsors,"","",d.getShadowThickness()
+        );
+        defaultThumbnail = get.getSizedImg(defaultThumbnail,300,150);
+        imageLabel.setIcon(new ImageIcon(defaultThumbnail));
+    }
+
     private void enterButtonEvent(){
         YouTubeStuff yt = new YouTubeStuff();
         yt.startYoutube(d,window);
