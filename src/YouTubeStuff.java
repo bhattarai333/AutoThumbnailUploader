@@ -147,6 +147,7 @@ class YouTubeStuff{
                 }catch (Exception e){
                     setString("Error");
                     e.printStackTrace();
+                    continue;
                 }
             }
 
@@ -255,7 +256,9 @@ class YouTubeStuff{
             MediaHttpUploaderProgressListener progressListener = new MediaHttpUploaderProgressListener() {
                 @Override
                 public void progressChanged(MediaHttpUploader uploader) throws IOException {
-                    switch (uploader.getUploadState()) {
+                    System.out.println("uncomment for more info");
+                    System.out.println("uncomment below");
+                    /*switch (uploader.getUploadState()) {
                         // This value is set before the initiation request is
                         // sent.
                         case INITIATION_STARTED:
@@ -282,7 +285,7 @@ class YouTubeStuff{
                         case NOT_STARTED:
                             System.out.println("Upload Not Started!");
                             break;
-                    }
+                    }*/
                 }
             };
             uploader.setProgressListener(progressListener);
@@ -430,7 +433,8 @@ class YouTubeStuff{
         videoInfo.round = parseRound(round);
     }
     private void defaultParse(String title, String description, VideoInfo videoInfo){
-
+        videoInfo.player1 = "Placeholder 1";
+        videoInfo.player2 = "Placeholder 2";
     }
     private String findParentheses(String content){
         String[] temp = content.split("\\(");

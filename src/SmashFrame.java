@@ -218,10 +218,6 @@ class Canvas extends JPanel{
             }else{
                 logo = getCustomImage(customLogo);
             }
-            int logoVal = 170 - logo.getHeight();
-            if(logoVal <= 0){
-                logo = get.getSizedImg(logo,logo.getWidth(),160);
-            }
 
 
             applyShadow(shadowThickness);
@@ -261,7 +257,7 @@ class Canvas extends JPanel{
         g.drawImage(fighter2,fighterX2+pos2,fighterY2,null);//Player 2's first character
         g.drawImage(topGradientImage,0,0,null);//Top gradient
         g.drawImage(bottomGradientImage,0,520,null);//Bottom gradient(optional)
-        g.drawImage(logo,573,5,null);//0 for nhs 5 for gg 20 for msu
+        get.drawImageSizedInCenter(logo,553,0,170,170,g);//0 for nhs 5 for gg 20 for msu
         g.drawImage(gameLogo,0,560,null);
     }
 
