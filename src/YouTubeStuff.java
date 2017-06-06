@@ -145,7 +145,7 @@ class YouTubeStuff{
                 try {
                     uploadThumbnail(vi.videoID, vi.thumbnail);
                 }catch (Exception e){
-                    setString("Error");
+                    setString("Error... please wait");
                     e.printStackTrace();
                     continue;
                 }
@@ -215,6 +215,9 @@ class YouTubeStuff{
         // authenticated user's account.
         ArrayList<String> scopes = new ArrayList<>();
         scopes.add("https://www.googleapis.com/auth/youtube");
+        //make thumbnail file
+        String path = get.saveImg(thumbnail,"./Screens/screenshot0t.png");
+        File imageFile = new File(path);
         try {
             // Authorize the request.
             Credential credential = Auth.authorize(scopes, "uploadthumbnail");
@@ -225,9 +228,6 @@ class YouTubeStuff{
             youtube = new YouTube.Builder(Auth.HTTP_TRANSPORT, Auth.JSON_FACTORY, credential).setApplicationName(
                     "youtube-cmdline-uploadthumbnail-sample").build();
 
-            //make thumbnail file
-            get.saveImg(thumbnail,"./Screens/screenshot0t.png");
-            File imageFile = new File("./Screens/screenshot0t.png");
 
             // Create an object that contains the thumbnail image file's
             // contents.
@@ -256,9 +256,7 @@ class YouTubeStuff{
             MediaHttpUploaderProgressListener progressListener = new MediaHttpUploaderProgressListener() {
                 @Override
                 public void progressChanged(MediaHttpUploader uploader) throws IOException {
-                    System.out.println("uncomment for more info");
-                    System.out.println("uncomment below");
-                    /*switch (uploader.getUploadState()) {
+                    switch (uploader.getUploadState()) {
                         // This value is set before the initiation request is
                         // sent.
                         case INITIATION_STARTED:
@@ -285,7 +283,7 @@ class YouTubeStuff{
                         case NOT_STARTED:
                             System.out.println("Upload Not Started!");
                             break;
-                    }*/
+                    }
                 }
             };
             uploader.setProgressListener(progressListener);
@@ -297,8 +295,7 @@ class YouTubeStuff{
             System.out.println("\n================== Uploaded Thumbnail ==================\n");
             System.out.println("  - Url: " + setResponse.getItems().get(0).getDefault().getUrl());
 
-            //delete old thumbnail
-            get.deleteFile(imageFile.getPath());
+
         } catch (GoogleJsonResponseException e) {
             System.err.println("GoogleJsonResponseException code: " + e.getDetails().getCode() + " : "
                     + e.getDetails().getMessage());
@@ -309,6 +306,9 @@ class YouTubeStuff{
             System.err.println("IOException: " + e.getMessage());
             setString("Error");
             e.printStackTrace();
+        }finally {
+            //delete old thumbnail
+            get.deleteFile(imageFile.getPath());
         }
     }
 

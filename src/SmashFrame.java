@@ -358,6 +358,7 @@ class Canvas extends JPanel{
         BufferedImage output = image;
         String character = chars[1];
         switch (version){
+            case "WiiUFull":
             case "WiiU":
                 output = getWiiUFlip(image,character);
                 break;
@@ -1279,6 +1280,16 @@ class Canvas extends JPanel{
                 }
                 versionVal1 = versionVal1 + 686;
                 break;
+
+            case "WiiUFull":
+                charVal1 = getCharVal(chars1[1]);
+                if (charVal1 == 1) {
+                    versionVal1 = 1 ;
+                } else {
+                    versionVal1 = charVal1;
+                }
+                versionVal1 = versionVal1 + 922;
+                break;
         }
 
         return versionVal1;
@@ -1388,9 +1399,13 @@ class Canvas extends JPanel{
                 return getRivalFighterY(str);
             case "S3":
                 return getShrekFighterY(str);
+            case "WiiUFull":
+                return getWiiUFullFighterY(str);
         }
         return 1;
     }
+
+
 
     private int getFighterX(String str, String version, Boolean firstFighter){
         switch (version) {
@@ -1405,6 +1420,8 @@ class Canvas extends JPanel{
                 return getRivalFighterX(str, firstFighter);
             case "S3":
                 return getShrekFighterX(str, firstFighter);
+            case "WiiUFull":
+                return getWiiUFullFighterX(str, firstFighter);
         }
         return 1;
     }
@@ -1421,8 +1438,26 @@ class Canvas extends JPanel{
                 return getBrawlResize(img,str);
             case "S3":
                 return getShrekResize(img, str);
+            case "WiiUFull":
+                return getWiiUFullResize(img,str);
         }
         return img;
+    }
+
+    private BufferedImage getWiiUFullResize(BufferedImage img, String str) {
+        switch (str){
+            case "Mario":
+
+        }
+        return img;
+    }
+
+    private int getWiiUFullFighterX(String str, Boolean firstFighter){
+        return 0;
+    }
+
+    private int getWiiUFullFighterY(String str) {
+        return 0;
     }
 
     private BufferedImage getCustomImage(String path){

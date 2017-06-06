@@ -80,141 +80,121 @@ public class CreateLayout {
     private void layoutStuff(){
         ArrayList<Component> components = new ArrayList<>();
         String[] gameStrings = { "Smash 64", "Smash Melee"/*,"MSU Melee"*/, "Smash Brawl",
-                "Smash PM", "Smash 3DS", "Smash WiiU", "Rivals of Aether","Shrek Super Slam"};
+                "Smash PM", "Smash 3DS", "Smash WiiU", "Smash WiiU Full", "Rivals of Aether","Shrek Super Slam"};
         JComboBox<String> gameList = new JComboBox<>(gameStrings);
         gameList.setSelectedIndex(5);
         gameList.addActionListener(e -> gameChoiceEvent(gameList.getSelectedItem().toString()));
         gameList.setLocation(0,3);
         gameList.setSize(150,25);
         gameList.setMaximumSize(gameList.getPreferredSize());
-        window.add(gameList);
-        components.add(gameList);
-
+        add(gameList,components);
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JLabel customTopGradientLabel = new JLabel("Custom Top/Bottom Gradient:");
         customTopGradientLabel.setLocation(153,5);
         customTopGradientLabel.setSize(170,20);
-        window.add(customTopGradientLabel);
-        components.add(customTopGradientLabel);
+        add(customTopGradientLabel,components);
 
         JTextField customTopGradientField = new JTextField();
         customTopGradientField.setLocation(320,7);
         customTopGradientField.setSize(100,20);
-        window.add(customTopGradientField);
-        components.add(customTopGradientField);
+        add(customTopGradientField,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JLabel customMiddleGradientLabel = new JLabel("Custom Middle Gradient:");
         customMiddleGradientLabel.setLocation(420,5);
         customMiddleGradientLabel.setSize(150,20);
-        window.add(customMiddleGradientLabel);
-        components.add(customMiddleGradientLabel);
+        add(customMiddleGradientLabel,components);
 
         JTextField customMiddleGradientField = new JTextField();
         customMiddleGradientField.setLocation(570,7);
         customMiddleGradientField.setSize(100,20);
-        window.add(customMiddleGradientField);
-        components.add(customMiddleGradientField);
+        add(customMiddleGradientField,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JLabel customBottomGradientLabel = new JLabel("Custom Bottom Gradient:");
         customBottomGradientLabel.setLocation(0,40);
         customBottomGradientLabel.setSize(150,20);
-        window.add(customBottomGradientLabel);
-        components.add(customBottomGradientLabel);
+        add(customBottomGradientLabel,components);
 
         JTextField customBottomGradientField = new JTextField();
         customBottomGradientField.setLocation(150,42);
         customBottomGradientField.setSize(100,20);
-        window.add(customBottomGradientField);
-        components.add(customBottomGradientField);
+        add(customBottomGradientField,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JLabel customTourneyImageLabel = new JLabel("Custom Tourney Image:");
         customTourneyImageLabel.setLocation(250,40);
         customTourneyImageLabel.setSize(140,20);
-        window.add(customTourneyImageLabel);
-        components.add(customTourneyImageLabel);
+        add(customTourneyImageLabel,components);
 
         JTextField customTourneyImageField = new JTextField();
         customTourneyImageField.setLocation(390,42);
         customTourneyImageField.setSize(100,20);
-        window.add(customTourneyImageField);
-        components.add(customTourneyImageField);
+        add(customTourneyImageField,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JLabel customLogoLabel = new JLabel("Custom Logo:");
         customLogoLabel.setLocation(495,40);
         customLogoLabel.setSize(80,20);
-        window.add(customLogoLabel);
-        components.add(customLogoLabel);
+        add(customLogoLabel,components);
 
         JTextField customLogoField = new JTextField();
         customLogoField.setLocation(580,42);
         customLogoField.setSize(100,20);
-        window.add(customLogoField);
-        components.add(customLogoField);
+        add(customLogoField,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JLabel customFontLabel = new JLabel("Custom Font:");
         customFontLabel.setLocation(0,80);
         customFontLabel.setSize(80,20);
-        window.add(customFontLabel);
-        components.add(customFontLabel);
+        add(customFontLabel,components);
 
         JTextField customFontField = new JTextField();
         customFontField.setLocation(80,82);
         customFontField.setSize(100,20);
-        window.add(customFontField);
-        components.add(customFontField);
+        add(customFontField,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JLabel fontColorLabel = new JLabel("Font Color:");
         fontColorLabel.setLocation(190,80);
         fontColorLabel.setSize(80,20);
-        window.add(fontColorLabel);
-        components.add(fontColorLabel);
+        add(fontColorLabel,components);
 
         JTextField fontColorField = new JTextField("#ffffff");
         fontColorField.setLocation(260,82);
         fontColorField.setSize(100,20);
-        window.add(fontColorField);
-        components.add(fontColorField);
+        add(fontColorField,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JLabel outlineColorLabel = new JLabel("Outline Color:");
         outlineColorLabel.setLocation(365,80);
         outlineColorLabel.setSize(90,20);
-        window.add(outlineColorLabel);
-        components.add(outlineColorLabel);
+        add(outlineColorLabel,components);
 
         JTextField outlineColorField = new JTextField("#000000");
         outlineColorField.setLocation(450,82);
         outlineColorField.setSize(100,20);
-        window.add(outlineColorField);
-        components.add(outlineColorField);
+        add(outlineColorField,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JLabel outlineThicknessLabel = new JLabel("Outline Thickness:");
         outlineThicknessLabel.setLocation(550,80);
         outlineThicknessLabel.setSize(120,20);
-        window.add(outlineThicknessLabel);
-        components.add(outlineThicknessLabel);
+        add(outlineColorLabel,components);
 
         JTextField outlineThicknessField = new JTextField("5");
         outlineThicknessField.setLocation(660,82);
         outlineThicknessField.setSize(30,20);
-        window.add(outlineThicknessField);
-        components.add(outlineThicknessField);
+        add(outlineThicknessField,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -222,78 +202,79 @@ public class CreateLayout {
         previewButton.setLocation((WINDOW_WIDTH/2)-75,120);
         previewButton.setSize(150,20);
         previewButton.addActionListener(e -> previewColorsEvent(fontColorField,outlineColorField,previewButton));
-        window.add(previewButton);
-        components.add(previewButton);
+        add(previewButton,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JLabel shadowThicknessLabel = new JLabel("Shadow Thickness:");
         shadowThicknessLabel.setLocation(0,160);
         shadowThicknessLabel.setSize(120,20);
-        window.add(shadowThicknessLabel);
-        components.add(shadowThicknessLabel);
+        add(shadowThicknessLabel,components);
 
         JTextField shadowThicknessField = new JTextField("8");
         shadowThicknessField.setLocation(120,162);
         shadowThicknessField.setSize(50,20);
-        window.add(shadowThicknessField);
-        components.add(shadowThicknessField);
+        add(shadowThicknessField,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JLabel tournamentNameLabel = new JLabel("Tournament Name:");
         tournamentNameLabel.setLocation(173,160);
         tournamentNameLabel.setSize(120,20);
-        window.add(tournamentNameLabel);
-        components.add(tournamentNameLabel);
+        add(tournamentNameLabel,components);
 
         JTextField tournamentNameField = new JTextField();
         tournamentNameField.setLocation(290,162);
         tournamentNameField.setSize(150,20);
-        window.add(tournamentNameField);
-        components.add(tournamentNameField);
+        add(tournamentNameField,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JLabel dateLabel = new JLabel("Date:");
         dateLabel.setLocation(443,160);
         dateLabel.setSize(50,20);
-        window.add(dateLabel);
-        components.add(dateLabel);
+        add(dateLabel,components);
 
         JTextField dateField = new JTextField();
         dateField.setLocation(480,162);
         dateField.setSize(100,20);
-        window.add(dateField);
-        components.add(dateField);
+        add(dateField,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         JLabel sponsorLabel = new JLabel("Use Sponsors?");
         sponsorLabel.setLocation(590,160);
         sponsorLabel.setSize(100,20);
-        window.add(sponsorLabel);
-        components.add(sponsorLabel);
+        add(sponsorLabel,components);
 
         JCheckBox sponsorBox = new JCheckBox();
         sponsorBox.setSelected(true);
-        sponsorBox.setLocation(685,160);
+        sponsorBox.setLocation(685,162);
         sponsorBox.setSize(25,25);
-        window.add(sponsorBox);
-        components.add(sponsorBox);
+        add(sponsorBox,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JLabel youtubeLabel = new JLabel("YouTube Playlist URL:");
         youtubeLabel.setLocation(100,200);
         youtubeLabel.setSize(200,20);
-        window.add(youtubeLabel);
-        components.add(youtubeLabel);
+        add(youtubeLabel,components);
 
         JTextField youtubeField = new JTextField();
-        youtubeField.setLocation(300,200);
+        youtubeField.setLocation(300,202);
         youtubeField.setSize(200,20);
-        window.add(youtubeField);
-        components.add(youtubeField);
+        add(youtubeField,components);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JLabel playerOneLabel = new JLabel("Player1:");
+        playerOneLabel.setLocation(0,240);
+        playerOneLabel.setSize(50,20);
+        add(playerOneLabel,components);
+
+        JTextField playerOneBox = new JTextField();
+        playerOneBox.setLocation(50,242);
+        playerOneBox.setSize(100,20);
+        add(playerOneBox,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -322,16 +303,14 @@ public class CreateLayout {
             }
             enterButtonEvent();
         });
-        window.add(enterButton);
-        components.add(enterButton);
+        add(enterButton,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JLabel imageLabel = new JLabel();
         imageLabel.setSize(300,150);
-        imageLabel.setLocation(200,230);
-        window.add(imageLabel);
-        components.add(imageLabel);
+        imageLabel.setLocation(210,230);
+        add(imageLabel,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -356,16 +335,15 @@ public class CreateLayout {
             gameChoiceEvent(gameList.getSelectedItem().toString());
             previewButtonEvent(imageLabel);
         });
-        window.add(previewAllButton);
-        components.add(previewAllButton);
+        add(previewAllButton,components);
     }
 
     private void previewButtonEvent(JLabel imageLabel){
         BufferedImage defaultThumbnail = sf.createFrame(
-             "0-Mario","0-Mario","0Nothing","0Nothing","Round",d.tournamentName,
-                d.date,"Player 1", "Player 2", d.game,d.customLogo,d.customGradientTop,d.customGradientMiddle,
+             d.tempChar1,d.tempChar2,d.tempSecondary1,d.tempSecondary2,d.tempRound,d.tournamentName,
+                d.date,d.tempPlayer1, d.tempPlayer2, d.game,d.customLogo,d.customGradientTop,d.customGradientMiddle,
                 d.customGradientBottom,d.fontColor,d.customFont,d.tournamentImage,d.outlineColor,d.getFontThickness(),
-                d.useSponsors,"","",d.getShadowThickness()
+                d.useSponsors,d.tempCustomFighter1,d.tempCustomFighter2,d.getShadowThickness()
         );
         defaultThumbnail = get.getSizedImg(defaultThumbnail,300,150);
         imageLabel.setIcon(new ImageIcon(defaultThumbnail));
@@ -385,6 +363,9 @@ public class CreateLayout {
                 break;
             case "Smash 3DS":
                 version = "3DS";
+                break;
+            case "Smash WiiU Full":
+                version = "WiiUFull";
                 break;
             case "Smash Melee":
                 version = "Melee";
@@ -423,5 +404,9 @@ public class CreateLayout {
         previewButton.setBackground(Color.decode(outlineColorField.getText()));
 
         previewButton.setOpaque(true);
+    }
+    private void add(Component component,ArrayList<Component> components){
+        window.add(component);
+        components.add(component);
     }
 }

@@ -26,6 +26,17 @@ class Data {
     Boolean useSponsors;
     private int shadowThickness;
 
+    String tempPlayer1;
+    String tempPlayer2;
+    String tempChar1;
+    String tempChar2;
+    String tempSecondary1;
+    String tempSecondary2;
+    String tempRound;
+    String tempCustomFighter1;
+    String tempCustomFighter2;
+
+
     Data(){
         youtubePlaylistURL = "";
         game= "";
@@ -42,6 +53,16 @@ class Data {
         fontThickness = 5;
         useSponsors = true;
         shadowThickness = 8;
+
+        tempPlayer1 = "Player 1";
+        tempPlayer2 = "Player 2";
+        tempChar1 = "0-Mario";
+        tempChar2 = "0-Mario";
+        tempSecondary1 = "0Nothing";
+        tempSecondary2 = "0Nothing";
+        tempCustomFighter1 = "";
+        tempCustomFighter2 = "";
+        tempRound = "Round";
     }
 
     void setFontThickness(String input) {

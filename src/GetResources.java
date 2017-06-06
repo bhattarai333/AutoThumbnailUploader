@@ -38,7 +38,11 @@ class GetResources
         try{
             img = ImageIO.read(this.getClass().getResource("/Resources/Sprites/" + path + ".png"));//gets image from file path
         } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                img = ImageIO.read(this.getClass().getResource("/Resources/Sprites972/" + path + ".png"));//gets image from file path
+            }catch (IOException ex){
+                ex.printStackTrace();
+            }
         }
         return img;
     }
@@ -120,8 +124,8 @@ class GetResources
         saveImg(image,"./Screens/screenshot0t.png");
     }
 
-    void saveImg(BufferedImage img,String path){
-        String path2;
+    String saveImg(BufferedImage img,String path){
+        String path2 = "";
         try{
             //noinspection ResultOfMethodCallIgnored
             new File("./Screens").mkdir();
@@ -131,6 +135,22 @@ class GetResources
             ImageIO.write(img, "png", outputfile);
         }catch(IOException e){
             e.printStackTrace();
+        }
+        return path2;
+    }
+
+    private String iterate(String path, int d){
+        //part of saveImg
+        File f = new File(path);
+        String path2 = path;
+        int i = d;
+        if(f.exists() && !f.isDirectory()) {
+            String[] tokens = path2.split("t");
+            i=i+1;
+            path2 = tokens[0]+"t" + i + "t"+tokens[2];
+            return (iterate(path2, i));
+        }else{
+            return path2;
         }
     }
 
@@ -166,21 +186,6 @@ class GetResources
         ArrayList<Component> components = getAllComponents(f);
         for(Component c : components){
             f.remove(c);
-        }
-    }
-
-    private String iterate(String path, int d){
-        //part of saveImg
-        File f = new File(path);
-        String path2 = path;
-        int i = d;
-        if(f.exists() && !f.isDirectory()) {
-            String[] tokens = path2.split("t");
-            i=i+1;
-            path2 = tokens[0]+"t" + i + "t"+tokens[2];
-            return (iterate(path2, i));
-        }else{
-            return path2;
         }
     }
 
