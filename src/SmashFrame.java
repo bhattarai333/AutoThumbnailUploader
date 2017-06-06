@@ -1,3 +1,5 @@
+import org.mortbay.io.Buffer;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -359,6 +361,8 @@ class Canvas extends JPanel{
         String character = chars[1];
         switch (version){
             case "WiiUFull":
+                output = getWiiUFullFlip(image,character);
+                break;
             case "WiiU":
                 output = getWiiUFlip(image,character);
                 break;
@@ -437,6 +441,133 @@ class Canvas extends JPanel{
             case "Fox":
                 break;
         }
+        return image;
+    }
+
+    private BufferedImage getWiiUFullFlip(BufferedImage image, String str){
+        boolean flip = false;
+        switch(str){
+            case "Bayonetta":
+                break;
+            case "Captain Falcon":
+                break;
+            case "Cloud": flip = true;
+                break;
+            case "DDD":
+                break;
+            case "Diddy Kong":
+                break;
+            case "Donkey Kong":
+                break;
+            case "Doctor Mario": flip = true;
+                break;
+            case "Duck Hunt":
+                break;
+            case "Falco":
+                break;
+            case "Fox": flip = true;
+                break;
+            case "Mr. Game and Watch": flip = true;
+                break;
+            case "Ganondorf":
+                break;
+            case "Greninja":
+                break;
+            case "Ike": flip = true;
+                break;
+            case "Corrin":
+                break;
+            case "Kirby": flip = true;
+                break;
+            case "Bowser":
+                break;
+            case "Bowser Jr.": flip = true;
+                break;
+            case "Link": flip = true;
+                break;
+            case "Charizard": flip = true;
+                break;
+            case "Lucario":
+                break;
+            case "Lucas": flip = true;
+                break;
+            case "Lucina":
+                break;
+            case "Luigi": flip = true;
+                break;
+            case "Mario": flip = true;
+                break;
+            case "Marth": flip = true;
+                break;
+            case "Meta Knight": flip = true;
+                break;
+            case "MewTwo": flip = true;
+                break;
+            case "Mii Brawler":
+                break;
+            case "Mii Gunner": flip = true;
+                break;
+            case "Mii Sword":
+                break;
+            case "Villager":
+                break;
+            case "Ness":
+                break;
+            case "Pacman": flip = true;
+                break;
+            case "Palutena":
+                break;
+            case "Peach":
+                break;
+            case "Pikachu": flip = true;
+                break;
+            case "Olimar": flip = true;
+                break;
+            case "Pit": flip = true;
+                break;
+            case "Dank Pit":
+                break;
+            case "Puff": flip = true;
+                break;
+            case "Robin": flip = true;
+                break;
+            case "R.O.B.":
+                break;
+            case "Megaman":
+                break;
+            case "Rosalina & Luma": flip = true;
+                break;
+            case "Roy": flip = true;
+                break;
+            case "Ryu":
+                break;
+            case "Samus":
+                break;
+            case "Sheik":
+                break;
+            case "Shulk":
+                break;
+            case "Sonic":
+                break;
+            case "Zamus": flip = true;
+                break;
+            case "Toon Link": flip = true;
+                break;
+            case "Wario":
+                break;
+            case "Wii Fit": flip = true;
+                break;
+            case "Yoshi":
+                break;
+            case "Zelda":
+                break;
+            case "Little Mac":
+                break;
+        }
+        if(flip){
+            return get.flipImage(image,'h');
+        }
+
         return image;
     }
 
@@ -1445,19 +1576,57 @@ class Canvas extends JPanel{
     }
 
     private BufferedImage getWiiUFullResize(BufferedImage img, String str) {
+        BufferedImage outputImage = img;
         switch (str){
-            case "Mario":
-
+            case "Luigi":
+                outputImage = get.getScaledImg(img,120);
+                break;
+            case "Peach":
+                outputImage = get.getScaledImg(img,200);
+                break;
+            case "Rosalina & Luma":
+                outputImage = get.getScaledImg(img,180);
+                break;
         }
-        return img;
+        return outputImage;
     }
 
     private int getWiiUFullFighterX(String str, Boolean firstFighter){
-        return 0;
+        int output = 0;
+        switch (str){
+            case "Luigi":
+                output = -40;
+                break;
+            case "Peach":
+                output = -250;
+                break;
+            case "Rosalina & Luma":
+                output = -200;
+                break;
+        }
+        if(!firstFighter){
+            output += 760;
+        }
+        return output;
     }
 
     private int getWiiUFullFighterY(String str) {
-        return 0;
+        int output = 180;
+        switch (str){
+            case "Bowser":
+                output = 120;
+                break;
+            case "Yoshi":
+                output = 200;
+                break;
+            case "Donkey Kong":
+                output = 120;
+                break;
+            case "Diddy Kong":
+                output = 130;
+                break;
+        }
+        return output;
     }
 
     private BufferedImage getCustomImage(String path){
@@ -1541,6 +1710,7 @@ class Canvas extends JPanel{
 
     private BufferedImage getGameLogo(String version){
         switch (version) {
+            case "WiiUFull":
             case "WiiU":
                 gameLogo = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0wiiulogo.png");
                 break;

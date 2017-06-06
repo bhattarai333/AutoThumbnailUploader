@@ -200,6 +200,13 @@ class GetResources
         return (int)(Math.random() * range) + (min <= max ? min : max);
     }
 
+    BufferedImage getScaledImg(BufferedImage img, double percent){
+        percent = percent/100.0;
+        int newWidth = (int) (img.getWidth() * percent);
+        int newHeight = (int) (img.getHeight() * percent);
+        return getSizedImg(img,newWidth,newHeight);
+    }
+
     BufferedImage getSizedImg(BufferedImage otherImage,int width,int height){
         BufferedImage outputImg = otherImage;
         try{
@@ -219,7 +226,7 @@ class GetResources
             height = (int) (width /ratio + 0.4);
         }
 
-        Image scaled = image.getScaledInstance(width, height, Image.SCALE_AREA_AVERAGING);
+        Image scaled = image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
         BufferedImage bufferedScaled = new BufferedImage(scaled.getWidth(null), scaled.getHeight(null), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = bufferedScaled.createGraphics();
         g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
