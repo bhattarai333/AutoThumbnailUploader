@@ -1,8 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Originally created by Josh Bhattarai on 5/17/2017.
@@ -22,6 +24,7 @@ public class CreateLayout {
     private final int WINDOW_HEIGHT = 500;
     private Data d = new Data();
     private SmashFrame sf = new SmashFrame();
+    private BufferedImage currentScreen;
     public static void main(String[] args){
         CreateLayout cl = new CreateLayout();
         cl.start();
@@ -79,11 +82,62 @@ public class CreateLayout {
     }
     private void layoutStuff(){
         ArrayList<Component> components = new ArrayList<>();
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JComboBox<String> characterOneAltBox = new JComboBox<>(new String[] {"0"});
+        characterOneAltBox.setLocation(160,270);
+        characterOneAltBox.setSize(50,20);
+        add(characterOneAltBox,components);
+
+        JComboBox<String> characterTwoAltBox = new JComboBox<>(new String[] {"0"});
+        characterTwoAltBox.setLocation(655,270);
+        characterTwoAltBox.setSize(50,20);
+        add(characterTwoAltBox,components);
+
+        JComboBox<String> secondaryOneAltBox = new JComboBox<>(new String[] {"0"});
+        secondaryOneAltBox.setLocation(160,300);
+        secondaryOneAltBox.setSize(50,20);
+        add(secondaryOneAltBox,components);
+
+        JComboBox<String> secondaryTwoAltBox = new JComboBox<>(new String[] {"0"});
+        secondaryTwoAltBox.setLocation(655,300);
+        secondaryTwoAltBox.setSize(50,20);
+        add(secondaryTwoAltBox,components);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JComboBox<String> fighterOneBox = new JComboBox<>(new String[] {"Mario"});
+        fighterOneBox.setLocation(0,270);
+        fighterOneBox.setSize(150,20);
+        fighterOneBox.addActionListener(e -> characterChoiceEvent(fighterOneBox.getSelectedItem().toString(),characterOneAltBox));
+        add(fighterOneBox,components);
+
+        JComboBox<String> fighterTwoBox = new JComboBox<>(new String[] {"Mario"});
+        fighterTwoBox.setLocation(510,270);
+        fighterTwoBox.setSize(140,20);
+        fighterTwoBox.addActionListener(e -> characterChoiceEvent(fighterTwoBox.getSelectedItem().toString(),characterTwoAltBox));
+        add(fighterTwoBox,components);
+
+        JComboBox<String> secondaryOneBox = new JComboBox<>(new String[] {"0Nothing"});
+        secondaryOneBox.setLocation(0,300);
+        secondaryOneBox.setSize(150,20);
+        secondaryOneBox.addActionListener(e -> characterChoiceEvent(secondaryOneBox.getSelectedItem().toString(),secondaryOneAltBox));
+        add(secondaryOneBox,components);
+
+        JComboBox<String> secondaryTwoBox = new JComboBox<>(new String[] {"0Nothing"});
+        secondaryTwoBox.setLocation(510,300);
+        secondaryTwoBox.setSize(140,20);
+        secondaryTwoBox.addActionListener(e -> characterChoiceEvent(secondaryTwoBox.getSelectedItem().toString(),secondaryTwoAltBox));
+        add(secondaryTwoBox,components);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         String[] gameStrings = { "Smash 64", "Smash Melee"/*,"MSU Melee"*/, "Smash Brawl",
                 "Smash PM", "Smash 3DS", "Smash WiiU", "Smash WiiU Full", "Rivals of Aether","Shrek Super Slam"};
         JComboBox<String> gameList = new JComboBox<>(gameStrings);
         gameList.setSelectedIndex(5);
-        gameList.addActionListener(e -> gameChoiceEvent(gameList.getSelectedItem().toString()));
+        gameList.addActionListener(e -> gameChoiceEvent(gameList.getSelectedItem().toString(),fighterOneBox,
+                fighterTwoBox,secondaryOneBox,secondaryTwoBox,true));
         gameList.setLocation(0,3);
         gameList.setSize(150,25);
         gameList.setMaximumSize(gameList.getPreferredSize());
@@ -266,7 +320,7 @@ public class CreateLayout {
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        JLabel playerOneLabel = new JLabel("Player1:");
+        JLabel playerOneLabel = new JLabel("Player 1:");
         playerOneLabel.setLocation(0,240);
         playerOneLabel.setSize(50,20);
         add(playerOneLabel,components);
@@ -275,6 +329,61 @@ public class CreateLayout {
         playerOneBox.setLocation(50,242);
         playerOneBox.setSize(100,20);
         add(playerOneBox,components);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JLabel playerTwoLabel = new JLabel("Player 2:");
+        playerTwoLabel.setLocation(570,240);
+        playerTwoLabel.setSize(50,20);
+        add(playerTwoLabel,components);
+
+        JTextField playerTwoBox = new JTextField();
+        playerTwoBox.setLocation(620,242);
+        playerTwoBox.setSize(100,20);
+        add(playerTwoBox,components);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JLabel customFighterOneLabel = new JLabel("Custom Fighter:");
+        customFighterOneLabel.setLocation(0,330);
+        customFighterOneLabel.setSize(100,20);
+        add(customFighterOneLabel,components);
+
+        JTextField customFighterOneField = new JTextField();
+        customFighterOneField.setLocation(100,332);
+        customFighterOneField.setSize(110,20);
+        add(customFighterOneField,components);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JLabel customFighterTwoLabel = new JLabel("Custom Fighter:");
+        customFighterTwoLabel.setLocation(510,330);
+        customFighterTwoLabel.setSize(100,20);
+        add(customFighterTwoLabel,components);
+
+        JTextField customFighterTwoField = new JTextField();
+        customFighterTwoField.setLocation(602,332);
+        customFighterTwoField.setSize(100,20);
+        add(customFighterTwoField,components);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JLabel imageLabel = new JLabel();
+        imageLabel.setSize(300,150);
+        imageLabel.setLocation(210,230);
+        add(imageLabel,components);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JLabel roundLabel = new JLabel("Round");
+        roundLabel.setLocation(WINDOW_WIDTH / 2 - 18, 400);
+        roundLabel.setSize(36,20);
+        add(roundLabel,components);
+
+        JTextField roundField = new JTextField();
+        roundField.setLocation(WINDOW_WIDTH / 2 - 50,430);
+        roundField.setSize(100,20);
+        add(roundField,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -297,7 +406,7 @@ public class CreateLayout {
             d.setShadowThickness(shadowThicknessField.getText());
             d.useSponsors = sponsorBox.isSelected();
             d.youtubePlaylistURL = youtubeField.getText();
-            gameChoiceEvent(gameList.getSelectedItem().toString());
+            gameChoiceEvent(gameList.getSelectedItem().toString(),fighterOneBox,fighterTwoBox,secondaryOneBox,secondaryTwoBox);
             for(Component c : components){
                 window.remove(c);
             }
@@ -307,10 +416,11 @@ public class CreateLayout {
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        JLabel imageLabel = new JLabel();
-        imageLabel.setSize(300,150);
-        imageLabel.setLocation(210,230);
-        add(imageLabel,components);
+        JButton saveButton = new JButton("Save Image");
+        saveButton.setLocation(WINDOW_WIDTH/2 - 50,380);
+        saveButton.setSize(100,20);
+        saveButton.addActionListener(e -> get.saveImg(currentScreen));
+        add(saveButton,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -318,6 +428,25 @@ public class CreateLayout {
         previewAllButton.setLocation(WINDOW_WIDTH/2 + 50,400);
         previewAllButton.setSize(100,20);
         previewAllButton.addActionListener(l ->{
+            String characterOne = fighterOneBox.getSelectedItem().toString();
+            String characterTwo = fighterTwoBox.getSelectedItem().toString();
+            String secondaryOne = secondaryOneBox.getSelectedItem().toString();
+            String secondaryTwo = secondaryTwoBox.getSelectedItem().toString();
+            String altOne = characterOneAltBox.getSelectedItem().toString();
+            String altTwo = characterTwoAltBox.getSelectedItem().toString();
+            String secondaryAltOne = secondaryOneAltBox.getSelectedItem().toString();
+            String secondaryAltTwo = secondaryTwoAltBox.getSelectedItem().toString();
+
+            d.tempPlayer1 = checkPlayer(playerOneBox.getText());
+            d.tempPlayer2 = checkPlayer(playerTwoBox.getText());
+            d.tempChar1 = altOne + "-" + characterOne;
+            d.tempChar2 = altTwo + "-" + characterTwo;
+            d.tempSecondary1 = findSecondary(secondaryOne, secondaryAltOne);
+            d.tempSecondary2 = findSecondary(secondaryTwo, secondaryAltTwo);
+            d.tempCustomFighter1 = customFighterOneField.getText();
+            d.tempCustomFighter2 = customFighterTwoField.getText();
+            d.tempRound = roundField.getText();
+
             d.tournamentName = tournamentNameField.getText();
             d.date = dateField.getText();
             d.customLogo = customLogoField.getText();
@@ -332,10 +461,209 @@ public class CreateLayout {
             d.setShadowThickness(shadowThicknessField.getText());
             d.useSponsors = sponsorBox.isSelected();
             d.youtubePlaylistURL = youtubeField.getText();
-            gameChoiceEvent(gameList.getSelectedItem().toString());
+            gameChoiceEvent(gameList.getSelectedItem().toString(),fighterOneBox,fighterTwoBox,secondaryOneBox,secondaryTwoBox);
             previewButtonEvent(imageLabel);
         });
         add(previewAllButton,components);
+    }
+
+
+
+    private void characterChoiceEvent(String characterName, JComboBox<String> altBox) {
+        String[] alts = {""};
+        switch (d.game){
+            case "64":
+                break;
+            case "Melee":
+                alts = getMeleeAlts(characterName);
+                break;
+            case "Brawl":
+                alts = getBrawlAlts(characterName);
+                break;
+            case "PM":
+                break;
+            case "3DS":
+            case "WiiU":
+                alts = getSm4shAlts(characterName);
+                break;
+            case"WiiUFull":
+                alts = getSm4shFullAlts(characterName);
+                break;
+            case "RoA":
+                alts = getRivalsAlts(characterName);
+                break;
+            case "S3":
+                alts = getShrekAlts(characterName);
+        }
+        altBox.setModel(new DefaultComboBoxModel<>(alts));
+    }
+
+    private String[] getMeleeAlts(String characterName) {
+        String[] fourMeleeAlts = new String[]{
+                "Bowser","Falco","Fox","Mr. Game & Watch","Ice Climbers","Luigi","MewTwo",
+                "Ness","Pichu","Pikachu"
+        };
+
+        String[] fiveMeleeAlts = new String[]{
+                "Donkey Kong","Doctor Mario","Ganondorf","Link","Mario","Marth","Peach",
+                "Jigglypuff","Roy","Samus","Sheik","Yoshi","Young Link","Zelda"
+        };
+
+        String[] sixMeleeAlts = new String[]{
+                "Captain Falcon","Kirby"
+        };
+
+        if(Arrays.asList(fourMeleeAlts).contains(characterName)){
+            return new String[] {"0", "1", "2", "3"};
+        }else if(Arrays.asList(fiveMeleeAlts).contains(characterName)){
+            return new String[] {"0", "1", "2", "3", "4"};
+        }else if(Arrays.asList(sixMeleeAlts).contains(characterName)){
+            return new String[] {"0", "1", "2", "3", "4", "5"};
+        }else return new String[] {""};
+
+    }
+    private String[] getBrawlAlts(String characterName) {
+        String[] fourBrawlAlts = new String[]{
+                "Pikachu"
+        };
+
+        String[] fiveBrawlAlts = new String[]{
+                "Jigglypuff", "Lucario","Pokemon Trainer", "Sonic"
+        };
+
+        String[] twelveBrawlAlts = new String[]{
+                "Wario",
+        };
+
+        if(Arrays.asList(fourBrawlAlts).contains(characterName)){
+            return new String[] {"0", "1", "2", "3"};
+        }else if(Arrays.asList(fiveBrawlAlts).contains(characterName)){
+            return new String[] {"0", "1", "2", "3", "4"};
+        }else if(Arrays.asList(twelveBrawlAlts).contains(characterName)){
+            return new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
+        }else return new String[] {"0","1","2","3","4","5"};
+
+    }
+    private String[] getSm4shAlts(String characterName) {
+        if (characterName.equals("Little Mac")) {
+            return new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"};
+        } else {
+            return new String[]{"0", "1", "2", "3", "4", "5", "6", "7"};
+        }
+    }
+    private String[] getSm4shFullAlts(String characterName) {
+        System.out.println(characterName);
+        return new String[]{"0"};
+    }
+    private String[] getRivalsAlts(String characterName) {
+        System.out.println(characterName);
+        return new String[]{"0", "1", "2", "3", "4", "5"};
+    }
+    private String[] getShrekAlts(String characterName) {
+        System.out.println(characterName);
+        return new String[]{"0"};
+    }
+
+
+    private String[] getCharacterArrays(String game, Boolean isSecondary) {
+        switch (game){
+            case "64":
+                if(isSecondary){
+                    return new String[]{""};
+                }else{
+                    return new String[]{""};
+                }
+            case "Melee":
+                if(isSecondary){
+                    return new String[]{"0Nothing","Bowser","Donkey Kong","Doctor Mario","Falco",
+                            "Captain Falcon","Fox","Mr. Game & Watch","Ganondorf", "Ice Climbers","Kirby",
+                            "Link","Luigi","Mario","Marth","MewTwo","Ness","Peach","Pichu","Pikachu",
+                            "Jigglypuff","Roy","Samus","Sheik","Yoshi","Young Link", "Zelda"
+                    };
+                }else{
+                    return new String[]{"Bowser","Donkey Kong","Doctor Mario","Falco",
+                            "Captain Falcon","Fox","Mr. Game & Watch","Ganondorf", "Ice Climbers","Kirby",
+                            "Link","Luigi","Mario","Marth","MewTwo","Ness","Peach","Pichu","Pikachu",
+                            "Jigglypuff","Roy","Samus","Sheik","Yoshi","Young Link", "Zelda"
+                    };
+                }
+            case "Brawl":
+                if(isSecondary){
+                    return new String[]{"0Nothing", "Bowser", "Captain Falcon", "Diddy Kong", "Donkey Kong", "Falco",
+                            "Fox", "Ganondorf", "Ice Climbers", "Ike", "Jigglypuff", "King DeDeDe", "Kirby", "Link", "Lucario",
+                            "Lucas", "Luigi", "Mario", "Marth", "Meta Knight", "Ness", "Olimar", "Peach", "Pikachu", "Pit",
+                            "Pokemon Trainer", "ROB", "Samus", "Sheik", "Snake", "Sonic", "Toon Link", "Wario", "Wolf", "Yoshi",
+                            "Zelda"
+
+                    };
+                }else{
+                    return new String[]{"Bowser", "Captain Falcon", "Diddy Kong", "Donkey Kong", "Falco", "Fox",
+                            "Ganondorf", "Ice Climbers", "Ike", "Jigglypuff", "King DeDeDe", "Kirby", "Link", "Lucario", "Lucas",
+                            "Luigi", "Mario", "Marth", "Meta Knight", "Ness", "Olimar", "Peach", "Pikachu", "Pit",
+                            "Pokemon Trainer", "ROB", "Samus", "Sheik", "Snake", "Sonic", "Toon Link", "Wario", "Wolf", "Yoshi",
+                            "Zelda"
+
+                    };
+                }
+            case "PM":
+                if(isSecondary){
+                    return new String[]{""};
+                }else {
+                    return new String[]{""};
+                }
+            case "3DS":
+            case "WiiU":
+            case "WiiUFull":
+                if(isSecondary){
+                    return new String[]{ "0Nothing", "Mario","Luigi","Peach","Bowser","Yoshi",
+                            "Rosalina & Luma","Bowser Jr.","Wario","Donkey Kong","Diddy Kong",
+                            "Mr. Game and Watch","Little Mac","Link","Zelda","Sheik","Ganondorf",
+                            "Toon Link","Samus","Zamus","Pit","Palutena","Marth","Ike","Robin",
+                            "Duck Hunt","Kirby","DDD","Meta Knight","Fox","Falco","Pikachu",
+                            "Charizard","Lucario","Puff","Greninja","R.O.B.","Ness","Captain Falcon",
+                            "Villager","Olimar","Wii Fit","Shulk","Doctor Mario","Dank Pit","Lucina","Pacman",
+                            "Megaman","Sonic","MewTwo","Lucas","Roy","Ryu","Cloud","Corrin",
+                            "Bayonetta","Mii Gunner","Mii Brawler","Mii Sword"
+                    };
+                }else {
+                    return new String[]{ "Mario","Luigi","Peach","Bowser","Yoshi",
+                            "Rosalina & Luma","Bowser Jr.","Wario","Donkey Kong","Diddy Kong",
+                            "Mr. Game and Watch","Little Mac","Link","Zelda","Sheik","Ganondorf",
+                            "Toon Link","Samus","Zamus","Pit","Palutena","Marth","Ike","Robin",
+                            "Duck Hunt","Kirby","DDD","Meta Knight","Fox","Falco","Pikachu",
+                            "Charizard","Lucario","Puff","Greninja","R.O.B.","Ness","Captain Falcon",
+                            "Villager","Olimar","Wii Fit","Shulk","Doctor Mario","Dank Pit","Lucina","Pacman",
+                            "Megaman","Sonic","MewTwo","Lucas","Roy","Ryu","Cloud","Corrin",
+                            "Bayonetta","Mii Gunner","Mii Brawler","Mii Sword"
+                    };
+                }
+                case "RoA":
+                    if(isSecondary){
+                        return new String[]{"0Nothing", "Zetterburn", "Orcane", "Wrastor", "Kragg",
+                                "Forsburn", "Maypul", "Absa", "Etalus"
+                        };
+                    }else{
+                        return new String[]{"Zetterburn", "Orcane", "Wrastor", "Kragg",
+                                "Forsburn", "Maypul", "Absa", "Etalus"
+                        };
+                    }
+            case "S3":
+                if(isSecondary){
+                    return new String[]{"0Nothing", "Shrek", "Donkey", "Puss", "Gingy",
+                            "Princess Fiona", "Ogre Fiona", "Pinocchio", "Prince Charming", "Red",
+                            "Black Knight", "Wolf", "Anthrax", "Cyclops", "Robin Hood", "G~Nome",
+                            "Dronkey", "Quasimodo", "Luna", "Captain Hook", "Humptey Dumptey"
+                    };
+                }else{
+                    return new String[]{"Shrek", "Donkey", "Puss", "Gingy",
+                            "Princess Fiona", "Ogre Fiona", "Pinocchio", "Prince Charming", "Red",
+                            "Black Knight", "Wolf", "Anthrax", "Cyclops", "Robin Hood", "G~Nome",
+                            "Dronkey", "Quasimodo", "Luna", "Captain Hook", "Humptey Dumptey"
+
+                    };
+                }
+        }
+        return new String[]{""};
     }
 
     private void previewButtonEvent(JLabel imageLabel){
@@ -345,6 +673,7 @@ public class CreateLayout {
                 d.customGradientBottom,d.fontColor,d.customFont,d.tournamentImage,d.outlineColor,d.getFontThickness(),
                 d.useSponsors,d.tempCustomFighter1,d.tempCustomFighter2,d.getShadowThickness()
         );
+        currentScreen = defaultThumbnail;
         defaultThumbnail = get.getSizedImg(defaultThumbnail,300,150);
         imageLabel.setIcon(new ImageIcon(defaultThumbnail));
     }
@@ -355,7 +684,15 @@ public class CreateLayout {
 
     }
 
-    private void gameChoiceEvent(String game){
+    private void gameChoiceEvent
+            (String game, JComboBox<String> fighter1, JComboBox<String> fighter2, JComboBox<String> secondary1,
+             JComboBox<String> secondary2){
+        gameChoiceEvent(game,fighter1,fighter2,secondary1,secondary2,false);
+    }
+
+    private void gameChoiceEvent
+            (String game, JComboBox<String> fighter1, JComboBox<String> fighter2, JComboBox<String> secondary1,
+             JComboBox<String> secondary2,Boolean refreshFighters){
         String version = "";
         switch (game) {
             case "Smash WiiU":
@@ -390,7 +727,20 @@ public class CreateLayout {
                 break;
         }
         d.game = version;
+        if(refreshFighters) {
+            setCharacters(fighter1, fighter2, secondary1, secondary2, version);
+        }
     }
+
+    private void setCharacters
+            (JComboBox<String> fighter1, JComboBox<String> fighter2, JComboBox<String> secondary1,
+             JComboBox<String> secondary2, String version) {
+        fighter1.setModel(new DefaultComboBoxModel<>(getCharacterArrays(version,false)));
+        fighter2.setModel(new DefaultComboBoxModel<>(getCharacterArrays(version,false)));
+        secondary1.setModel(new DefaultComboBoxModel<>(getCharacterArrays(version,true)));
+        secondary2.setModel(new DefaultComboBoxModel<>(getCharacterArrays(version,true)));
+    }
+
     private void previewColorsEvent(JTextField fontColorField, JTextField outlineColorField, JButton previewButton){
         if(fontColorField.getText().trim().equals("")){
             fontColorField.setText("#ffffff");
@@ -408,5 +758,20 @@ public class CreateLayout {
     private void add(Component component,ArrayList<Component> components){
         window.add(component);
         components.add(component);
+    }
+    private String checkPlayer(String player){
+        player = player.toLowerCase().trim();
+        if(player.equals("")){
+            return "player";
+        }else{
+            return player;
+        }
+    }
+    private String findSecondary(String secondary, String alt) {
+        if(secondary.equals("0Nothing")){
+            return secondary;
+        }else{
+            return alt + "-" + secondary;
+        }
     }
 }

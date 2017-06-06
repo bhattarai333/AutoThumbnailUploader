@@ -39,7 +39,7 @@ class Data {
 
     Data(){
         youtubePlaylistURL = "";
-        game= "";
+        game= "WiiUFull";
         tournamentName = "";
         date = "";
         customLogo = "";

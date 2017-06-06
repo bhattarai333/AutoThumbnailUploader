@@ -38,11 +38,7 @@ class GetResources
         try{
             img = ImageIO.read(this.getClass().getResource("/Resources/Sprites/" + path + ".png"));//gets image from file path
         } catch (IOException e) {
-            try {
-                img = ImageIO.read(this.getClass().getResource("/Resources/Sprites972/" + path + ".png"));//gets image from file path
-            }catch (IOException ex){
-                ex.printStackTrace();
-            }
+            e.printStackTrace();
         }
         return img;
     }
@@ -53,7 +49,16 @@ class GetResources
         try {
             img = ImageIO.read(obj);
         }catch(Exception e){
-            e.printStackTrace();
+            //https://bhattarai333.github.io/Websites/Resources/Sprites/1.png
+            String[] parts = url.split("Sprites");
+            String newPath = parts[0] + "Sprites972" + parts[1];
+            URL newURL = new URL(newPath);
+            try{
+                img = ImageIO.read(newURL);
+            }catch(Exception ex){
+                ex.printStackTrace();
+                e.printStackTrace();
+            }
         }
         return img;
     }
