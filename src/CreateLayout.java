@@ -243,7 +243,7 @@ public class CreateLayout {
         JLabel outlineThicknessLabel = new JLabel("Outline Thickness:");
         outlineThicknessLabel.setLocation(550,80);
         outlineThicknessLabel.setSize(120,20);
-        add(outlineColorLabel,components);
+        add(outlineThicknessLabel,components);
 
         JTextField outlineThicknessField = new JTextField("5");
         outlineThicknessField.setLocation(660,82);
