@@ -133,7 +133,7 @@ public class CreateLayout {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         String[] gameStrings = { "Smash 64", "Smash Melee"/*,"MSU Melee"*/, "Smash Brawl",
-                "Smash PM", "Smash 3DS", "Smash WiiU", "Smash WiiU Full", "Rivals of Aether","Shrek Super Slam"};
+                "Smash PM", "Smash 3DS", "Smash WiiU", "Smash WiiU Full(WIP)", "Rivals of Aether","Shrek Super Slam"};
         JComboBox<String> gameList = new JComboBox<>(gameStrings);
         gameList.setSelectedIndex(5);
         gameList.addActionListener(e -> gameChoiceEvent(gameList.getSelectedItem().toString(),fighterOneBox,
@@ -701,7 +701,7 @@ public class CreateLayout {
             case "Smash 3DS":
                 version = "3DS";
                 break;
-            case "Smash WiiU Full":
+            case "Smash WiiU Full(WIP)":
                 version = "WiiUFull";
                 break;
             case "Smash Melee":

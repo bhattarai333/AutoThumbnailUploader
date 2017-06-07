@@ -1587,6 +1587,27 @@ class Canvas extends JPanel{
             case "Rosalina & Luma":
                 outputImage = get.getScaledImg(img,180);
                 break;
+            case "Little Mac":
+                outputImage = get.getScaledImg(img,180);
+                break;
+            case "Link":
+                outputImage = get.getScaledImg(img,180);
+                break;
+            case "Zelda":
+                outputImage = get.getScaledImg(img,180);
+                break;
+            case "Sheik":
+                outputImage = get.getScaledImg(img,200);
+                break;
+            case "Ganondorf":
+                outputImage = get.getScaledImg(img,250);
+                break;
+            case "Samus":
+                outputImage = get.getScaledImg(img,200);
+                break;
+            case "Zamus":
+                outputImage = get.getScaledImg(img,200);
+                break;
         }
         return outputImage;
     }
@@ -1603,9 +1624,45 @@ class Canvas extends JPanel{
             case "Rosalina & Luma":
                 output = -200;
                 break;
+            case "Little Mac":
+                output = -200;
+                break;
+            case "Link":
+                output = -345;
+                break;
+            case "Zelda":
+                output = -215;
+                break;
+            case "Sheik":
+                output = -255;
+                break;
+            case "Ganondorf":
+                output = -330;
+                break;
+            case "Toon Link":
+                output = -10;
+                break;
+            case "Samus":
+                output = -200;
+                break;
+            case "Zamus":
+                output = -200;
+                break;
+
         }
         if(!firstFighter){
             output += 760;
+            switch(str){
+                case "Link":
+                    output += 300;
+                    break;
+                case "Ganondorf":
+                    output -= 100;
+                    break;
+                case "Samus":
+                    output -= 100;
+                    break;
+            }
         }
         return output;
     }
@@ -1690,7 +1747,7 @@ class Canvas extends JPanel{
                 if(!first){img = get.flipImage(img,'h');}
                 return img;
             case "TSM":
-                return get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0TSM.png");
+                return get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0tsm.png");
         }
         return get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0blank.png");
     }
