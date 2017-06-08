@@ -131,14 +131,9 @@ class Canvas extends JPanel{
         }
         if(!customFighterTwo.trim().equals("")){
             fighter2 = getCustomImage(customFighterTwo);
-        }/*
-        if(!customFighterThree.trim().equals("")){
-            fighter3 = getCustomImage(customFighterThree);
         }
-        if(!customFighterFour.trim().equals("")){
-            fighter4 = getCustomImage(customFighterFour);
-        }*/
 
+        //flip characters so that they're facing the center
         fighter1 = determineFlip(fighter1,version,chars1);
         fighter2 = determineFlip(fighter2,version,chars2);
 
@@ -172,7 +167,7 @@ class Canvas extends JPanel{
 
 
 
-
+        //get fonts
         getFonts(customFont);
 
         //get custom gradient images if applicable
@@ -192,7 +187,7 @@ class Canvas extends JPanel{
             bottomGradientImage = getCustomImage(customGrad3);
         }
 
-
+        //get logo of game, wiiu,melee,brawl ect
         gameLogo = getGameLogo(version);
 
 
@@ -246,7 +241,7 @@ class Canvas extends JPanel{
                 logo = getCustomImage(customLogo);
             }
 
-
+            //apply shadow to fighters
             applyShadow(shadowThickness);
 
             //get sponsor images if applicable
@@ -258,24 +253,11 @@ class Canvas extends JPanel{
                 playerTwoSponsor = playerOneSponsor;
             }
 
-            //Need to make doubles work with every version               |
-            //These two if statements make doubles work with WiiU & 3DS  V
-            /*
-            if (secondary1) {
-                offset1 = 50;
-                fighter1 = get.getSizedImg(fighter1,350,350);
-                fighter3 = get.getSizedImg(fighter3,350,350);
-            }
-            if (secondary2) {
-                offset2 = 150;
-                fighter2 = get.getSizedImg(fighter2,350,350);
-                fighter4 = get.getSizedImg(fighter4,350,350);
-            }*/
-
         }
     }
 
     private void drawAllImages(Graphics g){
+        //draw images to screen
         g.drawImage(middleGradientImage,0,200,null);//Middle gradient
         get.drawImageInCenter(playerOneSponsor,0,200,640,320,g);//Sponsor for player 1
         get.drawImageInCenter(playerTwoSponsor,640,200,640,320,g);//Sponsor for player 2
@@ -290,6 +272,7 @@ class Canvas extends JPanel{
     }
 
     private void drawAllText(Graphics g){
+        //set colors and font
         g.setColor(Color.decode(fontColor));
         g.setFont(kAX);
 
@@ -305,7 +288,6 @@ class Canvas extends JPanel{
         /*
         Make the player1 text size and player2 size match
          */
-
         //Declare values
         int x1 = 15;
         int y1 = 0;

@@ -33,6 +33,10 @@ class YouTubeStuff{
         ArrayList<VideoInfo> videoInfoArrayList = makeVideoInfo(videoIDs);
         setInfo(videoInfoArrayList);
         getAuth(videoInfoArrayList);
+        categorize(videoInfoArrayList);
+
+        setVal(100);
+        setString("Complete!");
     }
     private void windowStuff(Data d, JFrame window){
         this.d = d;
@@ -136,6 +140,14 @@ class YouTubeStuff{
             uploadThumbnails(videoInfoArrayList);
         });
     }
+    private void categorize(ArrayList<VideoInfo> videoInfoArrayList){
+        for(VideoInfo v : videoInfoArrayList){
+           // if(v.round.equals(""))
+        }
+    }
+
+
+
     private void uploadThumbnails(ArrayList<VideoInfo> videoInfoArrayList){
         double counter = 0;
         double len = videoInfoArrayList.size();
@@ -151,12 +163,11 @@ class YouTubeStuff{
                 }
             }
 
-            setVal((int) Math.round(counter/len *50) +50);
+            setVal((int) Math.round(counter/len * 40) +50);
         }
-        setVal(100);
-        setString("Complete!");
+        setVal(90);
+        //setString("Complete!");
     }
-
     private String getIDFromURL(String URL){
         if(URL.contains("list=")){
             String[] split = URL.split("list=");
@@ -576,5 +587,6 @@ class YouTubeStuff{
         }
         return originalContent;
     }
+
 
 }
