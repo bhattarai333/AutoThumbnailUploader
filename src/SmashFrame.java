@@ -20,14 +20,14 @@ class SmashFrame
             String date, String player1, String player2, String version, String custLogo, String custGrad1,
             String custGrad2,String custGrad3, String fontColor, String customFont, String tourneyImg,
             String outlineColor,int fontThickness,boolean sponsors,String customFighterOne, String customFigherTwo,
-            int shadowThickness)
+            int shadowThickness,boolean bindText)
     {
         Canvas myCanvas = new Canvas();
         System.out.println("1: " + player1 + " "+ char1 + " 2: " +player2 +" "+ char2 + " 3: " + secondary1 + " 4: " + secondary2 + " Round: " + game);
         return myCanvas.startSim(char1,char2,secondary1,secondary2,game,
                 tourney,date,player1,player2,version,custLogo,custGrad1,custGrad2, custGrad3,
                 fontColor,customFont,tourneyImg,outlineColor,fontThickness,sponsors,customFighterOne,customFigherTwo,
-                shadowThickness);
+                shadowThickness,bindText);
     }
 }
 
@@ -71,19 +71,20 @@ class Canvas extends JPanel{
     private int fighterX4;
     private int fighterY1 = 125;
     private int fighterY2 = 125;
-    private int fighterY3 = 125;
-    private int fighterY4 = 125;
+    private int fighterY3;
+    private int fighterY4;
     private boolean secondary1 = true;
     private boolean secondary2 = true;
     private boolean first = false;
+    private boolean bind;
 
     BufferedImage startSim(
             String character1, String character2, String character3, String character4, String gamePlayed,
             String tournament, String time, String playerOne, String playerTwo, String version, String customLogo,
             String customGrad1, String customGrad2, String customGrad3, String fontColor, String customFont, String tourneyImg,
             String outlineColor, int outlineThickness, boolean sponsors, String customFighterOne,String customFighterTwo,
-            int shadowThickness){
-
+            int shadowThickness,boolean bindText){
+        bind = bindText;
         game = gamePlayed;
         tourneyName = tournament;
         date = time;
@@ -195,11 +196,37 @@ class Canvas extends JPanel{
         gameLogo = getGameLogo(version);
 
 
+        if(secondary1){
+            String[] temp = character3.split("-");
+            String char3 = temp[1];
+            temp = character1.split("-");
+            String char1 = temp[1];
+            offset1 = getOffSet(version, character3, true);
+            fighter1 = getDoublesResize(version, fighter1, char1);
+            fighter3 = getDoublesResize(version, fighter3, char3);
+            fighterY3 = getDoublesY(version, char3);
+            fighterX3 = getDoublesX(version, char3, true);
+        }
+        if(secondary2){
+            String[] temp = character4.split("-");
+            String char4 = temp[1];
+            temp = character1.split("-");
+            String char2 = temp[1];
+            offset2 = getOffSet(version, char4, false);
+            fighter2 = getDoublesResize(version, fighter2, char2);
+            fighter4 = getDoublesResize(version, fighter4, char4);
+            fighterY4 = getDoublesY(version, char4);
+            fighterX4 = getDoublesX(version, char4, false);
+        }
+
+
 
         BufferedImage thumbnail = new BufferedImage(1280,720,BufferedImage.TYPE_4BYTE_ABGR);
         draw(thumbnail.getGraphics());
         return thumbnail;
     }
+
+
 
     private void draw(Graphics g){
         doCalculations();
@@ -233,6 +260,7 @@ class Canvas extends JPanel{
 
             //Need to make doubles work with every version               |
             //These two if statements make doubles work with WiiU & 3DS  V
+            /*
             if (secondary1) {
                 offset1 = 50;
                 fighter1 = get.getSizedImg(fighter1,350,350);
@@ -242,7 +270,7 @@ class Canvas extends JPanel{
                 offset2 = 150;
                 fighter2 = get.getSizedImg(fighter2,350,350);
                 fighter4 = get.getSizedImg(fighter4,350,350);
-            }
+            }*/
 
         }
     }
@@ -253,8 +281,8 @@ class Canvas extends JPanel{
         get.drawImageInCenter(playerTwoSponsor,640,200,640,320,g);//Sponsor for player 2
         g.drawImage(fighter3,fighterX3,fighterY3,null);//Player 1's secondary character(optional)
         g.drawImage(fighter4,fighterX4,fighterY4,null);//Player 2's secondary character(optional)
-        g.drawImage(fighter1,fighterX1 - offset1,fighterY1,null);//Player 1's first character
-        g.drawImage(fighter2,fighterX2 + offset2,fighterY2,null);//Player 2's first character
+        g.drawImage(fighter1,fighterX1 + offset1,fighterY1,null);//Player 1's first character
+        g.drawImage(fighter2,fighterX2 - offset2,fighterY2,null);//Player 2's first character
         g.drawImage(topGradientImage,0,0,null);//Top gradient
         g.drawImage(bottomGradientImage,0,520,null);//Bottom gradient(optional)
         get.drawImageSizedInCenter(logo,553,0,170,170,g);//0 for nhs 5 for gg 20 for msu
@@ -298,6 +326,9 @@ class Canvas extends JPanel{
         temp = get.getSizedFont(g.getFontMetrics(CST),w2,h2,player2,g);
         maxFontSize2 = temp.getFont().getSize();
         maxFontSize = Math.min(maxFontSize1,maxFontSize2);
+        if(!bind){
+            maxFontSize = 100000;
+        }
 
 
         //Draw all the strings to the screen
@@ -361,6 +392,7 @@ class Canvas extends JPanel{
             case "WiiUFull":
                 output = getWiiUFullFlip(image,character);
                 break;
+            case "3DS":
             case "WiiU":
                 output = getWiiUFlip(image,character);
                 break;
@@ -1428,12 +1460,12 @@ class Canvas extends JPanel{
         int c;
         switch (str){
 
-            default: c = 75;
+            default: c = 110;
         }
         if (firstFighter) {
             return c;
         }
-        c = c + 730;
+        c = c + 720;
         return c;
     }
 
@@ -1787,5 +1819,106 @@ class Canvas extends JPanel{
         }
         gameLogo = get.getSizedImg(gameLogo,400,150);
         return gameLogo;
+    }
+
+    private BufferedImage getDoublesResize(String version, BufferedImage img, String character){
+        switch (version){
+            case "3DS":
+            case "WiiU":
+                return get.getSizedImg(img,350,350);
+            case "S3":
+                return get.getScaledImg(img,50);
+        }
+        return img;
+    }
+
+    private int getOffSet(String version, String character, Boolean isFirst){
+        switch (version){
+            case "3DS":
+            case "WiiU":
+                if(isFirst) {
+                    return 150;
+                }else{
+                    return 30;
+                }
+            case "RoA":
+                return 150;
+        }
+        if(isFirst){
+            return 150;
+        }else{
+            return 100;
+        }
+    }
+
+    private int getDoublesX(String version, String character, Boolean isFirst){
+        switch (version){
+            case "3DS":
+            case "WiiU":
+                if(isFirst){
+                    return 0;
+                }else{
+                    return 950;
+                }
+        }
+        if(isFirst){
+            return 0;
+        }else{
+            return 950;
+        }
+    }
+
+    private int getDoublesY(String version, String character){
+        System.out.println("V:" + version + " C:" + character);
+        int output = 75;
+        switch(version) {
+            case "3DS":
+            case "WiiU":
+                output = getWiiUDoublesY(character);
+                break;
+            case "RoA":
+                output = getRivalsDoublesY(character);
+                break;
+        }
+        return output;
+    }
+    private int getRivalsDoublesY(String character){
+        int output;
+        switch (character){
+            default: output = 180;
+        }
+        return output;
+    }
+    private int getWiiUDoublesY(String character){
+        switch (character){
+            case "Bowser":
+                return 200;
+            case "Diddy Kong":
+                return 200;
+            case "Toon Link":
+                return 190;
+            case "Duck Hunt":
+                return 200;
+            case "Kirby":
+                return 240;
+            case "DDD":
+                return 200;
+            case "Meta Knight":
+                return 200;
+            case "Pikachu":
+                return 200;
+            case "Puff":
+                return 240;
+            case "Greninja":
+                return 200;
+            case "Villager":
+                return 200;
+            case "Olimar":
+                return 200;
+            case "Pacman":
+                return 210;
+            default:
+                return 175;
+        }
     }
 }

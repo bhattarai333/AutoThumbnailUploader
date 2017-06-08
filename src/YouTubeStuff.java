@@ -102,7 +102,8 @@ class YouTubeStuff{
             v.thumbnail = sf.createFrame(v.getCharacter1(),v.getCharacter2(),v.getSecondary1(),v.getSecondary2(),v.round,d.tournamentName,
                     d.date,v.player1,v.player2,d.game,d.customLogo,d.customGradientTop,d.customGradientMiddle,
                     d.customGradientBottom,d.fontColor,d.customFont,d.tournamentImage,d.outlineColor,
-                    d.getFontThickness(),d.useSponsors,v.customFighterOne,v.customFighterTwo,d.getShadowThickness());
+                    d.getFontThickness(),d.useSponsors,v.customFighterOne,v.customFighterTwo,d.getShadowThickness(),
+                    d.bindText);
             setVal((int) Math.round(counter/len *43) +7);
         }
 

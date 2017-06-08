@@ -11,7 +11,6 @@ class Data {
     String date;
 
 
-
     String customLogo;
     String customGradientTop;
     String customGradientMiddle;
@@ -24,6 +23,7 @@ class Data {
     private int fontThickness;
 
     Boolean useSponsors;
+    Boolean bindText;
     private int shadowThickness;
 
     String tempPlayer1;
@@ -63,6 +63,7 @@ class Data {
         tempCustomFighter1 = "";
         tempCustomFighter2 = "";
         tempRound = "Round";
+        bindText = false;
     }
 
     void setFontThickness(String input) {

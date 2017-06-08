@@ -387,6 +387,18 @@ public class CreateLayout {
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        JLabel bindLabel = new JLabel("Bind Size?");
+        bindLabel.setLocation(590,130);
+        bindLabel.setSize(100,20);
+        add(bindLabel,components);
+
+        JCheckBox bindBox = new JCheckBox();
+        bindBox.setLocation(685,130);
+        bindBox.setSize(20,20);
+        add(bindBox,components);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         JButton enterButton = new JButton("Enter");
         enterButton.setLocation(WINDOW_WIDTH/2 + 50,400);
         enterButton.setSize(100,20);
@@ -405,6 +417,7 @@ public class CreateLayout {
             d.outlineColor = outlineColorField.getText();
             d.setShadowThickness(shadowThicknessField.getText());
             d.useSponsors = sponsorBox.isSelected();
+            d.bindText = bindBox.isSelected();
             d.youtubePlaylistURL = youtubeField.getText();
             gameChoiceEvent(gameList.getSelectedItem().toString(),fighterOneBox,fighterTwoBox,secondaryOneBox,secondaryTwoBox);
             for(Component c : components){
@@ -459,12 +472,14 @@ public class CreateLayout {
             d.customFont = customFontField.getText();
             d.outlineColor = outlineColorField.getText();
             d.setShadowThickness(shadowThicknessField.getText());
+            d.bindText = bindBox.isSelected();
             d.useSponsors = sponsorBox.isSelected();
             d.youtubePlaylistURL = youtubeField.getText();
             gameChoiceEvent(gameList.getSelectedItem().toString(),fighterOneBox,fighterTwoBox,secondaryOneBox,secondaryTwoBox);
             previewButtonEvent(imageLabel);
         });
         add(previewAllButton,components);
+
     }
 
 
@@ -671,7 +686,7 @@ public class CreateLayout {
              d.tempChar1,d.tempChar2,d.tempSecondary1,d.tempSecondary2,d.tempRound,d.tournamentName,
                 d.date,d.tempPlayer1, d.tempPlayer2, d.game,d.customLogo,d.customGradientTop,d.customGradientMiddle,
                 d.customGradientBottom,d.fontColor,d.customFont,d.tournamentImage,d.outlineColor,d.getFontThickness(),
-                d.useSponsors,d.tempCustomFighter1,d.tempCustomFighter2,d.getShadowThickness()
+                d.useSponsors,d.tempCustomFighter1,d.tempCustomFighter2,d.getShadowThickness(),d.bindText
         );
         currentScreen = defaultThumbnail;
         defaultThumbnail = get.getSizedImg(defaultThumbnail,300,150);
