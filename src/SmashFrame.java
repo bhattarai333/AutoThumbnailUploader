@@ -57,6 +57,7 @@ class Canvas extends JPanel{
     private BufferedImage gameLogo;
     private BufferedImage playerOneSponsor;
     private BufferedImage playerTwoSponsor;
+    private BufferedImage vsImg;
     private int shadowThickness;
 
     private Font BBN;
@@ -214,6 +215,9 @@ class Canvas extends JPanel{
             fighterX4 = getDoublesX(version, char4, false);
         }
 
+        vsImg = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0vs4.png");
+
+
 
 
         BufferedImage thumbnail = new BufferedImage(1280,720,BufferedImage.TYPE_4BYTE_ABGR);
@@ -261,6 +265,7 @@ class Canvas extends JPanel{
         g.drawImage(middleGradientImage,0,200,null);//Middle gradient
         get.drawImageInCenter(playerOneSponsor,0,200,640,320,g);//Sponsor for player 1
         get.drawImageInCenter(playerTwoSponsor,640,200,640,320,g);//Sponsor for player 2
+        get.drawImageSizedInCenter(vsImg,450,210,370,300,g);//VS in the middle
         g.drawImage(fighter3,fighterX3,fighterY3,null);//Player 1's secondary character(optional)
         g.drawImage(fighter4,fighterX4,fighterY4,null);//Player 2's secondary character(optional)
         g.drawImage(fighter1,fighterX1 + offset1,fighterY1,null);//Player 1's first character
@@ -268,7 +273,7 @@ class Canvas extends JPanel{
         g.drawImage(topGradientImage,0,0,null);//Top gradient
         g.drawImage(bottomGradientImage,0,520,null);//Bottom gradient(optional)
         get.drawImageSizedInCenter(logo,553,0,170,170,g);//0 for nhs 5 for gg 20 for msu
-        g.drawImage(gameLogo,0,560,null);
+        get.drawImageSizedInCenter(gameLogo,870,550,409,169,g);
     }
 
     private void drawAllText(Graphics g){
@@ -276,13 +281,13 @@ class Canvas extends JPanel{
         g.setColor(Color.decode(fontColor));
         g.setFont(kAX);
 
+        get.drawText(date,fontColor,outlineColor,1219,707-10,60,50,g,0,Integer.MAX_VALUE,0,kAX,'1');
         //Draw the text for the tournament name, or the image for the tournament if given
-        get.drawText(date,fontColor,outlineColor,865,550,414,165,g,3,Integer.MAX_VALUE,0,kAX,'4');
         if(customTourneyString.equals("")) {
-            get.drawText(tourneyName, fontColor, outlineColor, 395, 550, 470, 165, g, outlineThickness, CST);
+            get.drawText(tourneyName, fontColor, outlineColor, 0,550, 395,165, g, outlineThickness, CST);
         }else{
             BufferedImage customTourneyImage = getCustomImage(customTourneyString);
-            get.drawImageSizedInCenter(customTourneyImage,395,550,470,165,g);
+            get.drawImageSizedInCenter(customTourneyImage,0,550, 395,165,g);
         }
 
         /*
@@ -316,9 +321,7 @@ class Canvas extends JPanel{
         //Draw all the strings to the screen
         get.drawText(player1, fontColor, outlineColor,x1,y1,w1,h1,g,outlineThickness,maxFontSize,0,CST);
         get.drawText(player2, fontColor, outlineColor,x2,y2, w2,h2,g,outlineThickness,maxFontSize,0,CST);
-        get.drawText(game, fontColor, outlineColor,515,370,250,150,g,(int) (outlineThickness * .9),CST);
-        get.drawText("VS", fontColor,outlineColor,515,200,250,170,g,5,Integer.MAX_VALUE,0,BBN);
-
+        get.drawText(game, fontColor, outlineColor, 407, 550, 465, 169, g,(int) (outlineThickness * .9),CST);
     }
 
 
