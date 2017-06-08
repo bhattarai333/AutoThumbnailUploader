@@ -129,7 +129,6 @@ class YouTubeStuff{
                     +code+"&client_id=" + clientID + "&client_secret="+ clientSecret+
                     "&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=authorization_code";
             String temp = get.httpPost(url,urlParams,"Test, Josh Bhattarai");
-            System.out.println(temp);
             JSONObject returnToken = new JSONObject(temp);
             accessToken = returnToken.get("access_token").toString();
 
@@ -353,6 +352,7 @@ class YouTubeStuff{
                     e.printStackTrace();
                     videoInfo.success = false;
                 }
+                break;
             default:
                 try{
                     defaultParse(title, description, videoInfo);
@@ -392,7 +392,7 @@ class YouTubeStuff{
         addChars(insideParentheses(firstPlayer),videoInfo,true);
 
         videoInfo.player2 = outsideParentheses(secondPlayer);
-        addChars(insideParentheses(secondPlayer),videoInfo,true);
+        addChars(insideParentheses(secondPlayer),videoInfo,false);
 
         videoInfo.round = parseRound(round);
     }
@@ -544,9 +544,9 @@ class YouTubeStuff{
 
         if(content.contains("semi") || content.contains("lsf") || content.contains("wsf")){
             if(content.contains("loser")){
-                return "Loser's Semifinals";
+                return "Loser's  Semifinals";
             }else if(content.contains("winner")){
-                return "Winner's Semifinals";
+                return "Winner's  Semifinals";
             }
         }
 

@@ -388,7 +388,7 @@ public class CreateLayout {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JButton enterButton = new JButton("Enter");
-        enterButton.setLocation(WINDOW_WIDTH/2 - 150,400);
+        enterButton.setLocation(WINDOW_WIDTH/2 + 50,400);
         enterButton.setSize(100,20);
         enterButton.addActionListener(e ->{
             //pass all the info into data
@@ -425,7 +425,7 @@ public class CreateLayout {
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JButton previewAllButton = new JButton("Preview");
-        previewAllButton.setLocation(WINDOW_WIDTH/2 + 50,400);
+        previewAllButton.setLocation(WINDOW_WIDTH/2 - 150,400);
         previewAllButton.setSize(100,20);
         previewAllButton.addActionListener(l ->{
             String characterOne = fighterOneBox.getSelectedItem().toString();

@@ -1,5 +1,3 @@
-import org.mortbay.io.Buffer;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +23,7 @@ class SmashFrame
             int shadowThickness)
     {
         Canvas myCanvas = new Canvas();
-        System.out.println("1: " + char1 + " 2: " + char2 + " 3: " + secondary1 + " 4: " + secondary2 + "Round: " + game);
+        System.out.println("1: " + player1 + " "+ char1 + " 2: " +player2 +" "+ char2 + " 3: " + secondary1 + " 4: " + secondary2 + " Round: " + game);
         return myCanvas.startSim(char1,char2,secondary1,secondary2,game,
                 tourney,date,player1,player2,version,custLogo,custGrad1,custGrad2, custGrad3,
                 fontColor,customFont,tourneyImg,outlineColor,fontThickness,sponsors,customFighterOne,customFigherTwo,
@@ -65,8 +63,8 @@ class Canvas extends JPanel{
     private Font kAX;
     private Font ACN;
     private Font CST;
-    private int pos1 = 0;
-    private int pos2 = 0;
+    private int offset1 = 0;
+    private int offset2 = 0;
     private int fighterX1;
     private int fighterX2;
     private int fighterX3;
@@ -236,12 +234,12 @@ class Canvas extends JPanel{
             //Need to make doubles work with every version               |
             //These two if statements make doubles work with WiiU & 3DS  V
             if (secondary1) {
-                pos1 = 50;
+                offset1 = 50;
                 fighter1 = get.getSizedImg(fighter1,350,350);
                 fighter3 = get.getSizedImg(fighter3,350,350);
             }
             if (secondary2) {
-                pos2 = 150;
+                offset2 = 150;
                 fighter2 = get.getSizedImg(fighter2,350,350);
                 fighter4 = get.getSizedImg(fighter4,350,350);
             }
@@ -255,8 +253,8 @@ class Canvas extends JPanel{
         get.drawImageInCenter(playerTwoSponsor,640,200,640,320,g);//Sponsor for player 2
         g.drawImage(fighter3,fighterX3,fighterY3,null);//Player 1's secondary character(optional)
         g.drawImage(fighter4,fighterX4,fighterY4,null);//Player 2's secondary character(optional)
-        g.drawImage(fighter1,fighterX1-pos1,fighterY1,null);//Player 1's first character
-        g.drawImage(fighter2,fighterX2+pos2,fighterY2,null);//Player 2's first character
+        g.drawImage(fighter1,fighterX1 - offset1,fighterY1,null);//Player 1's first character
+        g.drawImage(fighter2,fighterX2 + offset2,fighterY2,null);//Player 2's first character
         g.drawImage(topGradientImage,0,0,null);//Top gradient
         g.drawImage(bottomGradientImage,0,520,null);//Bottom gradient(optional)
         get.drawImageSizedInCenter(logo,553,0,170,170,g);//0 for nhs 5 for gg 20 for msu
@@ -1451,19 +1449,10 @@ class Canvas extends JPanel{
     }
 
     private int getShrekFighterX(String str, Boolean firstFighter){
-        int c;
+        int c = -10;
         switch (str){
-            case "Shrek": c = 40;
-                break;
-            case "Donkey": c = 40;
-                break;
-            case "Anthrax": c = -10;
-                break;
-            case "Robin Hood": c = 10;
-                break;
-            case "Gingy": c = 30;
-                break;
-            default: c = 50;
+            case "Pinocchio":
+                c = -5;
                 break;
         }
         if (firstFighter) {
