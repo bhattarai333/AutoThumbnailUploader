@@ -253,37 +253,34 @@ class YouTubeStuff{
             uploader.setDirectUploadEnabled(false);
 
             // Set the upload state for the thumbnail image.
-            MediaHttpUploaderProgressListener progressListener = new MediaHttpUploaderProgressListener() {
-                @Override
-                public void progressChanged(MediaHttpUploader uploader) throws IOException {
-                    switch (uploader.getUploadState()) {
-                        // This value is set before the initiation request is
-                        // sent.
-                        case INITIATION_STARTED:
-                            System.out.println("Initiation Started");
-                            break;
-                        // This value is set after the initiation request
-                        //  completes.
-                        case INITIATION_COMPLETE:
-                            System.out.println("Initiation Completed");
-                            break;
-                        // This value is set after a media file chunk is
-                        // uploaded.
-                        case MEDIA_IN_PROGRESS:
-                            System.out.println("Upload in progress");
-                            System.out.println("Upload percentage: " + uploader.getProgress());
-                            break;
-                        // This value is set after the entire media file has
-                        //  been successfully uploaded.
-                        case MEDIA_COMPLETE:
-                            System.out.println("Upload Completed!");
-                            break;
-                        // This value indicates that the upload process has
-                        //  not started yet.
-                        case NOT_STARTED:
-                            System.out.println("Upload Not Started!");
-                            break;
-                    }
+            MediaHttpUploaderProgressListener progressListener = uploader1 -> {
+                switch (uploader1.getUploadState()) {
+                    // This value is set before the initiation request is
+                    // sent.
+                    case INITIATION_STARTED:
+                        System.out.println("Initiation Started");
+                        break;
+                    // This value is set after the initiation request
+                    //  completes.
+                    case INITIATION_COMPLETE:
+                        System.out.println("Initiation Completed");
+                        break;
+                    // This value is set after a media file chunk is
+                    // uploaded.
+                    case MEDIA_IN_PROGRESS:
+                        System.out.println("Upload in progress");
+                        System.out.println("Upload percentage: " + uploader1.getProgress());
+                        break;
+                    // This value is set after the entire media file has
+                    //  been successfully uploaded.
+                    case MEDIA_COMPLETE:
+                        System.out.println("Upload Completed!");
+                        break;
+                    // This value indicates that the upload process has
+                    //  not started yet.
+                    case NOT_STARTED:
+                        System.out.println("Upload Not Started!");
+                        break;
                 }
             };
             uploader.setProgressListener(progressListener);
@@ -349,6 +346,13 @@ class YouTubeStuff{
                     videoInfo.success = false;
                 }
                 break;
+            case "UCkSk688sgrxRJifpfeD79yQ":
+                try{
+                    glaceyParse(title,description,videoInfo);
+                }catch(Exception e){
+                    e.printStackTrace();
+                    videoInfo.success = false;
+                }
             default:
                 try{
                     defaultParse(title, description, videoInfo);
@@ -373,22 +377,41 @@ class YouTubeStuff{
     private void spectrumParse(String title, String description, VideoInfo videoInfo){
         gooshiJ3Parse(title,description,videoInfo);
     }
+    private void glaceyParse(String title, String description, VideoInfo videoInfo){
+        String[] parts = title.split(" vs ");
+        String leftSide = parts[0];
+        String rightSide = parts[1];
+        parts = leftSide.split("-");
+        String firstPlayer = parts[1];
+        parts = rightSide.split("\\[");
+        String secondPlayer = parts[0];
+        parts = parts[1].split("\\]");
+        String round = parts[0];
+
+        videoInfo.player1 = outsideParentheses(firstPlayer);
+        addChars(insideParentheses(firstPlayer),videoInfo,true);
+
+        videoInfo.player2 = outsideParentheses(secondPlayer);
+        addChars(insideParentheses(secondPlayer),videoInfo,true);
+
+        videoInfo.round = parseRound(round);
+    }
     private void gooshiJ3Parse(String title, String description, VideoInfo videoInfo) {
         String round;
         String[] parts = title.split(":");
         String leftSide = parts[0];
         String rightSide = parts[1];
-        round = findParentheses(leftSide);
+        round = insideParentheses(leftSide);
         videoInfo.round = parseRound(round);
 
         String[] rightArray = rightSide.split(" vs ");
         String firstPlayerAndChars = rightArray[0];
         String secondPlayerAndChars = rightArray[1];
-        videoInfo.player1 = beforeParentheses(firstPlayerAndChars);
-        videoInfo.player2 = beforeParentheses(secondPlayerAndChars);
+        videoInfo.player1 = outsideParentheses(firstPlayerAndChars);
+        videoInfo.player2 = outsideParentheses(secondPlayerAndChars);
 
-        String firstChars = findParentheses(firstPlayerAndChars);
-        String secondChars = findParentheses(secondPlayerAndChars);
+        String firstChars = insideParentheses(firstPlayerAndChars);
+        String secondChars = insideParentheses(secondPlayerAndChars);
 
         addChars(firstChars,videoInfo,true);
         addChars(secondChars,videoInfo,false);
@@ -401,16 +424,16 @@ class YouTubeStuff{
         String[] rightArray = rightSide.split(" vs ");
         String firstPlayerAndChars = rightArray[0];
         String secondPlayerAndChars = rightArray[1];
-        videoInfo.player1 = beforeParentheses(firstPlayerAndChars);
-        videoInfo.player2 = beforeParentheses(secondPlayerAndChars);
+        videoInfo.player1 = outsideParentheses(firstPlayerAndChars);
+        videoInfo.player2 = outsideParentheses(secondPlayerAndChars);
 
-        String firstChars = findParentheses(firstPlayerAndChars);
-        String secondChars = findParentheses(secondPlayerAndChars);
+        String firstChars = insideParentheses(firstPlayerAndChars);
+        String secondChars = insideParentheses(secondPlayerAndChars);
 
         addChars(firstChars,videoInfo,true);
         addChars(secondChars,videoInfo,false);
 
-        String round;
+        /*String round;
         if(description.contains("set 2") || description.contains("set two") || description.contains("set2")){
             round = "Grand Finals  Set Two";
         }else if(description.contains("grand") || description.contains("gf")){
@@ -421,6 +444,14 @@ class YouTubeStuff{
             round = "Loser's  Finals";
         }else if((description.contains("final") && description.contains("winner")) || description.contains("wfs")){
             round = "Winner's  Finals";
+        }else if(description.contains("semi") && description.contains("loser")){
+            round = "Loser's  Semifinals";
+        }else if(description.contains("semi") && description.contains("winner")){
+            round = "Winner's  Semifinals";
+        }else if((description.contains("quarter") && description.contains("loser")) || description.contains("wqs")){
+            round = "Loser's  Quarters";
+        }else if((description.contains("quarter") && description.contains("winner")) || description.contains("lqs")){
+            round = "Winner's  Quarters";
         }else if(description.contains("losers")){
             round = "Loser's  Side";
         }else if (description.contains("winners")){
@@ -430,20 +461,21 @@ class YouTubeStuff{
         }else{
             round = "";
         }
-        videoInfo.round = parseRound(round);
+        videoInfo.round = parseRound(round);*/
+        videoInfo.round = parseRound(description);
     }
     private void defaultParse(String title, String description, VideoInfo videoInfo){
         videoInfo.player1 = "Placeholder 1";
         videoInfo.player2 = "Placeholder 2";
     }
-    private String findParentheses(String content){
+    private String insideParentheses(String content){
         String[] temp = content.split("\\(");
         temp = temp[1].split("\\)");
         String output = temp[0];
         output = output.trim();
         return output;
     }
-    private String beforeParentheses(String content){
+    private String outsideParentheses(String content){
         String[] temp = content.split("\\(");
         String output = temp[0];
         output = output.trim();
@@ -455,8 +487,22 @@ class YouTubeStuff{
         String secondChar = "0Nothing";
         if(content.contains("/")){
             String[] temp = content.split("/");
-            firstChar = "0-" + temp[0];
-            secondChar = "0-" + temp[1];
+            String temp0 = temp[0].trim();
+            String temp1 = temp[1].trim();
+            firstChar = "0-" + temp0;
+            secondChar = "0-" + temp1;
+        }else if(content.contains(",")){
+            String[] temp = content.split(",");
+            String temp0 = temp[0].trim();
+            String temp1 = temp[1].trim();
+            firstChar = "0-" + temp0;
+            secondChar = "0-" + temp1;
+        }else if(content.contains("+")){
+            String[] temp = content.split("\\+");
+            String temp0 = temp[0].trim();
+            String temp1 = temp[1].trim();
+            firstChar = "0-" + temp0;
+            secondChar = "0-" + temp1;
         }
         if(isFirst){
             videoInfo.setChar1(firstChar);
@@ -469,6 +515,13 @@ class YouTubeStuff{
     private String parseRound(String originalContent){
         String content = originalContent.trim();
         content = content.toLowerCase();
+        if(content.contains("amateur") || content.contains("am bracket")|| content.contains(" ab ")
+                || content.contains("[ab]") || content.contains("(ab)") || content.contains("{ab}")
+                || content.contains("<ab>")){
+
+            return "Amateur  Bracket";
+        }
+
         if(content.contains("pool")){
             return "Pools";
         }
@@ -489,10 +542,31 @@ class YouTubeStuff{
             }
         }
 
+        if(content.contains("semi") || content.contains("lsf") || content.contains("wsf")){
+            if(content.contains("loser")){
+                return "Loser's Semifinals";
+            }else if(content.contains("winner")){
+                return "Winner's Semifinals";
+            }
+        }
+
+        if(content.contains("quarter") || content.contains("lq") || content.contains("wq")){
+            if(content.contains("loser") || content.contains("lq")){
+                return "Loser's  Quarters";
+            }else if(content.contains("winner") || content.contains("wq")){
+                return "Winner's  Quarters";
+            }
+        }
+
         if(content.contains("money") || content.contains("mm") || content.contains("$")){
             return "Money  Match";
         }
 
+        if(content.contains("loser")){
+            return "Loser's  Side";
+        }else if(content.contains("winner")){
+                return "Winner's  Side";
+        }
         if(content.contains("w")){
             return "Winner's  Side";
         }

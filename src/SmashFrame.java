@@ -25,7 +25,7 @@ class SmashFrame
             int shadowThickness)
     {
         Canvas myCanvas = new Canvas();
-        System.out.println("1: " + char1 + " 2: " + char2 + " 3: " + secondary1 + " 4: " + secondary2);
+        System.out.println("1: " + char1 + " 2: " + char2 + " 3: " + secondary1 + " 4: " + secondary2 + "Round: " + game);
         return myCanvas.startSim(char1,char2,secondary1,secondary2,game,
                 tourney,date,player1,player2,version,custLogo,custGrad1,custGrad2, custGrad3,
                 fontColor,customFont,tourneyImg,outlineColor,fontThickness,sponsors,customFighterOne,customFigherTwo,
