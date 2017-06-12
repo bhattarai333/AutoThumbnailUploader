@@ -16,16 +16,16 @@ import java.io.InputStream;
 class SmashFrame
 {
     BufferedImage createFrame(
-            String char1, String char2, String secondary1, String secondary2, String game, String tourney,
+            String char1, String char2, String secondary1, String secondary2, String round, String tourneyName,
             String date, String player1, String player2, String version, String custLogo, String custGrad1,
             String custGrad2,String custGrad3, String fontColor, String customFont, String tourneyImg,
             String outlineColor,int fontThickness,boolean sponsors,String customFighterOne, String customFigherTwo,
             int shadowThickness,boolean bindText)
     {
         Canvas myCanvas = new Canvas();
-        System.out.println("1: " + player1 + " "+ char1 + " 2: " +player2 +" "+ char2 + " 3: " + secondary1 + " 4: " + secondary2 + " Round: " + game);
-        return myCanvas.startSim(char1,char2,secondary1,secondary2,game,
-                tourney,date,player1,player2,version,custLogo,custGrad1,custGrad2, custGrad3,
+        System.out.println("1: " + player1 + " "+ char1 + " 2: " +player2 +" "+ char2 + " 3: " + secondary1 + " 4: " + secondary2 + " Round: " + round);
+        return myCanvas.startSim(char1,char2,secondary1,secondary2,round,
+                tourneyName,date,player1,player2,version,custLogo,custGrad1,custGrad2, custGrad3,
                 fontColor,customFont,tourneyImg,outlineColor,fontThickness,sponsors,customFighterOne,customFigherTwo,
                 shadowThickness,bindText);
     }
@@ -34,7 +34,7 @@ class SmashFrame
 class Canvas extends JPanel{
     private GetResources get = new GetResources();
 
-    private String game;
+    private String round;
     private String tourneyName;
     private String date;
     private String player1;
@@ -86,7 +86,7 @@ class Canvas extends JPanel{
             String outlineColor, int outlineThickness, boolean sponsors, String customFighterOne,String customFighterTwo,
             int shadowThickness,boolean bindText){
         bind = bindText;
-        game = gamePlayed;
+        round = gamePlayed;
         tourneyName = tournament;
         date = time;
         player1 = playerOne;
@@ -140,7 +140,7 @@ class Canvas extends JPanel{
 
 
 
-        //determine characters 3 and 4, needs fixing to work across all games, not only smash 4
+        //determine characters 3 and 4
         fighterX3 = 250;
         fighterX4 = 680;
 
@@ -263,17 +263,17 @@ class Canvas extends JPanel{
     private void drawAllImages(Graphics g){
         //draw images to screen
         g.drawImage(middleGradientImage,0,200,null);//Middle gradient
-        get.drawImageInCenter(playerOneSponsor,0,200,640,320,g);//Sponsor for player 1
-        get.drawImageInCenter(playerTwoSponsor,640,200,640,320,g);//Sponsor for player 2
-        get.drawImageSizedInCenter(vsImg,450,210,370,300,g);//VS in the middle
+        get.drawImageSizedInCenter(playerOneSponsor,0,200,640,320,g,'b');//Sponsor for player 1
+        get.drawImageSizedInCenter(playerTwoSponsor,640,200,640,320,g,'b');//Sponsor for player 2
+        get.drawImageSizedInCenter(vsImg,450,210,370,300,g,'b');//VS in the middle
         g.drawImage(fighter3,fighterX3,fighterY3,null);//Player 1's secondary character(optional)
         g.drawImage(fighter4,fighterX4,fighterY4,null);//Player 2's secondary character(optional)
         g.drawImage(fighter1,fighterX1 + offset1,fighterY1,null);//Player 1's first character
         g.drawImage(fighter2,fighterX2 - offset2,fighterY2,null);//Player 2's first character
         g.drawImage(topGradientImage,0,0,null);//Top gradient
         g.drawImage(bottomGradientImage,0,520,null);//Bottom gradient(optional)
-        get.drawImageSizedInCenter(logo,553,0,170,170,g);//0 for nhs 5 for gg 20 for msu
-        get.drawImageSizedInCenter(gameLogo,870,550,409,169,g);
+        get.drawImageSizedInCenter(logo,553,0,170,170,g,'b');//0 for nhs 5 for gg 20 for msu
+        get.drawImageSizedInCenter(gameLogo,870,550,409,169,g,'b');
     }
 
     private void drawAllText(Graphics g){
@@ -287,7 +287,7 @@ class Canvas extends JPanel{
             get.drawText(tourneyName, fontColor, outlineColor, 0,550, 395,165, g, outlineThickness, CST);
         }else{
             BufferedImage customTourneyImage = getCustomImage(customTourneyString);
-            get.drawImageSizedInCenter(customTourneyImage,0,550, 395,165,g);
+            get.drawImageSizedInCenter(customTourneyImage,0,550, 395,165,g,'b');
         }
 
         /*
@@ -321,7 +321,7 @@ class Canvas extends JPanel{
         //Draw all the strings to the screen
         get.drawText(player1, fontColor, outlineColor,x1,y1,w1,h1,g,outlineThickness,maxFontSize,0,CST);
         get.drawText(player2, fontColor, outlineColor,x2,y2, w2,h2,g,outlineThickness,maxFontSize,0,CST);
-        get.drawText(game, fontColor, outlineColor, 407, 550, 465, 169, g,(int) (outlineThickness * .9),CST);
+        get.drawText(round, fontColor, outlineColor, 407, 550, 465, 169, g,(int) (outlineThickness * .9),CST);
     }
 
 
@@ -1745,27 +1745,43 @@ class Canvas extends JPanel{
     }
 
     private BufferedImage getSponsor(String prefix,boolean first){
+        BufferedImage img;
         switch (prefix){
             case "C9":
-                return get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0c9.png");
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0c9.png");
+                break;
             case "EG":
-                BufferedImage img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0eg.png");
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0eg.png");
                 if(!first){img = get.flipImage(img,'h');}
-                return img;
+                break;
             case "TSM":
-                return get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0tsm.png");
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0tsm.png");
+                break;
+            case "Gooshi":
+                System.out.println("gooshi?");
+                img =  get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0gooshifull.png");
+                if(!first){img = get.flipImage(img,'h');}
+                break;
+            default:
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0blank.png");
+                break;
         }
-        return get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0blank.png");
+        return img;
     }
 
     private String getPrefix(String playerName){
         playerName = playerName.toLowerCase();
-        if(playerName.contains("c9 |")){
+        String[] parts = playerName.split("\\|");
+        String prefixName = parts[0];
+        System.out.println("PN: " + prefixName);
+        if(prefixName.contains("c9")){
             return "C9";
-        }else if(playerName.contains("eg |")){
+        }else if(prefixName.contains("eg")){
             return "EG";
-        }else if(playerName.contains("tsm |")){
+        }else if(prefixName.contains("tsm")){
             return "TSM";
+        }else if(prefixName.contains("gooshi")){
+            return "";//return "Gooshi";
         }
 
         return "";

@@ -771,11 +771,19 @@ class GetResources
         return br;
     }
 
-    void drawImageSizedInCenter(BufferedImage image, int x, int y, int width, int height, Graphics g){
+    void drawImageSizedInCenter(BufferedImage image, int x, int y, int width, int height, Graphics g, Character smallerLargerBoth){
         int imageWidth = image.getWidth();
         int imageHeight = image.getHeight();
-        if( imageWidth > width || imageHeight > height){
-            image = getSizedImgToScale(image,width,height);
+        if(smallerLargerBoth == 'l') {
+            if (imageWidth > width || imageHeight > height) {
+                image = getSizedImgToScale(image, width, height);
+            }
+        }else if(smallerLargerBoth == 'b'){
+            if (imageWidth > width || imageHeight > height) {
+                image = getSizedImgToScale(image, width, height);
+            }
+        }else{
+            image = getSizedImgToScale(image, width, height);
         }
         drawImageInCenter(image,x,y,width,height,g);
     }

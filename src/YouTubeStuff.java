@@ -531,7 +531,7 @@ class YouTubeStuff{
                 || content.contains("[ab]") || content.contains("(ab)") || content.contains("{ab}")
                 || content.contains("<ab>")){
 
-            return "Amateur  Bracket";
+            return "Amateur Bracket";
         }
 
         if(content.contains("pool")){
@@ -540,17 +540,17 @@ class YouTubeStuff{
 
         if(content.contains("grand") || content.contains("gf")){
             if(content.contains("two") || content.contains("2") || content.contains("second") || content.contains("reset")){
-                return "Grand Finals  Set Two";
+                return "Grand Finals Set Two";
             }else{
-                return "Grand  Finals";
+                return "Grand Finals";
             }
         }
 
         if(content.contains("final") || content.contains("wf") || content.contains("lf")){
             if(content.contains("loser") || content.contains("lf")){
-                return "Loser's  Finals";
+                return "Loser's Finals";
             }else if(content.contains("winner") || content.contains("wf")){
-                return "Winner's  Finals";
+                return "Winner's Finals";
             }
         }
 
@@ -570,20 +570,21 @@ class YouTubeStuff{
             }
         }
 
-        if(content.contains("money") || content.contains("mm") || content.contains("$")){
-            return "Money  Match";
+        if(content.contains("loser")){
+            return "Loser's Side";
+        }else if(content.contains("winner")){
+                return "Winner's Side";
         }
 
-        if(content.contains("loser")){
-            return "Loser's  Side";
-        }else if(content.contains("winner")){
-                return "Winner's  Side";
+        if(content.contains("money") || content.contains("mm") || content.contains("$")){
+            return "Money Match";
         }
+
         if(content.contains("w")){
-            return "Winner's  Side";
+            return "Winner's Side";
         }
         if(content.contains("l")){
-            return "Loser's  Side";
+            return "Loser's Side";
         }
         return originalContent;
     }
