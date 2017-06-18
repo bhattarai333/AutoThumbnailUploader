@@ -88,4 +88,6 @@ class Data {
     int getShadowThickness(){
         return shadowThickness;
     }
+
+
 }

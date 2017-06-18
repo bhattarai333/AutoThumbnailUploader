@@ -775,8 +775,8 @@ public class CreateLayout {
         components.add(component);
     }
     private String checkPlayer(String player){
-        player = player.toLowerCase().trim();
-        if(player.equals("")){
+        String tempPlayer = player.toLowerCase().trim();
+        if(tempPlayer.equals("")){
             return "player";
         }else{
             return player;

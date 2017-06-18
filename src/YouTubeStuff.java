@@ -33,7 +33,9 @@ class YouTubeStuff{
         ArrayList<VideoInfo> videoInfoArrayList = makeVideoInfo(videoIDs);
         setInfo(videoInfoArrayList);
         getAuth(videoInfoArrayList);
-        categorize(videoInfoArrayList);
+
+        Organize o = new Organize();
+        o.organizePlaylist(videoInfoArrayList,apiKey,clientID,clientSecret,d);
 
         setVal(100);
         setString("Complete!");
@@ -74,7 +76,7 @@ class YouTubeStuff{
             VideoInfo vi = new VideoInfo();
             vi.videoID = ID;
 
-            String temp = get.httpGet(url + ID + "&key=" + apiKey +
+            String temp = GetResources.httpGet(url + ID + "&key=" + apiKey +
                             "&fields=items(snippet(channelId,title,description))&part=snippet",
                     "Test, Josh Bhattarai");
 
@@ -103,9 +105,9 @@ class YouTubeStuff{
             title = info.get("title").toString();
             description = info.get("description").toString();
             stringParse(channelID, title, description, v);
-            v.thumbnail = sf.createFrame(v.getCharacter1(),v.getCharacter2(),v.getSecondary1(),v.getSecondary2(),v.round,d.tournamentName,
-                    d.date,v.player1,v.player2,d.game,d.customLogo,d.customGradientTop,d.customGradientMiddle,
-                    d.customGradientBottom,d.fontColor,d.customFont,d.tournamentImage,d.outlineColor,
+            v.thumbnail = sf.createFrame(v.getCharacter1(),v.getCharacter2(),v.getSecondary1(),v.getSecondary2(),
+                    v.getRound(),d.tournamentName,d.date,v.player1,v.player2,d.game,d.customLogo,d.customGradientTop,
+                    d.customGradientMiddle,d.customGradientBottom,d.fontColor,d.customFont,d.tournamentImage,d.outlineColor,
                     d.getFontThickness(),d.useSponsors,v.customFighterOne,v.customFighterTwo,d.getShadowThickness(),
                     d.bindText);
             setVal((int) Math.round(counter/len *43) +7);
@@ -133,18 +135,14 @@ class YouTubeStuff{
             String urlParams = "code="
                     +code+"&client_id=" + clientID + "&client_secret="+ clientSecret+
                     "&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=authorization_code";
-            String temp = get.httpPost(url,urlParams,"Test, Josh Bhattarai");
+            String temp = GetResources.httpPost(url,urlParams,"Test, Josh Bhattarai");
             JSONObject returnToken = new JSONObject(temp);
             accessToken = returnToken.get("access_token").toString();
 
-            uploadThumbnails(videoInfoArrayList);
+            //uploadThumbnails(videoInfoArrayList);
         });
     }
-    private void categorize(ArrayList<VideoInfo> videoInfoArrayList){
-        for(VideoInfo v : videoInfoArrayList){
-           // if(v.round.equals(""))
-        }
-    }
+
 
 
 
@@ -166,7 +164,6 @@ class YouTubeStuff{
             setVal((int) Math.round(counter/len * 40) +50);
         }
         setVal(90);
-        //setString("Complete!");
     }
     private String getIDFromURL(String URL){
         if(URL.contains("list=")){
@@ -216,7 +213,7 @@ class YouTubeStuff{
         String userAgent = "Test, Josh Bhattarai";
         String URL = "https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId=";
         URL = URL + ID + "&key=" + apiKey+"&pageToken=" + pageToken;
-        String playListInfo = get.httpGet(URL,userAgent);
+        String playListInfo = GetResources.httpGet(URL,userAgent);
         return new JSONObject(playListInfo);
     }
     private void uploadThumbnail(String videoId, BufferedImage thumbnail){
@@ -406,7 +403,7 @@ class YouTubeStuff{
         videoInfo.player2 = outsideParentheses(secondPlayer);
         addChars(insideParentheses(secondPlayer),videoInfo,false);
 
-        videoInfo.round = parseRound(round);
+        videoInfo.setRound(round);
     }
     private void gooshiJ3Parse(String title, String description, VideoInfo videoInfo) {
         String round;
@@ -414,7 +411,7 @@ class YouTubeStuff{
         String leftSide = parts[0];
         String rightSide = parts[1];
         round = insideParentheses(leftSide);
-        videoInfo.round = parseRound(round);
+        videoInfo.setRound(round);
 
         String[] rightArray = rightSide.split(" vs ");
         String firstPlayerAndChars = rightArray[0];
@@ -445,36 +442,8 @@ class YouTubeStuff{
         addChars(firstChars,videoInfo,true);
         addChars(secondChars,videoInfo,false);
 
-        /*String round;
-        if(description.contains("set 2") || description.contains("set two") || description.contains("set2")){
-            round = "Grand Finals  Set Two";
-        }else if(description.contains("grand") || description.contains("gf")){
-            round = "Grand  Finals";
-        }else if(description.contains("pool")){
-            round = "Pools";
-        }else if((description.contains("final") && description.contains("loser")) || description.contains("lfs")){
-            round = "Loser's  Finals";
-        }else if((description.contains("final") && description.contains("winner")) || description.contains("wfs")){
-            round = "Winner's  Finals";
-        }else if(description.contains("semi") && description.contains("loser")){
-            round = "Loser's  Semifinals";
-        }else if(description.contains("semi") && description.contains("winner")){
-            round = "Winner's  Semifinals";
-        }else if((description.contains("quarter") && description.contains("loser")) || description.contains("wqs")){
-            round = "Loser's  Quarters";
-        }else if((description.contains("quarter") && description.contains("winner")) || description.contains("lqs")){
-            round = "Winner's  Quarters";
-        }else if(description.contains("losers")){
-            round = "Loser's  Side";
-        }else if (description.contains("winners")){
-            round = "Winner's  Side";
-        }else if(description.contains("mm") || description.contains("money") || description.contains("$")){
-            round = "Money  Match";
-        }else{
-            round = "";
-        }
-        videoInfo.round = parseRound(round);*/
-        videoInfo.round = parseRound(description);
+
+        videoInfo.setRound(description);
     }
     private void defaultParse(String title, String description, VideoInfo videoInfo){
         videoInfo.player1 = "Placeholder 1";
@@ -523,70 +492,6 @@ class YouTubeStuff{
             videoInfo.setChar2(firstChar);
             videoInfo.setSecondary2(secondChar);
         }
-    }
-    private String parseRound(String originalContent){
-        String content = originalContent.trim();
-        content = content.toLowerCase();
-        if(content.contains("amateur") || content.contains("am bracket")|| content.contains(" ab ")
-                || content.contains("[ab]") || content.contains("(ab)") || content.contains("{ab}")
-                || content.contains("<ab>")){
-
-            return "Amateur Bracket";
-        }
-
-        if(content.contains("pool")){
-            return "Pools";
-        }
-
-        if(content.contains("grand") || content.contains("gf")){
-            if(content.contains("two") || content.contains("2") || content.contains("second") || content.contains("reset")){
-                return "Grand Finals Set Two";
-            }else{
-                return "Grand Finals";
-            }
-        }
-
-        if(content.contains("final") || content.contains("wf") || content.contains("lf")){
-            if(content.contains("loser") || content.contains("lf")){
-                return "Loser's Finals";
-            }else if(content.contains("winner") || content.contains("wf")){
-                return "Winner's Finals";
-            }
-        }
-
-        if(content.contains("semi") || content.contains("lsf") || content.contains("wsf")){
-            if(content.contains("loser")){
-                return "Loser's  Semifinals";
-            }else if(content.contains("winner")){
-                return "Winner's  Semifinals";
-            }
-        }
-
-        if(content.contains("quarter") || content.contains("lq") || content.contains("wq")){
-            if(content.contains("loser") || content.contains("lq")){
-                return "Loser's  Quarters";
-            }else if(content.contains("winner") || content.contains("wq")){
-                return "Winner's  Quarters";
-            }
-        }
-
-        if(content.contains("loser")){
-            return "Loser's Side";
-        }else if(content.contains("winner")){
-                return "Winner's Side";
-        }
-
-        if(content.contains("money") || content.contains("mm") || content.contains("$")){
-            return "Money Match";
-        }
-
-        if(content.contains("w")){
-            return "Winner's Side";
-        }
-        if(content.contains("l")){
-            return "Loser's Side";
-        }
-        return originalContent;
     }
 
 

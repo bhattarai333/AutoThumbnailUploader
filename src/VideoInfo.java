@@ -1,11 +1,13 @@
+import com.google.api.services.youtube.model.Video;
 import org.json.JSONObject;
 
 import java.awt.image.BufferedImage;
+import java.util.Comparator;
 
 /**
  * Originally created by Josh Bhattarai on 5/18/2017.
  */
-class VideoInfo {
+class VideoInfo{
     BufferedImage thumbnail;
     JSONObject videoJSON;
     String videoID;
@@ -13,7 +15,7 @@ class VideoInfo {
 
     String player1;
     String player2;
-    String round;
+    private String round;
 
     private String character1;
     private String character2;
@@ -21,6 +23,8 @@ class VideoInfo {
     private String secondary2;
     String customFighterOne;
     String customFighterTwo;
+
+    int sortingValue;
 
     VideoInfo(){
         player1 = "";
@@ -33,6 +37,7 @@ class VideoInfo {
         customFighterOne = "";
         customFighterTwo = "";
         success = true;
+        sortingValue = 0;
     }
 
     void setChar1(String input){
@@ -70,7 +75,7 @@ class VideoInfo {
         input = temp[1];
         String inputLower = input.toLowerCase();
         if(!foundChar(input)) {
-            input = parse(inputLower);
+            input = parseCharacter(inputLower);
         }
         input = "0-" + input;
         return input;
@@ -210,7 +215,8 @@ class VideoInfo {
         }
         return true;
     }
-    private String parse(String input){
+
+    private String parseCharacter(String input){
         if(input.contains("jr") || input.contains("junior")){
             return "Bowser Jr.";
         }
@@ -379,4 +385,123 @@ class VideoInfo {
         }
         return "Mario";
     }
+
+    public void setRound(String input){
+        round = parseRound(input);
+    }
+    public String getRound(){
+        return round;
+    }
+    private String parseRound(String originalContent){
+        String content = originalContent.trim();
+        content = content.toLowerCase();
+        if(content.contains("amateur") || content.contains("am bracket")|| content.contains(" ab ")
+                || content.contains("[ab]") || content.contains("(ab)") || content.contains("{ab}")
+                || content.contains("<ab>")){
+
+            return "Amateur  Bracket";
+        }
+
+        if(content.contains("pool")){
+            return "Pools";
+        }
+
+        if(content.contains("grand") || content.contains("gf")){
+            if(content.contains("two") || content.contains("2") || content.contains("second") || content.contains("reset")){
+                return "Grand Finals  Set Two";
+            }else{
+                return "Grand Finals";
+            }
+        }
+
+        if(content.contains("final") || content.contains("wf") || content.contains("lf")){
+            if(content.contains("loser") || content.contains("lf")){
+                return "Loser's Finals";
+            }else if(content.contains("winner") || content.contains("wf")){
+                return "Winner's Finals";
+            }
+        }
+
+        if(content.contains("semi") || content.contains("lsf") || content.contains("wsf")){
+            if(content.contains("loser")){
+                return "Loser's  Semifinals";
+            }else if(content.contains("winner")){
+                return "Winner's  Semifinals";
+            }
+        }
+
+        if(content.contains("quarter") || content.contains("lq") || content.contains("wq")){
+            if(content.contains("loser") || content.contains("lq")){
+                return "Loser's  Quarters";
+            }else if(content.contains("winner") || content.contains("wq")){
+                return "Winner's  Quarters";
+            }
+        }
+
+        if(content.contains("loser")){
+            return "Loser's Side";
+        }else if(content.contains("winner")){
+            return "Winner's Side";
+        }
+
+        if(content.contains("money") || content.contains("mm") || content.contains("$")){
+            return "Money Match";
+        }
+
+        if(content.contains("w")){
+            return "Winner's Side";
+        }
+        if(content.contains("l")){
+            return "Loser's Side";
+        }
+        return originalContent;
+    }
+
+    public void setSortingValues(){
+        switch(round){
+            case "Grand Finals  Set Two":
+                sortingValue = 0;
+                break;
+            case "Grand Finals":
+                sortingValue = 1;
+                break;
+            case "Loser's Finals":
+                sortingValue = 2;
+                break;
+            case "Winner's Finals":
+                sortingValue = 3;
+                break;
+            case "Winner's  Semifinals":
+                sortingValue = 4;
+                break;
+            case "Loser's  Semifinals":
+                sortingValue = 5;
+                break;
+            case "Winner's  Quarters":
+                sortingValue = 6;
+                break;
+            case "Loser's  Quarters":
+                sortingValue = 7;
+                break;
+            case "Winner's Side":
+                sortingValue = 8;
+                break;
+            case "Loser's Side":
+                sortingValue = 9;
+                break;
+            case "Money Match":
+                sortingValue = 10;
+                break;
+            case "Pools":
+                sortingValue = 11;
+                break;
+            case "Amateur  Bracket":
+                sortingValue = 12;
+                break;
+            default:
+                sortingValue = 8;
+                break;
+        }
+    }
+
 }

@@ -321,7 +321,7 @@ class GetResources
         }
     }
 
-    String httpGet(String url,String userAgent){
+    static String httpGet(String url,String userAgent){
         try{
             return(httpRest(url,userAgent,"GET"));
         }catch(Exception e){
@@ -330,7 +330,7 @@ class GetResources
         }
     }
 
-    String httpPost(String url, String urlParameters, String userAgent){
+    static String httpPost(String url, String urlParameters, String userAgent){
         try {
             URL obj = new URL(url);
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
@@ -370,7 +370,7 @@ class GetResources
         }
     }
 
-    private String httpRest(String url, String userAgent, String requestType) throws Exception{
+    static private String httpRest(String url, String userAgent, String requestType) throws Exception{
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
