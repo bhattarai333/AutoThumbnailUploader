@@ -283,8 +283,8 @@ class Canvas extends JPanel{
         g.drawImage(fighter4,fighterX4,fighterY4,null);//Player 2's secondary character(optional)
         get.drawImageSizedInCenter(vsImg,450,210,370,300,g,'b');//VS in the middle
         g.drawImage(topGradientImage,0,0,null);//Top gradient
-        get.drawImageSizedInCenter(playerOneSponsorImage,0,0,150,170,g,'b');//Sponsor for player 1
-        get.drawImageSizedInCenter(playerTwoSponsorImage,1130,0,150,170,g,'b');//Sponsor for player 2
+        get.drawImageSizedInCenter(playerOneSponsorImage,3,0,150,170,g,'b');//Sponsor for player 1
+        get.drawImageSizedInCenter(playerTwoSponsorImage,1127,0,150,170,g,'b');//Sponsor for player 2
         g.drawImage(bottomGradientImage,0,520,null);//Bottom gradient(optional)
         get.drawImageSizedInCenter(logo,553,0,170,170,g,'b');//0 for nhs 5 for gg 20 for msu
         get.drawImageSizedInCenter(gameLogo,870,550,409,169,g,'b');
@@ -318,11 +318,11 @@ class Canvas extends JPanel{
         int h2 = 170;
 
         if(playerOneSponsor){
-            x1 += 135;
-            w1 -= 135;
+            x1 += 138;
+            w1 -= 138;
         }
         if(playerTwoSponsor){
-            w2 -= 135;
+            w2 -= 138;
         }
 
         //Actually do it
@@ -1782,6 +1782,54 @@ class Canvas extends JPanel{
             case "AG":
                 img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0aglogo.png");
                 break;
+            case "RNG":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0rnglogo.png");
+                break;
+            case "PG":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0pglogo.png");
+                break;
+            case "NRG":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0nrglogo.png");
+                break;
+            case "CLG":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0clglogo.png");
+                break;
+            case "FOX":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0foxlogo.png");
+                break;
+            case "MVG":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0mvglogo.png");
+                break;
+            case "E2C":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0e2clogo.png");
+                break;
+            case "2GG":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/02gglogo.png");
+                break;
+            case "UR":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0urlogo.png");
+                break;
+            case "MSF":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0msflogo.png");
+                break;
+            case "LG":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0lglogo.png");
+                break;
+            case "RvL":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0rvllogo.png");
+                break;
+            case "DNG":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0dnglogo.png");
+                break;
+            case "BSD":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0bsdlogo.png");
+                break;
+            case "IMT":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0imtlogo.png");
+                break;
+            case "P1":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0p1logo.png");
+                break;
             default:
                 img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0blank.png");
                 break;
@@ -1805,9 +1853,41 @@ class Canvas extends JPanel{
         }else if(prefixName.contains("tsm")){
             return "TSM";
         }else if(prefixName.contains("gooshi")){
-            return "Gooshi";
+            return"";//return "Gooshi";
         }else if(prefixName.contains("ag")){
             return "AG";
+        }else if(prefixName.contains("rng")){
+            return "RNG";
+        }else if(prefixName.contains("pg")){
+            return "PG";
+        }else if(prefixName.contains("nrg")){
+            return "NRG";
+        }else if(prefixName.contains("clg")){
+            return "CLG";
+        }else if(prefixName.contains("fox")){
+            return "FOX";
+        }else if(prefixName.contains("mvg")){
+            return "MVG";
+        }else if(prefixName.contains("e2c")){
+            return "E2C";
+        }else if(prefixName.contains("2gg")){
+            return "2GG";
+        }else if(prefixName.contains("ur")){
+            return "UR";
+        }else if(prefixName.contains("msf")){
+            return "MSF";
+        }else if(prefixName.contains("lg")){
+            return "LG";
+        }else if(prefixName.contains("rvl")){
+            return "RvL";
+        }else if(prefixName.contains("dng")){
+            return "DNG";
+        }else if(prefixName.contains("bsd")){
+            return "BSD";
+        }else if(prefixName.contains("imt")){
+            return "IMT";
+        }else if(prefixName.contains("p1")){
+            return "P1";
         }
 
         return "";

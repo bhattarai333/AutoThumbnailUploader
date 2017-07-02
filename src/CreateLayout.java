@@ -375,13 +375,13 @@ public class CreateLayout {
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        JLabel roundLabel = new JLabel("Round");
-        roundLabel.setLocation(WINDOW_WIDTH / 2 - 18, 400);
-        roundLabel.setSize(36,20);
+        JLabel roundLabel = new JLabel("Round:");
+        roundLabel.setLocation(562,200);
+        roundLabel.setSize(40,20);
         add(roundLabel,components);
 
         JTextField roundField = new JTextField();
-        roundField.setLocation(WINDOW_WIDTH / 2 - 50,430);
+        roundField.setLocation(602,202);
         roundField.setSize(100,20);
         add(roundField,components);
 

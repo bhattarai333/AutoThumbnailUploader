@@ -33,12 +33,6 @@ class YouTubeStuff{
         ArrayList<VideoInfo> videoInfoArrayList = makeVideoInfo(videoIDs);
         setInfo(videoInfoArrayList);
         getAuth(videoInfoArrayList);
-
-        Organize o = new Organize();
-        o.organizePlaylist(videoInfoArrayList,apiKey,clientID,clientSecret,d);
-
-        setVal(100);
-        setString("Complete!");
     }
     private void windowStuff(Data d, JFrame window){
         this.d = d;
@@ -139,11 +133,17 @@ class YouTubeStuff{
             JSONObject returnToken = new JSONObject(temp);
             accessToken = returnToken.get("access_token").toString();
 
-            //uploadThumbnails(videoInfoArrayList);
+            uploadThumbnails(videoInfoArrayList);
+            endThumbnails(videoInfoArrayList);
         });
     }
 
-
+    private void endThumbnails(ArrayList<VideoInfo> videoInfoArrayList) {
+        Organize o = new Organize();
+        o.organizePlaylist(videoInfoArrayList,apiKey,clientID,clientSecret,d);
+        setVal(100);
+        setString("Complete");
+    }
 
 
     private void uploadThumbnails(ArrayList<VideoInfo> videoInfoArrayList){
