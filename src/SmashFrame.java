@@ -1830,6 +1830,15 @@ class Canvas extends JPanel{
             case "P1":
                 img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0p1logo.png");
                 break;
+            case "Noble":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0noblelogo.png");
+                break;
+            case "Circa":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0circalogo.png");
+                break;
+            case "NLG":
+                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0blank.png");
+                break;
             default:
                 img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0blank.png");
                 break;
@@ -1874,8 +1883,10 @@ class Canvas extends JPanel{
             return "2GG";
         }else if(prefixName.contains("ur")){
             return "UR";
-        }else if(prefixName.contains("msf")){
+        }else if(prefixName.contains("msf")) {
             return "MSF";
+        }else if(prefixName.contains("nlg")){
+            return "NLG";
         }else if(prefixName.contains("lg")){
             return "LG";
         }else if(prefixName.contains("rvl")){
@@ -1888,6 +1899,10 @@ class Canvas extends JPanel{
             return "IMT";
         }else if(prefixName.contains("p1")){
             return "P1";
+        }else if(prefixName.contains("noble")){
+            return "Noble";
+        }else if(prefixName.contains("circa")){
+            return "Circa";
         }
 
         return "";

@@ -410,7 +410,8 @@ class YouTubeStuff{
         String[] parts = title.split(":");
         String leftSide = parts[0];
         String rightSide = parts[1];
-        round = insideParentheses(leftSide);
+        parts = leftSide.split(",");
+        round = parts[1].trim();
         videoInfo.setRound(round);
 
         String[] rightArray = rightSide.split(" vs ");

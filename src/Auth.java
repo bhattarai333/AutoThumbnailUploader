@@ -10,7 +10,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.util.store.DataStore;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletRequest;
 
 import java.io.File;
 import java.io.IOException;
