@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * Originally created by Josh Bhattarai on 6/15/2017.
  */
 class Organize {
-    void organizePlaylist(ArrayList<VideoInfo> videoInfoArrayList, String apiKey, String clientID, String clientSecret, Data data){
+    void organizePlaylist(ArrayList<VideoInfo> videoInfoArrayList, String apiKey, String clientID, String clientSecret, OverlayData od){
         String url = "https://www.googleapis.com/youtube/v3/playlistItems?kind=video&part=snippet";
     }
 

@@ -13,21 +13,11 @@ import java.io.InputStream;
  * @author Josh Bhattarai
  * @version (in progress)
  */
-class SmashFrame
-{
-    BufferedImage createFrame(
-            String char1, String char2, String secondary1, String secondary2, String round, String tourneyName,
-            String date, String player1, String player2, String version, String custLogo, String custGrad1,
-            String custGrad2,String custGrad3, String fontColor, String customFont, String tourneyImg,
-            String outlineColor,int fontThickness,boolean sponsors,String customFighterOne, String customFigherTwo,
-            int shadowThickness,boolean bindText)
-    {
+class SmashOverlay {
+    BufferedImage createFrame(OverlayData OD){
         Canvas myCanvas = new Canvas();
-        System.out.println("1: " + player1 + " "+ char1 + " 2: " +player2 +" "+ char2 + " 3: " + secondary1 + " 4: " + secondary2 + " Round: " + round);
-        return myCanvas.startSim(char1,char2,secondary1,secondary2,round,
-                tourneyName,date,player1,player2,version,custLogo,custGrad1,custGrad2, custGrad3,
-                fontColor,customFont,tourneyImg,outlineColor,fontThickness,sponsors,customFighterOne,customFigherTwo,
-                shadowThickness,bindText);
+        System.out.println("1: " + OD.playerOneName + " "+ OD.firstCharacter + " 2: " +OD.playerTwoName +" "+ OD.secondCharacter + " 3: " + OD.thirdCharacter + " 4: " + OD.fourthCharacter + " Round: " + OD.round);
+        return myCanvas.startSim(OD);
     }
 }
 
@@ -80,36 +70,32 @@ class Canvas extends JPanel{
     private boolean first = false;
     private boolean bind;
 
-    BufferedImage startSim(
-            String character1, String character2, String character3, String character4, String gamePlayed,
-            String tournament, String time, String playerOne, String playerTwo, String version, String customLogo,
-            String customGrad1, String customGrad2, String customGrad3, String fontColor, String customFont, String tourneyImg,
-            String outlineColor, int outlineThickness, boolean sponsors, String customFighterOne,String customFighterTwo,
-            int shadowThickness,boolean bindText){
-        bind = bindText;
-        round = gamePlayed;
-        tourneyName = tournament;
-        date = time;
-        player1 = playerOne;
-        player2 = playerTwo;
-        this.customLogo = customLogo;
+    BufferedImage startSim(OverlayData od){
+        bind = od.bindNameSizes;
+        round = od.round;
+        tourneyName = od.tournamentName;
+        date = od.date;
+        player1 = od.playerOneName;
+        player2 = od.playerTwoName;
+        this.customLogo = od.customLogoPath;
         int versionVal1;
         int versionVal2;
         int versionVal3;
         int versionVal4;
-        this.fontColor = fontColor;
-        customTourneyString = tourneyImg;
-        this.outlineColor = outlineColor;
-        this.outlineThickness = outlineThickness;
-        this.sponsors = sponsors;
-        this.shadowThickness = shadowThickness;
+        this.outlineColor = od.fontOutlineColor;
+        this.fontColor = od.fontColor;
+        customTourneyString = od.tourneyImagePath;
+        this.outlineColor = od.fontOutlineColor;
+        this.outlineThickness = od.getFontOutlineThickness();
+        this.sponsors = od.useSponsors;
+        this.shadowThickness = od.getShadowThickness();
 
         //Get character 1 and 2 images from files
-        String[] chars1 = character1.split("-");
-        String[] chars2 = character2.split("-");
+        String[] chars1 = od.firstCharacter.split("-");
+        String[] chars2 = od.secondCharacter.split("-");
 
-        versionVal1 = getVersionVal(chars1, version);
-        versionVal2 = getVersionVal(chars2, version);
+        versionVal1 = getVersionVal(chars1, od.gamePlayed);
+        versionVal2 = getVersionVal(chars2, od.gamePlayed);
 
         fighter1 = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/" + String.valueOf(versionVal1) + ".png");
         fighter2 = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/" + String.valueOf(versionVal2) + ".png");
@@ -117,27 +103,27 @@ class Canvas extends JPanel{
 
 
         //Get position and size of character 1 and 2
-        fighterX1 = getFighterX(chars1[1], version,true);
-        fighterX2 = getFighterX(chars2[1], version,false);
+        fighterX1 = getFighterX(chars1[1], od.gamePlayed,true);
+        fighterX2 = getFighterX(chars2[1], od.gamePlayed,false);
 
-        fighterY1 = getFighterY(chars1[1], version);
-        fighterY2 = getFighterY(chars2[1], version);
+        fighterY1 = getFighterY(chars1[1], od.gamePlayed);
+        fighterY2 = getFighterY(chars2[1], od.gamePlayed);
 
-        fighter1 = getResize(fighter1,chars1[1], version);
-        fighter2 = getResize(fighter2,chars2[1], version);
+        fighter1 = getResize(fighter1,chars1[1], od.gamePlayed);
+        fighter2 = getResize(fighter2,chars2[1], od.gamePlayed);
 
 
         //load custom fighters if applicable
-        if(!customFighterOne.trim().equals("")){
-            fighter1 = getCustomImage(customFighterOne);
+        if(!od.customFighterOnePath.trim().equals("")){
+            fighter1 = getCustomImage(od.customFighterOnePath);
         }
-        if(!customFighterTwo.trim().equals("")){
-            fighter2 = getCustomImage(customFighterTwo);
+        if(!od.customFighterTwoPath.trim().equals("")){
+            fighter2 = getCustomImage(od.customFighterTwoPath);
         }
 
         //flip characters so that they're facing the center
-        fighter1 = determineFlip(fighter1,version,chars1);
-        fighter2 = determineFlip(fighter2,version,chars2);
+        fighter1 = determineFlip(fighter1,od.gamePlayed,chars1);
+        fighter2 = determineFlip(fighter2,od.gamePlayed,chars2);
 
 
 
@@ -145,75 +131,75 @@ class Canvas extends JPanel{
         fighterX3 = 250;
         fighterX4 = 680;
 
-        if(character3.equals("0Nothing")){
+        if(od.thirdCharacter.equals("0Nothing")){
             fighter3 = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0blank.png");
             secondary1 = false;
         }else{
-            String[] chars3 = character3.split("-");
-            versionVal3 = getVersionVal(chars3, version);
+            String[] chars3 = od.thirdCharacter.split("-");
+            versionVal3 = getVersionVal(chars3, od.gamePlayed);
             fighter3 = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/" + String.valueOf(versionVal3) + ".png");
-            fighterY3 = getFighterY(chars3[1], version);
-            fighter3 = determineFlip(fighter3,version,chars3);
+            fighterY3 = getFighterY(chars3[1], od.gamePlayed);
+            fighter3 = determineFlip(fighter3,od.gamePlayed,chars3);
         }
 
-        if(character4.equals("0Nothing")){
+        if(od.fourthCharacter.equals("0Nothing")){
             fighter4 = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0blank.png");
             secondary2 = false;
         }else{
-            String[] chars4 = character4.split("-");
-            versionVal4 = getVersionVal(chars4, version);
+            String[] chars4 = od.fourthCharacter.split("-");
+            versionVal4 = getVersionVal(chars4, od.gamePlayed);
             fighter4 = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/" + String.valueOf(versionVal4) + ".png");
-            fighterY4 = getFighterY(chars4[1], version);
-            fighter4 = determineFlip(fighter4,version,chars4);
+            fighterY4 = getFighterY(chars4[1], od.gamePlayed);
+            fighter4 = determineFlip(fighter4,od.gamePlayed,chars4);
         }
 
 
 
         //get fonts
-        getFonts(customFont);
+        getFonts(od.customFontPath);
 
         //get custom gradient images if applicable
-        if(customGrad1.trim().equals("")){
+        if(od.customGradientTopBottomPath.trim().equals("")){
             topGradientImage = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/01GRADIENT.png");
         }else{
-            topGradientImage = getCustomImage(customGrad1);
+            topGradientImage = getCustomImage(od.customGradientTopBottomPath);
         }
-        if(customGrad2.trim().equals("")){
+        if(od.customGradientMiddlePath.trim().equals("")){
             middleGradientImage = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0GRADIENT.png");
         }else{
-            middleGradientImage = getCustomImage(customGrad2);
+            middleGradientImage = getCustomImage(od.customGradientMiddlePath);
         }
-        if(customGrad3.trim().equals("")){
+        if(od.customGradientBottomPath.trim().equals("")){
             bottomGradientImage = get.flipImage(topGradientImage,'v');
         }else{
-            bottomGradientImage = getCustomImage(customGrad3);
+            bottomGradientImage = getCustomImage(od.customGradientBottomPath);
         }
 
         //get logo of game, wiiu,melee,brawl ect
-        gameLogo = getGameLogo(version);
+        gameLogo = getGameLogo(od.gamePlayed);
 
 
         if(secondary1){
-            String[] temp = character3.split("-");
+            String[] temp = od.thirdCharacter.split("-");
             String char3 = temp[1];
-            temp = character1.split("-");
+            temp = od.firstCharacter.split("-");
             String char1 = temp[1];
-            offset1 = getOffSet(version, character3, true);
-            fighter1 = getDoublesResize(version, fighter1, char1);
-            fighter3 = getDoublesResize(version, fighter3, char3);
-            fighterY3 = getDoublesY(version, char3);
-            fighterX3 = getDoublesX(version, char3, true);
+            offset1 = getOffSet(od.gamePlayed, od.thirdCharacter, true);
+            fighter1 = getDoublesResize(od.gamePlayed, fighter1, char1);
+            fighter3 = getDoublesResize(od.gamePlayed, fighter3, char3);
+            fighterY3 = getDoublesY(od.gamePlayed, char3);
+            fighterX3 = getDoublesX(od.gamePlayed, char3, true);
         }
         if(secondary2){
-            String[] temp = character4.split("-");
+            String[] temp = od.fourthCharacter.split("-");
             String char4 = temp[1];
-            temp = character1.split("-");
+            temp = od.firstCharacter.split("-");
             String char2 = temp[1];
-            offset2 = getOffSet(version, char4, false);
-            fighter2 = getDoublesResize(version, fighter2, char2);
-            fighter4 = getDoublesResize(version, fighter4, char4);
-            fighterY4 = getDoublesY(version, char4);
-            fighterX4 = getDoublesX(version, char4, false);
+            offset2 = getOffSet(od.gamePlayed, char4, false);
+            fighter2 = getDoublesResize(od.gamePlayed, fighter2, char2);
+            fighter4 = getDoublesResize(od.gamePlayed, fighter4, char4);
+            fighterY4 = getDoublesY(od.gamePlayed, char4);
+            fighterX4 = getDoublesX(od.gamePlayed, char4, false);
         }
 
         vsImg = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0vs4.png");
@@ -1462,9 +1448,24 @@ class Canvas extends JPanel{
         return versionVal1;
     }
 
+    private BufferedImage getRivalsResize(BufferedImage img, String str){
+        BufferedImage outputImg = img;
+        switch(str){
+            case "Orcane": outputImg = get.getScaledImg(outputImg,140);
+            break;
+            case "Maypul": outputImg = get.getScaledImg(outputImg, 120);
+            break;
+        }
+        return outputImg;
+    }
+
     private int getRivalFighterX(String str, Boolean firstFighter){
         int c;
         switch (str){
+            case "Orcane": c = 10;
+            break;
+            case "Maypul": c = 80;
+            break;
 
             default: c = 110;
         }
@@ -1480,6 +1481,15 @@ class Canvas extends JPanel{
     private int getRivalFighterY(String str){
         int c;
         switch(str){
+            case "Etalus":
+                c = 240;
+                break;
+            case "Wrastor":
+                c = 200;
+                break;
+            case "Orcane":
+                c = 110;
+                break;
 
             default: c = 180;
         }
@@ -1594,6 +1604,8 @@ class Canvas extends JPanel{
                 return getMeleeResize(img, str);
             case "Brawl":
                 return getBrawlResize(img,str);
+            case "RoA":
+                return getRivalsResize(img,str);
             case "S3":
                 return getShrekResize(img, str);
             case "WiiUFull":

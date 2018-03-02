@@ -47,5 +47,9 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="json-20160810" level="project" />
+    <orderEntry type="library" name="Google API" level="project" />
+    <orderEntry type="library" name="YouTube" level="project" />
+    <orderEntry type="library" name="javax.servlet-2.5.0.v201103041518" level="project" />
   </component>
 </module>

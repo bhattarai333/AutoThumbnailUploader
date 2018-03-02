@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="AutoThumbnailUploader">
+    <output-path>$PROJECT_DIR$/out/artifacts/AutoThumbnailUploader</output-path>
+    <root id="archive" name="AutoThumbnailUploader.jar">
+      <element id="module-output" name="AutoThumbnailUploader" />
+    </root>
+  </artifact>
+</component>

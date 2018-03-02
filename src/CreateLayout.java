@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -22,8 +21,9 @@ public class CreateLayout {
     private GetResources get = new GetResources();
     private final int WINDOW_WIDTH = 720;
     private final int WINDOW_HEIGHT = 500;
-    private Data d = new Data();
-    private SmashFrame sf = new SmashFrame();
+    private OverlayData od = new OverlayData();
+    private SmashOverlay sf = new SmashOverlay();
+    private Overlay overlay = Overlay.DEFAULT_OVERLAY;
     private BufferedImage currentScreen;
     public static void main(String[] args){
         CreateLayout cl = new CreateLayout();
@@ -103,6 +103,21 @@ public class CreateLayout {
         secondaryTwoAltBox.setLocation(655,300);
         secondaryTwoAltBox.setSize(50,20);
         add(secondaryTwoAltBox,components);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        Overlay[] overlays = Overlay.values();
+        String[] overlayStrings = new String[overlays.length];
+        for(int i = 0; i < overlays.length; ++i){
+            overlayStrings[i] = overlays[i].toString();
+        }
+        JComboBox overlayBox = new JComboBox(overlayStrings);
+        overlayBox.setLocation(0,430);
+        overlayBox.setSize(150,20);
+        add(overlayBox,components);
+        overlayBox.addActionListener(l ->{
+            overlayChange(overlayBox);
+        });
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -404,21 +419,21 @@ public class CreateLayout {
         enterButton.setSize(100,20);
         enterButton.addActionListener(e ->{
             //pass all the info into data
-            d.tournamentName = tournamentNameField.getText();
-            d.date = dateField.getText();
-            d.customLogo = customLogoField.getText();
-            d.customGradientBottom = customBottomGradientField.getText();
-            d.customGradientMiddle = customMiddleGradientField.getText();
-            d.customGradientTop = customTopGradientField.getText();
-            d.tournamentImage = customTourneyImageField.getText();
-            d.fontColor = fontColorField.getText();
-            d.setFontThickness(outlineThicknessField.getText());
-            d.customFont = customFontField.getText();
-            d.outlineColor = outlineColorField.getText();
-            d.setShadowThickness(shadowThicknessField.getText());
-            d.useSponsors = sponsorBox.isSelected();
-            d.bindText = bindBox.isSelected();
-            d.youtubePlaylistURL = youtubeField.getText();
+            od.tournamentName = tournamentNameField.getText();
+            od.date = dateField.getText();
+            od.customLogoPath = customLogoField.getText();
+            od.customGradientBottomPath = customBottomGradientField.getText();
+            od.customGradientMiddlePath = customMiddleGradientField.getText();
+            od.customGradientTopBottomPath = customTopGradientField.getText();
+            od.tourneyImagePath = customTourneyImageField.getText();
+            od.setFontOutlineThickness(outlineThicknessField.getText());
+            od.customFontPath = customFontField.getText();
+            od.fontColor = fontColorField.getText();
+            od.fontOutlineColor = outlineColorField.getText();
+            od.setShadowThickness(shadowThicknessField.getText());
+            od.useSponsors = sponsorBox.isSelected();
+            od.bindNameSizes = bindBox.isSelected();
+            od.youtubePlaylistURL = youtubeField.getText();
             gameChoiceEvent(gameList.getSelectedItem().toString(),fighterOneBox,fighterTwoBox,secondaryOneBox,secondaryTwoBox);
             for(Component c : components){
                 window.remove(c);
@@ -450,31 +465,32 @@ public class CreateLayout {
             String secondaryAltOne = secondaryOneAltBox.getSelectedItem().toString();
             String secondaryAltTwo = secondaryTwoAltBox.getSelectedItem().toString();
 
-            d.tempPlayer1 = checkPlayer(playerOneBox.getText());
-            d.tempPlayer2 = checkPlayer(playerTwoBox.getText());
-            d.tempChar1 = altOne + "-" + characterOne;
-            d.tempChar2 = altTwo + "-" + characterTwo;
-            d.tempSecondary1 = findSecondary(secondaryOne, secondaryAltOne);
-            d.tempSecondary2 = findSecondary(secondaryTwo, secondaryAltTwo);
-            d.tempCustomFighter1 = customFighterOneField.getText();
-            d.tempCustomFighter2 = customFighterTwoField.getText();
-            d.tempRound = roundField.getText();
+            od.playerOneName = checkPlayer(playerOneBox.getText());
+            od.playerTwoName = checkPlayer(playerTwoBox.getText());
+            od.firstCharacter = altOne + "-" + characterOne;
+            od.secondCharacter = altTwo + "-" + characterTwo;
+            od.thirdCharacter = findSecondary(secondaryOne, secondaryAltOne);
+            od.fourthCharacter = findSecondary(secondaryTwo, secondaryAltTwo);
+            od.customFighterOnePath = customFighterOneField.getText();
+            od.customFighterTwoPath = customFighterTwoField.getText();
+            od.round = roundField.getText();
 
-            d.tournamentName = tournamentNameField.getText();
-            d.date = dateField.getText();
-            d.customLogo = customLogoField.getText();
-            d.customGradientBottom = customBottomGradientField.getText();
-            d.customGradientMiddle = customMiddleGradientField.getText();
-            d.customGradientTop = customTopGradientField.getText();
-            d.tournamentImage = customTourneyImageField.getText();
-            d.fontColor = fontColorField.getText();
-            d.setFontThickness(outlineThicknessField.getText());
-            d.customFont = customFontField.getText();
-            d.outlineColor = outlineColorField.getText();
-            d.setShadowThickness(shadowThicknessField.getText());
-            d.bindText = bindBox.isSelected();
-            d.useSponsors = sponsorBox.isSelected();
-            d.youtubePlaylistURL = youtubeField.getText();
+            od.tournamentName = tournamentNameField.getText();
+            od.date = dateField.getText();
+            od.customLogoPath = customLogoField.getText();
+            od.customGradientBottomPath = customBottomGradientField.getText();
+            od.customGradientMiddlePath = customMiddleGradientField.getText();
+            od.customGradientTopBottomPath = customTopGradientField.getText();
+            od.tourneyImagePath = customTourneyImageField.getText();
+            od.fontColor = fontColorField.getText();
+            od.setFontOutlineThickness(outlineThicknessField.getText());
+            od.customFontPath = customFontField.getText();
+            od.fontOutlineColor = outlineColorField.getText();
+            od.setShadowThickness(shadowThicknessField.getText());
+            od.bindNameSizes = bindBox.isSelected();
+            od.useSponsors = sponsorBox.isSelected();
+            od.youtubePlaylistURL = youtubeField.getText();
+            od.overlay = overlay;
             gameChoiceEvent(gameList.getSelectedItem().toString(),fighterOneBox,fighterTwoBox,secondaryOneBox,secondaryTwoBox);
             previewButtonEvent(imageLabel);
         });
@@ -482,11 +498,13 @@ public class CreateLayout {
 
     }
 
+    private void overlayChange(JComboBox overlayBox) {
+    }
 
 
     private void characterChoiceEvent(String characterName, JComboBox<String> altBox) {
         String[] alts = {""};
-        switch (d.game){
+        switch (od.gamePlayed){
             case "64":
                 break;
             case "Melee":
@@ -682,12 +700,7 @@ public class CreateLayout {
     }
 
     private void previewButtonEvent(JLabel imageLabel){
-        BufferedImage defaultThumbnail = sf.createFrame(
-             d.tempChar1,d.tempChar2,d.tempSecondary1,d.tempSecondary2,d.tempRound,d.tournamentName,
-                d.date,d.tempPlayer1, d.tempPlayer2, d.game,d.customLogo,d.customGradientTop,d.customGradientMiddle,
-                d.customGradientBottom,d.fontColor,d.customFont,d.tournamentImage,d.outlineColor,d.getFontThickness(),
-                d.useSponsors,d.tempCustomFighter1,d.tempCustomFighter2,d.getShadowThickness(),d.bindText
-        );
+        BufferedImage defaultThumbnail = sf.createFrame(od);
         currentScreen = defaultThumbnail;
         defaultThumbnail = get.getSizedImg(defaultThumbnail,300,150);
         imageLabel.setIcon(new ImageIcon(defaultThumbnail));
@@ -695,7 +708,7 @@ public class CreateLayout {
 
     private void enterButtonEvent(){
         YouTubeStuff yt = new YouTubeStuff();
-        yt.startYoutube(d,window);
+        yt.startYoutube(od,window);
 
     }
 
@@ -741,7 +754,7 @@ public class CreateLayout {
                 version = "S3";
                 break;
         }
-        d.game = version;
+        od.gamePlayed = version;
         if(refreshFighters) {
             setCharacters(fighter1, fighter2, secondary1, secondary2, version);
         }

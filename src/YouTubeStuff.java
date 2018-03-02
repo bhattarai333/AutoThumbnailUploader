@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Originally created by Josh Bhattarai on 5/18/2017.
  */
 class YouTubeStuff{
-    private Data d;
+    private OverlayData od;
     private GetResources get = new GetResources();
     private JProgressBar progress;
     private String apiKey;
@@ -27,15 +27,15 @@ class YouTubeStuff{
     private String accessToken;
     private String clientID;
     private String clientSecret;
-    void startYoutube(Data d, JFrame window) {
-        windowStuff(d, window);
+    void startYoutube(OverlayData od, JFrame window) {
+        windowStuff(od, window);
         ArrayList<String> videoIDs = playlistStuff();
         ArrayList<VideoInfo> videoInfoArrayList = makeVideoInfo(videoIDs);
         setInfo(videoInfoArrayList);
         getAuth(videoInfoArrayList);
     }
-    private void windowStuff(Data d, JFrame window){
-        this.d = d;
+    private void windowStuff(OverlayData od, JFrame window){
+        this.od = od;
         this.window = window;
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +57,7 @@ class YouTubeStuff{
     }
     private ArrayList<String> playlistStuff(){
         setVal(2);
-        String playlistID = getIDFromURL(d.youtubePlaylistURL);
+        String playlistID = getIDFromURL(od.youtubePlaylistURL);
         setVal(3);
         apiKey = loadKey();
         setVal(4);
@@ -84,7 +84,7 @@ class YouTubeStuff{
         String channelID;
         String title;
         String description;
-        SmashFrame sf = new SmashFrame();
+        SmashOverlay sf = new SmashOverlay();
         double len = videoInfoArrayList.size();
         double counter = 0;
         for(VideoInfo v : videoInfoArrayList){
@@ -99,11 +99,7 @@ class YouTubeStuff{
             title = info.get("title").toString();
             description = info.get("description").toString();
             stringParse(channelID, title, description, v);
-            v.thumbnail = sf.createFrame(v.getCharacter1(),v.getCharacter2(),v.getSecondary1(),v.getSecondary2(),
-                    v.getRound(),d.tournamentName,d.date,v.player1,v.player2,d.game,d.customLogo,d.customGradientTop,
-                    d.customGradientMiddle,d.customGradientBottom,d.fontColor,d.customFont,d.tournamentImage,d.outlineColor,
-                    d.getFontThickness(),d.useSponsors,v.customFighterOne,v.customFighterTwo,d.getShadowThickness(),
-                    d.bindText);
+            v.thumbnail = sf.createFrame(od);
             setVal((int) Math.round(counter/len *43) +7);
         }
 
@@ -140,7 +136,7 @@ class YouTubeStuff{
 
     private void endThumbnails(ArrayList<VideoInfo> videoInfoArrayList) {
         Organize o = new Organize();
-        o.organizePlaylist(videoInfoArrayList,apiKey,clientID,clientSecret,d);
+        o.organizePlaylist(videoInfoArrayList,apiKey,clientID,clientSecret,od);
         setVal(100);
         setString("Complete");
     }
