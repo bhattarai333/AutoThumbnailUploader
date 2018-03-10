@@ -79,7 +79,6 @@ public class OverlayData {
     }
 
     BufferedImage createFrame(){
-        System.out.println("IS THIS BEING CALLED??");
         switch(overlay){
             case GOOSHI_OVERLAY:
                 GooshiOverlay gf = new GooshiOverlay();
@@ -102,10 +101,14 @@ public class OverlayData {
     }
 
     void setDoubles(boolean doubles) {
-        useSponsors = false;
-        String[] firstTeamNames = playerOneName.split("/");
-        playerOneName = firstTeamNames[0].trim() + "  \t" + firstTeamNames[1].trim();
-        String[] secondTeamNames = playerTwoName.split("/");
-        playerTwoName = secondTeamNames[0].trim() + "  \t" + secondTeamNames[1].trim();
+        if(doubles) {
+            useSponsors = false;
+            String[] firstTeamNames = playerOneName.split("/");
+            playerOneName = firstTeamNames[0].trim() + "  \t" + firstTeamNames[1].trim();
+            String[] secondTeamNames = playerTwoName.split("/");
+            playerTwoName = secondTeamNames[0].trim() + "  \t" + secondTeamNames[1].trim();
+        }else{
+            useSponsors = true;
+        }
     }
 }
