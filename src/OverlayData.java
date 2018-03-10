@@ -1,3 +1,5 @@
+import Enums.Overlay;
+
 import java.awt.image.BufferedImage;
 
 public class OverlayData {
