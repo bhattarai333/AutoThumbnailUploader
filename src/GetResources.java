@@ -56,8 +56,16 @@ class GetResources
             try{
                 img = ImageIO.read(newURL);
             }catch(Exception ex){
-                ex.printStackTrace();
-                e.printStackTrace();
+                String[] parts2 = url.split("Sprites");
+                String newPath2 = parts2[0] + "SpritesContinued" + parts2[1];
+                URL newURL2 = new URL(newPath2);
+                try{
+                    img = ImageIO.read(newURL2);
+                }catch (Exception exx){
+                    e.printStackTrace();
+                    ex.printStackTrace();
+                    exx.printStackTrace();
+                }
             }
         }
         return img;

@@ -84,7 +84,6 @@ class YouTubeStuff{
         String channelID;
         String title;
         String description;
-        SmashOverlay sf = new SmashOverlay();
         double len = videoInfoArrayList.size();
         double counter = 0;
         for(VideoInfo v : videoInfoArrayList){
@@ -99,7 +98,7 @@ class YouTubeStuff{
             title = info.get("title").toString();
             description = info.get("description").toString();
             stringParse(channelID, title, description, v);
-            v.thumbnail = sf.createFrame(od);
+            v.thumbnail = od.createFrame();
             setVal((int) Math.round(counter/len *43) +7);
         }
 

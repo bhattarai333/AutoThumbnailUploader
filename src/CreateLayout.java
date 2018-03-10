@@ -23,6 +23,7 @@ public class CreateLayout {
     private final int WINDOW_HEIGHT = 500;
     private OverlayData od = new OverlayData();
     private SmashOverlay sf = new SmashOverlay();
+    private Games game = Games.SMASH_WIIU;
     private Overlay overlay = Overlay.DEFAULT_OVERLAY;
     private BufferedImage currentScreen;
     public static void main(String[] args){
@@ -115,9 +116,7 @@ public class CreateLayout {
         overlayBox.setLocation(0,430);
         overlayBox.setSize(150,20);
         add(overlayBox,components);
-        overlayBox.addActionListener(l ->{
-            overlayChange(overlayBox);
-        });
+        overlayBox.addActionListener(l -> overlayChange(overlayBox));
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -499,6 +498,11 @@ public class CreateLayout {
     }
 
     private void overlayChange(JComboBox overlayBox) {
+        for(Overlay o : Overlay.values()){
+            if(overlayBox.getSelectedItem().toString().trim().equalsIgnoreCase(o.toString())){
+                overlay = o;
+            }
+        }
     }
 
 
@@ -597,110 +601,8 @@ public class CreateLayout {
         return new String[]{"0"};
     }
 
-
-    private String[] getCharacterArrays(String game, Boolean isSecondary) {
-        switch (game){
-            case "64":
-                if(isSecondary){
-                    return new String[]{""};
-                }else{
-                    return new String[]{""};
-                }
-            case "Melee":
-                if(isSecondary){
-                    return new String[]{"0Nothing","Bowser","Donkey Kong","Doctor Mario","Falco",
-                            "Captain Falcon","Fox","Mr. Game & Watch","Ganondorf", "Ice Climbers","Kirby",
-                            "Link","Luigi","Mario","Marth","MewTwo","Ness","Peach","Pichu","Pikachu",
-                            "Jigglypuff","Roy","Samus","Sheik","Yoshi","Young Link", "Zelda"
-                    };
-                }else{
-                    return new String[]{"Bowser","Donkey Kong","Doctor Mario","Falco",
-                            "Captain Falcon","Fox","Mr. Game & Watch","Ganondorf", "Ice Climbers","Kirby",
-                            "Link","Luigi","Mario","Marth","MewTwo","Ness","Peach","Pichu","Pikachu",
-                            "Jigglypuff","Roy","Samus","Sheik","Yoshi","Young Link", "Zelda"
-                    };
-                }
-            case "Brawl":
-                if(isSecondary){
-                    return new String[]{"0Nothing", "Bowser", "Captain Falcon", "Diddy Kong", "Donkey Kong", "Falco",
-                            "Fox", "Ganondorf", "Ice Climbers", "Ike", "Jigglypuff", "King DeDeDe", "Kirby", "Link", "Lucario",
-                            "Lucas", "Luigi", "Mario", "Marth", "Meta Knight", "Ness", "Olimar", "Peach", "Pikachu", "Pit",
-                            "Pokemon Trainer", "ROB", "Samus", "Sheik", "Snake", "Sonic", "Toon Link", "Wario", "Wolf", "Yoshi",
-                            "Zelda"
-
-                    };
-                }else{
-                    return new String[]{"Bowser", "Captain Falcon", "Diddy Kong", "Donkey Kong", "Falco", "Fox",
-                            "Ganondorf", "Ice Climbers", "Ike", "Jigglypuff", "King DeDeDe", "Kirby", "Link", "Lucario", "Lucas",
-                            "Luigi", "Mario", "Marth", "Meta Knight", "Ness", "Olimar", "Peach", "Pikachu", "Pit",
-                            "Pokemon Trainer", "ROB", "Samus", "Sheik", "Snake", "Sonic", "Toon Link", "Wario", "Wolf", "Yoshi",
-                            "Zelda"
-
-                    };
-                }
-            case "PM":
-                if(isSecondary){
-                    return new String[]{""};
-                }else {
-                    return new String[]{""};
-                }
-            case "3DS":
-            case "WiiU":
-            case "WiiUFull":
-                if(isSecondary){
-                    return new String[]{ "0Nothing", "Mario","Luigi","Peach","Bowser","Yoshi",
-                            "Rosalina & Luma","Bowser Jr.","Wario","Donkey Kong","Diddy Kong",
-                            "Mr. Game and Watch","Little Mac","Link","Zelda","Sheik","Ganondorf",
-                            "Toon Link","Samus","Zamus","Pit","Palutena","Marth","Ike","Robin",
-                            "Duck Hunt","Kirby","DDD","Meta Knight","Fox","Falco","Pikachu",
-                            "Charizard","Lucario","Puff","Greninja","R.O.B.","Ness","Captain Falcon",
-                            "Villager","Olimar","Wii Fit","Shulk","Doctor Mario","Dank Pit","Lucina","Pacman",
-                            "Megaman","Sonic","MewTwo","Lucas","Roy","Ryu","Cloud","Corrin",
-                            "Bayonetta","Mii Gunner","Mii Brawler","Mii Sword"
-                    };
-                }else {
-                    return new String[]{ "Mario","Luigi","Peach","Bowser","Yoshi",
-                            "Rosalina & Luma","Bowser Jr.","Wario","Donkey Kong","Diddy Kong",
-                            "Mr. Game and Watch","Little Mac","Link","Zelda","Sheik","Ganondorf",
-                            "Toon Link","Samus","Zamus","Pit","Palutena","Marth","Ike","Robin",
-                            "Duck Hunt","Kirby","DDD","Meta Knight","Fox","Falco","Pikachu",
-                            "Charizard","Lucario","Puff","Greninja","R.O.B.","Ness","Captain Falcon",
-                            "Villager","Olimar","Wii Fit","Shulk","Doctor Mario","Dank Pit","Lucina","Pacman",
-                            "Megaman","Sonic","MewTwo","Lucas","Roy","Ryu","Cloud","Corrin",
-                            "Bayonetta","Mii Gunner","Mii Brawler","Mii Sword"
-                    };
-                }
-                case "RoA":
-                    if(isSecondary){
-                        return new String[]{"0Nothing", "Zetterburn", "Orcane", "Wrastor", "Kragg",
-                                "Forsburn", "Maypul", "Absa", "Etalus"
-                        };
-                    }else{
-                        return new String[]{"Zetterburn", "Orcane", "Wrastor", "Kragg",
-                                "Forsburn", "Maypul", "Absa", "Etalus"
-                        };
-                    }
-            case "S3":
-                if(isSecondary){
-                    return new String[]{"0Nothing", "Shrek", "Donkey", "Puss", "Gingy",
-                            "Princess Fiona", "Ogre Fiona", "Pinocchio", "Prince Charming", "Red",
-                            "Black Knight", "Wolf", "Anthrax", "Cyclops", "Robin Hood", "G~Nome",
-                            "Dronkey", "Quasimodo", "Luna", "Captain Hook", "Humptey Dumptey"
-                    };
-                }else{
-                    return new String[]{"Shrek", "Donkey", "Puss", "Gingy",
-                            "Princess Fiona", "Ogre Fiona", "Pinocchio", "Prince Charming", "Red",
-                            "Black Knight", "Wolf", "Anthrax", "Cyclops", "Robin Hood", "G~Nome",
-                            "Dronkey", "Quasimodo", "Luna", "Captain Hook", "Humptey Dumptey"
-
-                    };
-                }
-        }
-        return new String[]{""};
-    }
-
     private void previewButtonEvent(JLabel imageLabel){
-        BufferedImage defaultThumbnail = sf.createFrame(od);
+        BufferedImage defaultThumbnail = od.createFrame();
         currentScreen = defaultThumbnail;
         defaultThumbnail = get.getSizedImg(defaultThumbnail,300,150);
         imageLabel.setIcon(new ImageIcon(defaultThumbnail));
@@ -719,54 +621,26 @@ public class CreateLayout {
     }
 
     private void gameChoiceEvent
-            (String game, JComboBox<String> fighter1, JComboBox<String> fighter2, JComboBox<String> secondary1,
+            (String gameString, JComboBox<String> fighter1, JComboBox<String> fighter2, JComboBox<String> secondary1,
              JComboBox<String> secondary2,Boolean refreshFighters){
-        String version = "";
-        switch (game) {
-            case "Smash WiiU":
-                version = "WiiU";
-                break;
-            case "Smash 3DS":
-                version = "3DS";
-                break;
-            case "Smash WiiU Full(WIP)":
-                version = "WiiUFull";
-                break;
-            case "Smash Melee":
-                version = "Melee";
-                break;
-            case "MSU Melee":
-                version = "Melee";
-                break;
-            case "Rivals of Aether":
-                version = "RoA";
-                break;
-            case "Smash Brawl":
-                version = "Brawl";
-                break;
-            case "Smash PM":
-                version = "PM";
-                break;
-            case "Smash 64":
-                version = "64";
-                break;
-            case "Shrek Super Slam":
-                version = "S3";
-                break;
+        for(Games g : Games.values()){
+            if(g.toString().trim().equalsIgnoreCase(gameString)){
+                game = g;
+            }
         }
-        od.gamePlayed = version;
+        od.gamePlayed = game.getCode();
         if(refreshFighters) {
-            setCharacters(fighter1, fighter2, secondary1, secondary2, version);
+            setCharacters(fighter1, fighter2, secondary1, secondary2, game);
         }
     }
 
     private void setCharacters
             (JComboBox<String> fighter1, JComboBox<String> fighter2, JComboBox<String> secondary1,
-             JComboBox<String> secondary2, String version) {
-        fighter1.setModel(new DefaultComboBoxModel<>(getCharacterArrays(version,false)));
-        fighter2.setModel(new DefaultComboBoxModel<>(getCharacterArrays(version,false)));
-        secondary1.setModel(new DefaultComboBoxModel<>(getCharacterArrays(version,true)));
-        secondary2.setModel(new DefaultComboBoxModel<>(getCharacterArrays(version,true)));
+             JComboBox<String> secondary2, Games game) {
+        fighter1.setModel(new DefaultComboBoxModel<>(game.getArray(false)));
+        fighter2.setModel(new DefaultComboBoxModel<>(game.getArray(false)));
+        secondary1.setModel(new DefaultComboBoxModel<>(game.getArray(true)));
+        secondary2.setModel(new DefaultComboBoxModel<>(game.getArray(true)));
     }
 
     private void previewColorsEvent(JTextField fontColorField, JTextField outlineColorField, JButton previewButton){

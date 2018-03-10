@@ -233,7 +233,7 @@ class Canvas extends JPanel{
             }
 
             //apply shadow to fighters
-            applyShadow(shadowThickness);
+            applyShadowAndFlip(shadowThickness);
 
             playerOneSponsor = false;
             playerTwoSponsor = false;
@@ -354,7 +354,7 @@ class Canvas extends JPanel{
 
 
 
-    private void applyShadow(int shadowThickness){
+    private void applyShadowAndFlip(int shadowThickness){
         fighter1 = get.dropShadow(fighter1,shadowThickness,Color.black,'4');
         fighterX1 = fighterX1 - shadowThickness;
         fighterY1 = fighterY1 - shadowThickness;
@@ -377,7 +377,7 @@ class Canvas extends JPanel{
         CST = getNewFont(customFont);
     }
 
-    private BufferedImage determineFlip(BufferedImage image, String version, String[] chars){
+    BufferedImage determineFlip(BufferedImage image, String version, String[] chars){
         BufferedImage output = image;
         String character = chars[1];
         switch (version){
@@ -1374,7 +1374,7 @@ class Canvas extends JPanel{
 
 
 
-    private int getVersionVal(String[] chars1, String version){
+    int getVersionVal(String[] chars1, String version){
         int versionVal1 = 1;
         int charVal1;
         switch (version) {
@@ -1553,7 +1553,7 @@ class Canvas extends JPanel{
         return img;
     }
 
-    private int getFighterY(String str, String version){
+    int getFighterY(String str, String version){
         str = str.trim();
         switch (version) {
             case "WiiU":
@@ -1575,7 +1575,7 @@ class Canvas extends JPanel{
 
 
 
-    private int getFighterX(String str, String version, Boolean firstFighter){
+    int getFighterX(String str, String version, Boolean firstFighter){
         switch (version) {
             case "WiiU":
             case "3DS":
@@ -1594,7 +1594,7 @@ class Canvas extends JPanel{
         return 1;
     }
 
-    private BufferedImage getResize(BufferedImage img, String str, String version){
+    BufferedImage getResize(BufferedImage img, String str, String version){
         switch (version) {
             case "WiiU":
             case "3DS":
@@ -1725,7 +1725,7 @@ class Canvas extends JPanel{
         return output;
     }
 
-    private BufferedImage getCustomImage(String path){
+    BufferedImage getCustomImage(String path){
         BufferedImage img = null;
         String s = get.getProgramPath();
         path = path.trim();
@@ -1752,7 +1752,7 @@ class Canvas extends JPanel{
 
     }
 
-    private Font getCustomFont(String customFont){
+    Font getCustomFont(String customFont){
         Font myFont;
         Font myFontReal = null;
         String s = get.getProgramPath();
@@ -1771,7 +1771,7 @@ class Canvas extends JPanel{
         return myFontReal;
     }
 
-    private BufferedImage findSponsor(String playerName,boolean first){
+    BufferedImage findSponsor(String playerName,boolean first){
         String prefix = getPrefix(playerName);
         return getSponsor(prefix,first);
     }
@@ -1858,7 +1858,7 @@ class Canvas extends JPanel{
         return img;
     }
 
-    private String getPrefix(String playerName){
+    String getPrefix(String playerName){
         playerName = playerName.toLowerCase();
         String[] parts = playerName.split("\\|");
         String prefixName = parts[0];
@@ -1920,7 +1920,7 @@ class Canvas extends JPanel{
         return "";
     }
 
-    private BufferedImage getGameLogo(String version){
+    BufferedImage getGameLogo(String version){
         switch (version) {
             case "WiiUFull":
             case "WiiU":
@@ -1955,7 +1955,7 @@ class Canvas extends JPanel{
         return gameLogo;
     }
 
-    private BufferedImage getDoublesResize(String version, BufferedImage img, String character){
+    BufferedImage getDoublesResize(String version, BufferedImage img, String character){
         switch (version){
             case "3DS":
             case "WiiU":
@@ -1966,7 +1966,7 @@ class Canvas extends JPanel{
         return img;
     }
 
-    private int getOffSet(String version, String character, Boolean isFirst){
+    int getOffSet(String version, String character, Boolean isFirst){
         switch (version){
             case "3DS":
             case "WiiU":
@@ -1985,7 +1985,7 @@ class Canvas extends JPanel{
         }
     }
 
-    private int getDoublesX(String version, String character, Boolean isFirst){
+    int getDoublesX(String version, String character, Boolean isFirst){
         switch (version){
             case "3DS":
             case "WiiU":
@@ -2002,7 +2002,7 @@ class Canvas extends JPanel{
         }
     }
 
-    private int getDoublesY(String version, String character){
+    int getDoublesY(String version, String character){
         int output = 75;
         switch(version) {
             case "3DS":
