@@ -6,6 +6,7 @@ import com.google.api.client.http.InputStreamContent;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.YouTube.Thumbnails.Set;
 import com.google.api.services.youtube.model.ThumbnailSetResponse;
+import com.sun.corba.se.spi.orb.StringPair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -29,7 +30,7 @@ class YouTubeStuff{
     private String clientSecret;
     void startYoutube(OverlayData od, JFrame window) {
         windowStuff(od, window);
-        ArrayList<String> videoIDs = playlistStuff();
+        ArrayList<StringPair> videoIDs = playlistStuff();
         ArrayList<VideoInfo> videoInfoArrayList = makeVideoInfo(videoIDs);
         setInfo(videoInfoArrayList);
         getAuth(videoInfoArrayList);
@@ -55,7 +56,7 @@ class YouTubeStuff{
         //////////////////////////////////////////////////////////////////////////////////////////////////////////
         setVal(1);
     }
-    private ArrayList<String> playlistStuff(){
+    private ArrayList<StringPair> playlistStuff(){
         setVal(2);
         String playlistID = getIDFromURL(od.youtubePlaylistURL);
         setVal(3);
@@ -63,14 +64,15 @@ class YouTubeStuff{
         setVal(4);
         return getPlayListPages(playlistID);
     }
-    private ArrayList<VideoInfo> makeVideoInfo(ArrayList<String> videoIDs){
+    private ArrayList<VideoInfo> makeVideoInfo(ArrayList<StringPair> videoIDs){
         ArrayList<VideoInfo> videoInfoArrayList = new ArrayList<>();
         String url = "https://www.googleapis.com/youtube/v3/videos?id=";
-        for(String ID : videoIDs){
+        for(StringPair SP : videoIDs){
             VideoInfo vi = new VideoInfo();
-            vi.videoID = ID;
+            vi.videoID = SP.getFirst();
+            vi.playlistItemID = SP.getSecond();
 
-            String temp = GetResources.httpGet(url + ID + "&key=" + apiKey +
+            String temp = GetResources.httpGet(url + SP.getFirst() + "&key=" + apiKey +
                             "&fields=items(snippet(channelId,title,description))&part=snippet",
                     "Test, Josh Bhattarai");
 
@@ -98,6 +100,7 @@ class YouTubeStuff{
             title = info.get("title").toString();
             description = info.get("description").toString();
             stringParse(channelID, title, description, v);
+            od.addInfo(v);
             v.thumbnail = od.createFrame();
             setVal((int) Math.round(counter/len *43) +7);
         }
@@ -135,7 +138,7 @@ class YouTubeStuff{
 
     private void endThumbnails(ArrayList<VideoInfo> videoInfoArrayList) {
         Organize o = new Organize();
-        o.organizePlaylist(videoInfoArrayList,apiKey,clientID,clientSecret,od);
+        o.organizePlaylist(videoInfoArrayList,apiKey,clientID,clientSecret,od,accessToken);
         setVal(100);
         setString("Complete");
     }
@@ -160,7 +163,7 @@ class YouTubeStuff{
         }
         setVal(90);
     }
-    private String getIDFromURL(String URL){
+    static String getIDFromURL(String URL){
         if(URL.contains("list=")){
             String[] split = URL.split("list=");
             URL = split[1];
@@ -182,8 +185,8 @@ class YouTubeStuff{
         clientSecret = clientSecretsJSON.get("client_secret").toString();
         return clientSecretsJSON.get("api_key").toString();
     }
-    private ArrayList<String> getPlayListPages(String playlistID){
-        ArrayList<String> videoIDs = new ArrayList<>();
+    private ArrayList<StringPair> getPlayListPages(String playlistID){
+        ArrayList<StringPair> videoIDs = new ArrayList<>();
         String nextPageToken = "";
         while(nextPageToken != null){
             JSONObject page = getPlayListJSON(playlistID,nextPageToken);
@@ -196,9 +199,11 @@ class YouTubeStuff{
             for(Object item : items){
                 String itemText = item.toString();
                 JSONObject itemJSON = new JSONObject(itemText);
+                String PLID = itemJSON.get("id").toString();
                 itemJSON = new JSONObject(itemJSON.get("contentDetails").toString());
-                String id = itemJSON.get("videoId").toString();
-                videoIDs.add(id);
+                String VID = itemJSON.get("videoId").toString();
+                StringPair sp = new StringPair(VID,PLID);
+                videoIDs.add(sp);
             }
         }
         setVal(5);

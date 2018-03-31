@@ -11,6 +11,7 @@ class VideoInfo{
     BufferedImage thumbnail;
     JSONObject videoJSON;
     String videoID;
+    String playlistItemID;
     boolean success;
 
     String player1;
@@ -414,7 +415,7 @@ class VideoInfo{
             }
         }
 
-        if(content.contains("final") || content.contains("wf") || content.contains("lf")){
+        if((content.contains("final") && !(content.contains("quarter"))) || content.contains("wf") || content.contains("lf")){
             if(content.contains("loser") || content.contains("lf")){
                 return "Loser's Finals";
             }else if(content.contains("winner") || content.contains("wf")){

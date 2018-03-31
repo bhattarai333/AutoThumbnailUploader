@@ -28,11 +28,27 @@ public class OverlayData {
     private int shadowThickness;
     boolean bindNameSizes;
     String youtubePlaylistURL;
+    String videoID;
+    String playlistItemID;
     Overlay overlay;
     private boolean doubles;
 
+    public void addInfo(VideoInfo v){
+        this.playerOneName = v.player1;
+        this.playerTwoName = v.player2;
+        this.round = v.getRound();
+        this.firstCharacter = v.getCharacter1();
+        this.secondCharacter = v.getCharacter2();
+        this.thirdCharacter = v.getSecondary1();
+        this.fourthCharacter = v.getSecondary2();
+        this.videoID = v.videoID;
+        this.playlistItemID = v.playlistItemID;
+    }
+
     public OverlayData(){
         youtubePlaylistURL = "";
+        videoID = "";
+        playlistItemID = "";
         gamePlayed= "WiiUFull";
         tournamentName = "";
         date = "";
