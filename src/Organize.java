@@ -9,62 +9,53 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
+
+import static java.util.Comparator.reverseOrder;
+
 
 /**
  * Originally created by Josh Bhattarai on 6/15/2017.
  */
 class Organize {
     void organizePlaylist(ArrayList<VideoInfo> videoInfoArrayList, String apiKey, String clientID, String clientSecret, OverlayData od, String accessToken){
-        String url = "https://www.googleapis.com/youtube/v3/playlistItems?kind=video&part=snippet";
-        sortVideos(videoInfoArrayList);
+        String url = "https://www.googleapis.com/youtube/v3/playlistItems?kind=video&part=snippet&access_token=" + accessToken;
+        System.out.println(accessToken);
+
+        videoInfoArrayList.sort(Comparator.comparingInt(VideoInfo::getSortingValue).reversed().thenComparingInt(VideoInfo::getSortingTiebreaker).reversed());
+        int position = 0;
         for(VideoInfo v : videoInfoArrayList){
-            String videoID = v.videoID;
-            int position = 0;
-            sendPlaylistUpdate(url,od,position);
+            v.playlistIndex = position;
+            System.out.println(position + ": " + v);
+            sendPlaylistUpdate(url,od.youtubePlaylistURL,v,position);
+            position++;
         }
     }
 
-    private void sendPlaylistUpdate(String url, OverlayData od, int position) {
+    private void sendPlaylistUpdate(String url, String playlistURL, VideoInfo v, int position) {
         JSONObject body = new JSONObject();
-        body.put("id",od.playlistItemID);
+        body.put("id",v.playlistItemID);
         JSONObject snippet = new JSONObject();
-        snippet.put("playlistId", YouTubeStuff.getIDFromURL(od.youtubePlaylistURL));
+        snippet.put("playlistId", YouTubeStuff.getIDFromURL(playlistURL));
         JSONObject resourceID = new JSONObject();
         resourceID.put("kind","youtube#video");
-        resourceID.put("videoId",od.videoID);
+        resourceID.put("videoId",v.videoID);
         snippet.put("resourceId",resourceID);
         body.put("snippet",snippet);
         body.put("position",position);
 
-        System.out.println(body.toString());
 
-        System.out.println(sendPost(url,"Smash4 Thumbnail Uploader",body.toString()));
+        HttpURLConnection con = createHTTPURLConnection(url);
+        con.setRequestProperty("content-type","application/json");
+
+        sendPut(con,"Smash4 Thumbnail Uploader",body.toString());
     }
 
-    private void sortVideos(ArrayList<VideoInfo> videoInfoArrayList) {
-        videoInfoArrayList.sort(Comparator.comparingInt(p -> p.sortingValue));
-    }
-
-
-    static String sendPost(String url, String user, String body){
-        //post without connection, only url
-        try {
-            URL obj = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-            return sendPost(con, user, body);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "FAIL";
-    }
-    static String sendPost(HttpURLConnection con, String USER_AGENT, String body){
+    static String sendPut(HttpURLConnection con, String USER_AGENT, String body){
         //post with custom connection for authentication ect
         StringBuffer responseString = null;
         try {
-            con.setRequestMethod("POST");
+            con.setRequestMethod("PUT");
             con.setRequestProperty("User-Agent", USER_AGENT);
             con.setDoOutput(true);
             OutputStream os = con.getOutputStream();
@@ -89,6 +80,16 @@ class Organize {
             e.printStackTrace();
         }
         return "FAIL";
+    }
+
+    static HttpURLConnection createHTTPURLConnection(String url) {
+        HttpURLConnection h = null;
+        try {
+            h = (HttpURLConnection) new URL(url).openConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return h;
     }
 
 }

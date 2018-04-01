@@ -25,7 +25,10 @@ class VideoInfo{
     String customFighterOne;
     String customFighterTwo;
 
-    int sortingValue;
+    private int sortingValue;
+    private int sortingTiebreaker;
+    private boolean winner;
+    int playlistIndex;
 
     VideoInfo(){
         player1 = "";
@@ -39,6 +42,9 @@ class VideoInfo{
         customFighterTwo = "";
         success = true;
         sortingValue = 0;
+        sortingTiebreaker = 0;
+        winner = false;
+        playlistIndex = 0;
     }
 
     void setChar1(String input){
@@ -389,6 +395,13 @@ class VideoInfo{
 
     public void setRound(String input){
         round = parseRound(input);
+        String s = input.replaceAll("[^0-9]", "");
+        try {
+            sortingTiebreaker = Integer.parseInt(s);
+        }catch(Exception e){
+            sortingTiebreaker = 0;
+        }
+        setSortingValue();
     }
     public String getRound(){
         return round;
@@ -415,7 +428,9 @@ class VideoInfo{
             }
         }
 
-        if((content.contains("final") && !(content.contains("quarter"))) || content.contains("wf") || content.contains("lf")){
+        if((content.contains("final") && !content.contains("semi") && !content.contains("quart") ) || (content.contains("wf") || content.contains("lf"))){
+
+
             if(content.contains("loser") || content.contains("lf")){
                 return "Loser's Finals";
             }else if(content.contains("winner") || content.contains("wf")){
@@ -458,37 +473,47 @@ class VideoInfo{
         return originalContent;
     }
 
-    public void setSortingValues(){
+    public void setSortingValue(){
         switch(round){
             case "Grand Finals  Set Two":
+                winner = false;
                 sortingValue = 0;
                 break;
             case "Grand Finals":
+                winner = true;
                 sortingValue = 1;
                 break;
             case "Loser's Finals":
+                winner = false;
                 sortingValue = 2;
                 break;
             case "Winner's Finals":
+                winner = true;
                 sortingValue = 3;
                 break;
             case "Winner's  Semifinals":
-                sortingValue = 4;
-                break;
-            case "Loser's  Semifinals":
+                winner = true;
                 sortingValue = 5;
                 break;
-            case "Winner's  Quarters":
-                sortingValue = 6;
+            case "Loser's  Semifinals":
+                winner = false;
+                sortingValue = 4;
                 break;
-            case "Loser's  Quarters":
+            case "Winner's  Quarters":
+                winner = true;
                 sortingValue = 7;
                 break;
+            case "Loser's  Quarters":
+                winner = false;
+                sortingValue = 6;
+                break;
             case "Winner's Side":
+                winner = true;
                 sortingValue = 8;
                 break;
             case "Loser's Side":
-                sortingValue = 9;
+                winner = false;
+                sortingValue = 8;
                 break;
             case "Money Match":
                 sortingValue = 10;
@@ -500,9 +525,46 @@ class VideoInfo{
                 sortingValue = 12;
                 break;
             default:
-                sortingValue = 8;
+                sortingValue = 13;
                 break;
         }
     }
 
+    public int getSortingValue() {
+        return sortingValue;
+    }
+
+    public int getSortingTiebreaker() {
+        return sortingTiebreaker;
+    }
+
+    /*@Override
+    public int compareTo(VideoInfo o) {
+        if(o.getSortingValue() > this.getSortingValue()){
+            return 1;
+        }else if(o.getSortingValue() < this.getSortingValue()){
+            return 0;
+        }else if(o.getSortingValue() == this.getSortingValue()){
+            if(o.getSortingTiebreaker() > this.getSortingTiebreaker()){
+                return 0;
+            }else if(o.getSortingTiebreaker() < this.getSortingTiebreaker()){
+                return 1;
+            }else if(o.getSortingTiebreaker() == this.getSortingTiebreaker()){
+                if(o.winner && !this.winner){
+                    return 1;
+                }else{
+                    return 0;
+                }
+            }
+        }
+        return 0;
+    }*/
+
+
+    @Override
+    public String toString() {
+        String output = "";
+        output = "P1: " + this.player1 + " vs P2: " + this.player2 + " " + this.round;
+        return output;
+    }
 }
