@@ -2,7 +2,7 @@ import Enums.Overlay;
 
 import java.awt.image.BufferedImage;
 
-public class OverlayData {
+class OverlayData {
     String firstCharacter;
     String secondCharacter;
     String thirdCharacter;
@@ -28,12 +28,12 @@ public class OverlayData {
     private int shadowThickness;
     boolean bindNameSizes;
     String youtubePlaylistURL;
-    String videoID;
-    String playlistItemID;
+    private String videoID;
+    private String playlistItemID;
     Overlay overlay;
     private boolean doubles;
 
-    public void addInfo(VideoInfo v){
+    void addInfo(VideoInfo v){
         this.playerOneName = v.player1;
         this.playerTwoName = v.player2;
         this.round = v.getRound();
@@ -45,7 +45,7 @@ public class OverlayData {
         this.playlistItemID = v.playlistItemID;
     }
 
-    public OverlayData(){
+    OverlayData(){
         youtubePlaylistURL = "";
         videoID = "";
         playlistItemID = "";

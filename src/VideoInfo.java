@@ -420,6 +420,10 @@ class VideoInfo{
             return "Pools";
         }
 
+        if(content.contains("thug")){
+            return "Thug Finals";
+        }
+
         if(content.contains("grand") || content.contains("gf")){
             if(content.contains("two") || content.contains("2") || content.contains("second") || content.contains("reset")){
                 return "Grand Finals  Set Two";
@@ -439,9 +443,9 @@ class VideoInfo{
         }
 
         if(content.contains("semi") || content.contains("lsf") || content.contains("wsf")){
-            if(content.contains("loser")){
+            if(content.contains("loser") || content.contains("lsf")){
                 return "Loser's  Semifinals";
-            }else if(content.contains("winner")){
+            }else if(content.contains("winner") || content.contains("wsf")){
                 return "Winner's  Semifinals";
             }
         }
@@ -475,6 +479,10 @@ class VideoInfo{
 
     public void setSortingValue(){
         switch(round){
+            case "Thug Finals":
+                winner = true;
+                sortingValue = -1;
+                break;
             case "Grand Finals  Set Two":
                 winner = false;
                 sortingValue = 0;
@@ -489,15 +497,15 @@ class VideoInfo{
                 break;
             case "Winner's Finals":
                 winner = true;
-                sortingValue = 3;
+                sortingValue = 4;
                 break;
             case "Winner's  Semifinals":
                 winner = true;
-                sortingValue = 5;
+                sortingValue = 6;
                 break;
             case "Loser's  Semifinals":
                 winner = false;
-                sortingValue = 4;
+                sortingValue = 3;
                 break;
             case "Winner's  Quarters":
                 winner = true;
@@ -505,7 +513,7 @@ class VideoInfo{
                 break;
             case "Loser's  Quarters":
                 winner = false;
-                sortingValue = 6;
+                sortingValue = 5;
                 break;
             case "Winner's Side":
                 winner = true;
@@ -536,6 +544,14 @@ class VideoInfo{
 
     public int getSortingTiebreaker() {
         return sortingTiebreaker;
+    }
+
+    public int getWinner(){
+        if(winner){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     /*@Override

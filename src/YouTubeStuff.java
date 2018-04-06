@@ -107,38 +107,77 @@ class YouTubeStuff{
 
     }
     private void getAuth(ArrayList<VideoInfo> videoInfoArrayList){
-        GetResources.openWebpage("https://accounts.google.com/o/oauth2/v2/auth?client_id=58309125818-ispm6k8566hgvasijel18l3808f66vvi.apps.googleusercontent.com&response_type=code&scope=https://www.googleapis.com/auth/youtube&redirect_uri=urn:ietf:wg:oauth:2.0:oob");
-        JLabel pasteLabel = new JLabel("Paste code here:");
-        pasteLabel.setLocation(200,300);
-        pasteLabel.setSize(100,20);
-        window.add(pasteLabel);
-        JTextField pasteField = new JTextField();
-        pasteField.setLocation(300,300);
-        pasteField.setSize(100,20);
-        window.add(pasteField);
-        JButton enterButton = new JButton("Enter");
-        enterButton.setLocation(400,300);
-        enterButton.setSize(100,20);
-        window.add(enterButton);
-        window.paintComponents(window.getGraphics());
-        enterButton.addActionListener(l -> {
-            String code = pasteField.getText().trim();
-            String url = "https://www.googleapis.com/oauth2/v4/token?";
-            String urlParams = "code="
-                    +code+"&client_id=" + clientID + "&client_secret="+ clientSecret+
-                    "&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=authorization_code";
-            String temp = GetResources.httpPost(url,urlParams,"Test, Josh Bhattarai");
-            JSONObject returnToken = new JSONObject(temp);
-            accessToken = returnToken.get("access_token").toString();
+        boolean newTokenNeeded = false;
+        JSONObject clientSecret = getClientSecretJSON();
+        clientSecret = clientSecret.getJSONObject("installed");
+        String token = "";
+        try{
+            token = clientSecret.getString("access_token");
+            token = refreshToken(token);
+            if(token.equalsIgnoreCase("Fail")){
+                newTokenNeeded = true;
+            }
+        }catch (Exception e){
+            newTokenNeeded = true;
+        }
+        if(newTokenNeeded) {
+            GetResources.openWebpage("https://accounts.google.com/o/oauth2/v2/auth?client_id=58309125818-ispm6k8566hgvasijel18l3808f66vvi.apps.googleusercontent.com&response_type=code&scope=https://www.googleapis.com/auth/youtube&redirect_uri=urn:ietf:wg:oauth:2.0:oob");
+            JLabel pasteLabel = new JLabel("Paste code here:");
+            pasteLabel.setLocation(200, 300);
+            pasteLabel.setSize(100, 20);
+            window.add(pasteLabel);
+            JTextField pasteField = new JTextField();
+            pasteField.setLocation(300, 300);
+            pasteField.setSize(100, 20);
+            window.add(pasteField);
+            JButton enterButton = new JButton("Enter");
+            enterButton.setLocation(400, 300);
+            enterButton.setSize(100, 20);
+            window.add(enterButton);
+            window.paintComponents(window.getGraphics());
+            try{
+                JSONObject newClientSecretJSON = new JSONObject();
+                JSONObject newClientSecrets = clientSecret;
+                newClientSecrets.put("access_token",token);
+                newClientSecretJSON.put("installed",newClientSecrets);
+                get.writeText(newClientSecretJSON.toString(),"client_secret.json");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            enterButton.addActionListener(l -> enterButtonAction(pasteField, videoInfoArrayList));
+        }else{
+            startLoop(token,videoInfoArrayList);
+        }
+    }
 
-            uploadThumbnails(videoInfoArrayList);
-            endThumbnails(videoInfoArrayList);
-        });
+    private String refreshToken(String token) {
+        System.out.println(token);
+        return "Fail";
+    }
+
+    private void enterButtonAction(JTextField pasteField, ArrayList<VideoInfo> videoInfoArrayList) {
+
+        String code = pasteField.getText().trim();
+        startLoop(code,videoInfoArrayList);
+    }
+
+    private void startLoop(String code, ArrayList<VideoInfo> videoInfoArrayList){
+
+        String url = "https://www.googleapis.com/oauth2/v4/token?";
+        String urlParams = "code="
+                +code+"&client_id=" + clientID + "&client_secret="+ clientSecret+
+                "&redirect_uri=urn:ietf:wg:oauth:2.0:oob&grant_type=authorization_code";
+        String temp = GetResources.httpPost(url,urlParams,"Test, Josh Bhattarai");
+        JSONObject returnToken = new JSONObject(temp);
+        accessToken = returnToken.get("access_token").toString();
+
+        uploadThumbnails(videoInfoArrayList);
+        endThumbnails(videoInfoArrayList);
     }
 
     private void endThumbnails(ArrayList<VideoInfo> videoInfoArrayList) {
         Organize o = new Organize();
-        o.organizePlaylist(videoInfoArrayList,apiKey,clientID,clientSecret,od,accessToken);
+        o.organizePlaylist(videoInfoArrayList, od,accessToken);
         setVal(100);
         setString("Complete");
     }
@@ -175,11 +214,7 @@ class YouTubeStuff{
         return URL;
     }
     private String loadKey(){
-        String clientSecrets;
-        InputStream in = this.getClass().getResourceAsStream("client_secret.json");
-        BufferedReader br = get.inputStreamToBufferedReader(in);
-        clientSecrets = get.bufferedReaderToString(br);
-        JSONObject clientSecretsJSON = new JSONObject(clientSecrets);
+        JSONObject clientSecretsJSON = getClientSecretJSON();
         clientSecretsJSON = new JSONObject(clientSecretsJSON.get("installed").toString());
         clientID = clientSecretsJSON.get("client_id").toString();
         clientSecret = clientSecretsJSON.get("client_secret").toString();
@@ -496,4 +531,11 @@ class YouTubeStuff{
     }
 
 
+    public JSONObject getClientSecretJSON() {
+        String clientSecrets;
+        InputStream in = this.getClass().getResourceAsStream("client_secret.json");
+        BufferedReader br = get.inputStreamToBufferedReader(in);
+        clientSecrets = get.bufferedReaderToString(br);
+        return new JSONObject(clientSecrets);
+    }
 }

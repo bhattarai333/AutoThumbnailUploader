@@ -1,5 +1,3 @@
-import com.google.api.services.youtube.YouTube;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -11,18 +9,16 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import static java.util.Comparator.reverseOrder;
-
 
 /**
  * Originally created by Josh Bhattarai on 6/15/2017.
  */
 class Organize {
-    void organizePlaylist(ArrayList<VideoInfo> videoInfoArrayList, String apiKey, String clientID, String clientSecret, OverlayData od, String accessToken){
+    void organizePlaylist(ArrayList<VideoInfo> videoInfoArrayList, OverlayData od, String accessToken){
         String url = "https://www.googleapis.com/youtube/v3/playlistItems?kind=video&part=snippet&access_token=" + accessToken;
         System.out.println(accessToken);
 
-        videoInfoArrayList.sort(Comparator.comparingInt(VideoInfo::getSortingValue).reversed().thenComparingInt(VideoInfo::getSortingTiebreaker).reversed());
+        videoInfoArrayList.sort(Comparator.comparingInt(VideoInfo::getSortingValue).reversed().thenComparingInt(VideoInfo::getSortingTiebreaker).reversed().thenComparingInt(VideoInfo::getWinner));
         int position = 0;
         for(VideoInfo v : videoInfoArrayList){
             v.playlistIndex = position;
@@ -48,15 +44,15 @@ class Organize {
         HttpURLConnection con = createHTTPURLConnection(url);
         con.setRequestProperty("content-type","application/json");
 
-        sendPut(con,"Smash4 Thumbnail Uploader",body.toString());
+        sendPut(con, body.toString());
     }
 
-    static String sendPut(HttpURLConnection con, String USER_AGENT, String body){
+    private static void sendPut(HttpURLConnection con, String body){
         //post with custom connection for authentication ect
-        StringBuffer responseString = null;
+        StringBuffer responseString;
         try {
             con.setRequestMethod("PUT");
-            con.setRequestProperty("User-Agent", USER_AGENT);
+            con.setRequestProperty("User-Agent", "Smash4 Thumbnail Uploader");
             con.setDoOutput(true);
             OutputStream os = con.getOutputStream();
             os.write(body.getBytes(StandardCharsets.UTF_8));
@@ -72,17 +68,14 @@ class Organize {
                     responseString.append(inputLine);
                 }
                 in.close();
-                return responseString.toString();
-            } else {
-                return Integer.toString(responseCode);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "FAIL";
     }
 
-    static HttpURLConnection createHTTPURLConnection(String url) {
+    private static HttpURLConnection createHTTPURLConnection(String url) {
         HttpURLConnection h = null;
         try {
             h = (HttpURLConnection) new URL(url).openConnection();
