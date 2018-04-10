@@ -9,10 +9,10 @@ import com.google.api.services.youtube.model.ThumbnailSetResponse;
 import com.sun.corba.se.spi.orb.StringPair;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 
@@ -108,13 +108,13 @@ class YouTubeStuff{
     }
     private void getAuth(ArrayList<VideoInfo> videoInfoArrayList){
         boolean newTokenNeeded = false;
-        JSONObject clientSecret = getClientSecretJSON();
-        clientSecret = clientSecret.getJSONObject("installed");
-        String token = "";
+        String atoken = "";
         try{
-            token = clientSecret.getString("access_token");
-            token = refreshToken(token);
-            if(token.equalsIgnoreCase("Fail")){
+            JSONObject refreshJSON = new JSONObject(get.getTextFromFile("./Custom/LOGIN.INFO"));
+            atoken = refreshJSON.get("access_token").toString();
+            String rtoken = refreshJSON.get("access_token").toString();
+            atoken = refreshToken(rtoken);
+            if(atoken.equalsIgnoreCase("Fail")){
                 newTokenNeeded = true;
             }
         }catch (Exception e){
@@ -135,24 +135,10 @@ class YouTubeStuff{
             enterButton.setSize(100, 20);
             window.add(enterButton);
             window.paintComponents(window.getGraphics());
-            try{
-                JSONObject newClientSecretJSON = new JSONObject();
-                JSONObject newClientSecrets = clientSecret;
-                newClientSecrets.put("access_token",token);
-                newClientSecretJSON.put("installed",newClientSecrets);
-                get.writeText(newClientSecretJSON.toString(),"client_secret.json");
-            }catch (Exception e){
-                e.printStackTrace();
-            }
             enterButton.addActionListener(l -> enterButtonAction(pasteField, videoInfoArrayList));
         }else{
-            startLoop(token,videoInfoArrayList);
+            startLoop(atoken,videoInfoArrayList);
         }
-    }
-
-    private String refreshToken(String token) {
-        System.out.println(token);
-        return "Fail";
     }
 
     private void enterButtonAction(JTextField pasteField, ArrayList<VideoInfo> videoInfoArrayList) {
@@ -170,6 +156,18 @@ class YouTubeStuff{
         String temp = GetResources.httpPost(url,urlParams,"Test, Josh Bhattarai");
         JSONObject returnToken = new JSONObject(temp);
         accessToken = returnToken.get("access_token").toString();
+        String refreshToken = returnToken.get("refresh_token").toString();
+
+        JSONObject refreshJSON = new JSONObject();
+        refreshJSON.put("access_token", accessToken);
+        refreshJSON.put("refresh_token", refreshToken);
+
+        try{
+            get.writeText(refreshJSON.toString(),"./Custom/LOGIN.INFO");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         uploadThumbnails(videoInfoArrayList);
         endThumbnails(videoInfoArrayList);
@@ -531,11 +529,28 @@ class YouTubeStuff{
     }
 
 
-    public JSONObject getClientSecretJSON() {
+    private JSONObject getClientSecretJSON() {
         String clientSecrets;
         InputStream in = this.getClass().getResourceAsStream("client_secret.json");
         BufferedReader br = get.inputStreamToBufferedReader(in);
         clientSecrets = get.bufferedReaderToString(br);
         return new JSONObject(clientSecrets);
+    }
+
+    private String refreshToken(String rToken) {
+        String url = "https://www.googleapis.com/oauth2/v4/token";
+        try{
+            HttpURLConnection con = GetResources.createHTTPURLConnection(url);
+            con.addRequestProperty("refresh_token",rToken);
+            con.addRequestProperty("client_id", clientID);
+            con.addRequestProperty("client_secret", clientSecret);
+            con.addRequestProperty("grant_type", "refresh_token");
+            String s = GetResources.sendGet(con,"Smash4 thumbnail uploader");
+            System.out.println("Token Response: " + s);
+            JSONObject responseJSON = new JSONObject(s);
+            return responseJSON.get("access_token").toString();
+        }catch(Exception e){
+            return "Fail";
+        }
     }
 }

@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -666,6 +667,86 @@ class GetResources
 
 
     }
+    static HttpURLConnection createHTTPURLConnection(String url) {
+        HttpURLConnection h = null;
+        try {
+            h = (HttpURLConnection) new URL(url).openConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return h;
+    }
+
+    static String sendGet(String url, String user) {
+        //get without connection, only URL
+        try {
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+            return sendGet(con, user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "FAIL";
+    }
+    static String sendGet(HttpURLConnection con, String USER_AGENT) {
+        //get with custom connection for authentication ect
+        StringBuffer response = null;
+        try {
+            con.setRequestMethod("GET");
+            con.setRequestProperty("User-Agent", USER_AGENT);
+            int responseCode = con.getResponseCode();
+            //System.out.println("GET Response Code :: " + responseCode);
+            if (responseCode == HttpURLConnection.HTTP_OK) { // success
+                BufferedReader in = new BufferedReader(new InputStreamReader(
+                        con.getInputStream()));
+                String inputLine;
+                response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                // print result
+                return response.toString();
+            } else {
+                return Integer.toString(responseCode);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "FAIL";
+    }
+
+    static void sendPut(HttpURLConnection con, String body){
+        //post with custom connection for authentication ect
+        StringBuffer responseString;
+        try {
+            con.setRequestMethod("PUT");
+            con.setRequestProperty("User-Agent", "Smash4 Thumbnail Uploader");
+            con.setDoOutput(true);
+            OutputStream os = con.getOutputStream();
+            os.write(body.getBytes(StandardCharsets.UTF_8));
+            int responseCode = con.getResponseCode();
+            //System.out.println("POST Response Code :: " + responseCode);
+            if (responseCode == HttpURLConnection.HTTP_OK) { // success
+                BufferedReader in = new BufferedReader(new InputStreamReader(
+                        con.getInputStream()));
+                String inputLine;
+                responseString = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    responseString.append(inputLine);
+                }
+                in.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     void drawText(String stringVal, String stringColor, String outlineColor, int x, int y, int width, int height, Graphics g, int thickness, int maxFontSize, int minFontSize, Font f, char alignment){
         if(minFontSize < 0){
             //make sure font can't turn upside down

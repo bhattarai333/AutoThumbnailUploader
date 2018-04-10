@@ -25,7 +25,6 @@ public class CreateLayout {
     private final int WINDOW_WIDTH = 720;
     private final int WINDOW_HEIGHT = 500;
     private OverlayData od = new OverlayData();
-    private SmashOverlay sf = new SmashOverlay();
     private Games game = Games.SMASH_WIIU;
     private Overlay overlay = Overlay.DEFAULT_OVERLAY;
     private BufferedImage currentScreen;
@@ -115,7 +114,7 @@ public class CreateLayout {
         for(int i = 0; i < overlays.length; ++i){
             overlayStrings[i] = overlays[i].toString();
         }
-        JComboBox overlayBox = new JComboBox(overlayStrings);
+        JComboBox<String> overlayBox = new JComboBox<>(overlayStrings);
         overlayBox.setLocation(0,430);
         overlayBox.setSize(150,20);
         add(overlayBox,components);
@@ -321,6 +320,7 @@ public class CreateLayout {
         sponsorBox.setSelected(true);
         sponsorBox.setLocation(685,162);
         sponsorBox.setSize(25,25);
+        sponsorBox.setSelected(false);
         add(sponsorBox,components);
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -500,7 +500,7 @@ public class CreateLayout {
 
     }
 
-    private void overlayChange(JComboBox overlayBox) {
+    private void overlayChange(JComboBox<String> overlayBox) {
         for(Overlay o : Overlay.values()){
             if(overlayBox.getSelectedItem().toString().trim().equalsIgnoreCase(o.toString())){
                 overlay = o;

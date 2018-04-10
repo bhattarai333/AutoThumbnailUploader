@@ -18,7 +18,7 @@ class Organize {
         String url = "https://www.googleapis.com/youtube/v3/playlistItems?kind=video&part=snippet&access_token=" + accessToken;
         System.out.println(accessToken);
 
-        videoInfoArrayList.sort(Comparator.comparingInt(VideoInfo::getSortingValue).reversed().thenComparingInt(VideoInfo::getSortingTiebreaker).reversed().thenComparingInt(VideoInfo::getWinner));
+        videoInfoArrayList.sort(Comparator.comparingInt(VideoInfo::getSortingValue).reversed().thenComparingInt(VideoInfo::getSortingTiebreaker).reversed().thenComparingInt(VideoInfo::getWinner)  );
         int position = 0;
         for(VideoInfo v : videoInfoArrayList){
             v.playlistIndex = position;
@@ -41,48 +41,14 @@ class Organize {
         body.put("position",position);
 
 
-        HttpURLConnection con = createHTTPURLConnection(url);
+        HttpURLConnection con = GetResources.createHTTPURLConnection(url);
         con.setRequestProperty("content-type","application/json");
 
-        sendPut(con, body.toString());
+        GetResources.sendPut(con, body.toString());
     }
 
-    private static void sendPut(HttpURLConnection con, String body){
-        //post with custom connection for authentication ect
-        StringBuffer responseString;
-        try {
-            con.setRequestMethod("PUT");
-            con.setRequestProperty("User-Agent", "Smash4 Thumbnail Uploader");
-            con.setDoOutput(true);
-            OutputStream os = con.getOutputStream();
-            os.write(body.getBytes(StandardCharsets.UTF_8));
-            int responseCode = con.getResponseCode();
-            //System.out.println("POST Response Code :: " + responseCode);
-            if (responseCode == HttpURLConnection.HTTP_OK) { // success
-                BufferedReader in = new BufferedReader(new InputStreamReader(
-                        con.getInputStream()));
-                String inputLine;
-                responseString = new StringBuffer();
 
-                while ((inputLine = in.readLine()) != null) {
-                    responseString.append(inputLine);
-                }
-                in.close();
-            }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    private static HttpURLConnection createHTTPURLConnection(String url) {
-        HttpURLConnection h = null;
-        try {
-            h = (HttpURLConnection) new URL(url).openConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return h;
-    }
 
 }
