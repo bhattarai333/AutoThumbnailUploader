@@ -229,7 +229,8 @@ class YouTubeStuff{
                 nextPageToken = null;
             }
             JSONArray items = new JSONArray(page.get("items").toString());
-            for(Object item : items){
+            for(int i = 0; i < items.length(); ++i){
+                Object item = items.get(i);
                 String itemText = item.toString();
                 JSONObject itemJSON = new JSONObject(itemText);
                 String PLID = itemJSON.get("id").toString();
@@ -343,6 +344,8 @@ class YouTubeStuff{
         } catch (IOException e) {
             System.err.println("IOException: " + e.getMessage());
             setString("Error");
+            e.printStackTrace();
+        } catch (Exception e){
             e.printStackTrace();
         }finally {
             //delete old thumbnail

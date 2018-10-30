@@ -52,11 +52,11 @@ public class CreateLayout {
     private void icons() {
         ArrayList<BufferedImage> iconList = new ArrayList<>();
         //add each icon to the list
-        iconList.add(get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0SB16.png"));
-        iconList.add(get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0SB32.png"));
-        iconList.add(get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0SB64.png"));
-        iconList.add(get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0SB128.png"));
-        iconList.add(get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0SB256.png"));
+        iconList.add(get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0SB16.png"));
+        iconList.add(get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0SB32.png"));
+        iconList.add(get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0SB64.png"));
+        iconList.add(get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0SB128.png"));
+        iconList.add(get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0SB256.png"));
 
         window.setIconImages(iconList);
         //Path for the Custom folder

@@ -97,8 +97,8 @@ class Canvas extends JPanel{
         versionVal1 = getVersionVal(chars1, od.gamePlayed);
         versionVal2 = getVersionVal(chars2, od.gamePlayed);
 
-        fighter1 = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/" + String.valueOf(versionVal1) + ".png");
-        fighter2 = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/" + String.valueOf(versionVal2) + ".png");
+        fighter1 = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/" + String.valueOf(versionVal1) + ".png");
+        fighter2 = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/" + String.valueOf(versionVal2) + ".png");
 
 
 
@@ -132,23 +132,23 @@ class Canvas extends JPanel{
         fighterX4 = 680;
 
         if(od.thirdCharacter.equals("0Nothing")){
-            fighter3 = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0blank.png");
+            fighter3 = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0blank.png");
             secondary1 = false;
         }else{
             String[] chars3 = od.thirdCharacter.split("-");
             versionVal3 = getVersionVal(chars3, od.gamePlayed);
-            fighter3 = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/" + String.valueOf(versionVal3) + ".png");
+            fighter3 = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/" + String.valueOf(versionVal3) + ".png");
             fighterY3 = getFighterY(chars3[1], od.gamePlayed);
             fighter3 = determineFlip(fighter3,od.gamePlayed,chars3);
         }
 
         if(od.fourthCharacter.equals("0Nothing")){
-            fighter4 = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0blank.png");
+            fighter4 = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0blank.png");
             secondary2 = false;
         }else{
             String[] chars4 = od.fourthCharacter.split("-");
             versionVal4 = getVersionVal(chars4, od.gamePlayed);
-            fighter4 = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/" + String.valueOf(versionVal4) + ".png");
+            fighter4 = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/" + String.valueOf(versionVal4) + ".png");
             fighterY4 = getFighterY(chars4[1], od.gamePlayed);
             fighter4 = determineFlip(fighter4,od.gamePlayed,chars4);
         }
@@ -160,12 +160,12 @@ class Canvas extends JPanel{
 
         //get custom gradient images if applicable
         if(od.customGradientTopBottomPath.trim().equals("")){
-            topGradientImage = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/01GRADIENT.png");
+            topGradientImage = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/01GRADIENT.png");
         }else{
             topGradientImage = getCustomImage(od.customGradientTopBottomPath);
         }
         if(od.customGradientMiddlePath.trim().equals("")){
-            middleGradientImage = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0GRADIENT.png");
+            middleGradientImage = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0GRADIENT.png");
         }else{
             middleGradientImage = getCustomImage(od.customGradientMiddlePath);
         }
@@ -202,7 +202,7 @@ class Canvas extends JPanel{
             fighterX4 = getDoublesX(od.gamePlayed, char4, false);
         }
 
-        vsImg = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0vs4.png");
+        vsImg = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0vs4.png");
 
 
 
@@ -227,7 +227,7 @@ class Canvas extends JPanel{
 
             //get custom logo image if applicable
             if(customLogo.trim().equals("")){
-                logo = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0gooshilogo.png");
+                logo = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0gooshilogo.png");
             }else{
                 logo = getCustomImage(customLogo);
             }
@@ -253,7 +253,7 @@ class Canvas extends JPanel{
                     player2 = parts[1].trim();
                 }
             }else{
-                playerOneSponsorImage = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0blank.png");
+                playerOneSponsorImage = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0blank.png");
                 playerTwoSponsorImage = playerOneSponsorImage;
             }
 
@@ -372,8 +372,8 @@ class Canvas extends JPanel{
     }
 
     private void getFonts(String customFont) {
-        kAX = get.getFont("https://bhattarai333.github.io/Websites/Resources/Fonts/KOMIKAX_.ttf",42);
-        ACN = get.getFont("https://bhattarai333.github.io/Websites/Resources/Fonts/AmericanCaptain.ttf",1000);
+        kAX = get.getFont("https://bhattarai333.github.io/docs/Resources/Fonts/KOMIKAX_.ttf",42);
+        ACN = get.getFont("https://bhattarai333.github.io/docs/Resources/Fonts/AmericanCaptain.ttf",1000);
         CST = getNewFont(customFont);
     }
 
@@ -1780,79 +1780,79 @@ class Canvas extends JPanel{
         BufferedImage img;
         switch (prefix){
             case "C9":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0c9.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0c9.png");
                 break;
             case "EG":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0eg.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0eg.png");
                 break;
             case "TSM":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0tsm.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0tsm.png");
                 break;
             case "Gooshi":
-                img =  get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0gooshifull.png");
+                img =  get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0gooshifull.png");
                 break;
             case "AG":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0aglogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0aglogo.png");
                 break;
             case "RNG":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0rnglogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0rnglogo.png");
                 break;
             case "PG":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0pglogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0pglogo.png");
                 break;
             case "NRG":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0nrglogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0nrglogo.png");
                 break;
             case "CLG":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0clglogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0clglogo.png");
                 break;
             case "FOX":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0foxlogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0foxlogo.png");
                 break;
             case "MVG":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0mvglogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0mvglogo.png");
                 break;
             case "E2C":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0e2clogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0e2clogo.png");
                 break;
             case "2GG":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/02gglogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/02gglogo.png");
                 break;
             case "UR":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0urlogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0urlogo.png");
                 break;
             case "MSF":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0msflogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0msflogo.png");
                 break;
             case "LG":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0lglogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0lglogo.png");
                 break;
             case "RvL":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0rvllogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0rvllogo.png");
                 break;
             case "DNG":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0dnglogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0dnglogo.png");
                 break;
             case "BSD":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0bsdlogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0bsdlogo.png");
                 break;
             case "IMT":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0imtlogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0imtlogo.png");
                 break;
             case "P1":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0p1logo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0p1logo.png");
                 break;
             case "Noble":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0noblelogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0noblelogo.png");
                 break;
             case "Circa":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0circalogo.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0circalogo.png");
                 break;
             case "NLG":
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0blank.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0blank.png");
                 break;
             default:
-                img = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0blank.png");
+                img = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0blank.png");
                 break;
         }
         return img;
@@ -1924,31 +1924,31 @@ class Canvas extends JPanel{
         switch (version) {
             case "WiiUFull":
             case "WiiU":
-                gameLogo = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0wiiulogo.png");
+                gameLogo = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0wiiulogo.png");
                 break;
             case "3DS":
-                gameLogo = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/03dslogo.png");
+                gameLogo = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/03dslogo.png");
                 break;
             case "Melee":
-                gameLogo = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0meleelogo.png");
+                gameLogo = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0meleelogo.png");
                 break;
             case "RoA":
-                gameLogo = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0roalogo.png");
+                gameLogo = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0roalogo.png");
                 break;
             case "PM":
-                gameLogo = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0pmlogo.png");
+                gameLogo = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0pmlogo.png");
                 break;
             case "64":
-                gameLogo = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0s64logo.png");
+                gameLogo = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0s64logo.png");
                 break;
             case "Brawl":
-                gameLogo = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0brawllogo.png");
+                gameLogo = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0brawllogo.png");
                 break;
             case "S3":
-                gameLogo = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0shreklogo.png");
+                gameLogo = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0shreklogo.png");
                 break;
             default:
-                gameLogo = get.getImg("https://bhattarai333.github.io/Websites/Resources/Sprites/0blank.png");
+                gameLogo = get.getImg("https://bhattarai333.github.io/docs/Resources/Sprites/0blank.png");
                 break;
         }
         gameLogo = get.getSizedImg(gameLogo,400,150);

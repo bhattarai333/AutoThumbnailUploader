@@ -47,9 +47,13 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="json-20160810" level="project" />
-    <orderEntry type="library" name="Google API" level="project" />
-    <orderEntry type="library" name="YouTube" level="project" />
-    <orderEntry type="library" name="javax.servlet-2.5.0.v201103041518" level="project" />
+    <orderEntry type="library" name="org.json-20130603" level="project" />
+    <orderEntry type="library" name="google-api-client-1.24.1" level="project" />
+    <orderEntry type="library" name="google-http-client-1.24.1" level="project" />
+    <orderEntry type="library" name="google-oauth-client-1.24.1" level="project" />
+    <orderEntry type="library" name="google-api-services-youtube-v3-rev206-1.25.0" level="project" />
+    <orderEntry type="library" name="google-http-client-jackson-1.26.0" level="project" />
+    <orderEntry type="library" name="google-oauth-client-jetty-1.22.0" level="project" />
+    <orderEntry type="library" name="google-oauth-client-java6-1.11.0-beta" level="project" />
   </component>
 </module>

@@ -46,7 +46,7 @@ public class Auth {
      * @param scopes              list of scopes needed to run youtube upload.
      * @param credentialDatastore name of the credential datastore to cache OAuth tokens
      */
-    static Credential authorize(List<String> scopes, String credentialDatastore) throws IOException {
+    static Credential authorize(List<String> scopes, String credentialDatastore) throws Exception {
 
         // Load client secrets.
         Reader clientSecretReader = new InputStreamReader(Auth.class.getResourceAsStream("client_secret.json"));
