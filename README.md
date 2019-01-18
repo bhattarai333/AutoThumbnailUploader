@@ -1,2 +1,3 @@
 # AutoThumbnailUploader
-Uploads custom thumbnails to all correctly formatted YouTube thumbnails in a given playlist
+Uploads custom thumbnails using YouTube API to all correctly formatted YouTube videos in a submitted playlist.
+Orders the videos in playlist from starting to ending rounds.
